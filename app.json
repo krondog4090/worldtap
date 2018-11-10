@@ -1,0 +1,20 @@
+{
+  "expo": {
+    "sdkVersion": "31.0.0",
+    "name": "World Tap",
+    "slug": "World-Tap",
+    "version": "0.1.1",
+    "platforms": ["ios", "android"],
+    "orientation": "portrait",
+    "privacy": "public",  
+    "icon": "./assets/images/wtappicon.png",
+    "splash": {
+      "backgroundColor": "#000000",
+      "image": "./assets/images/krondogsplashfinal.png",
+      "resizeMode": "cover"
+    },
+    "ios": {
+      "bundleIdentifier": "com.blakemcnary.worldtap"
+    }
+  }
+}
