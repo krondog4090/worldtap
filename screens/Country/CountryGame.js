@@ -136,14 +136,12 @@ class CountryGame extends React.Component {
         adRewarded: true,
         startTimerOne: true
       });
-    });
 
     AdMobRewarded.addEventListener('rewardedVideoDidClose', () => {
       this.adClosed();
       this.setState({
         adRewarded: false
       });
-    });
 
     Font.loadAsync({
       ncaa: ncaa,
@@ -152,7 +150,7 @@ class CountryGame extends React.Component {
       this.setState({
         fontLoaded: true
       });
-    });
+    }
   }
 
   startTimer = () => {
