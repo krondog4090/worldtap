@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import { Text, View } from "react-native";
-import * as firebase from "firebase";
-import { Font } from "expo";
-import styles from "../src/styles/Styles";
-import { numberWithCommas } from "../src/helpers/helpers/";
+import React, { Component } from 'react';
+import { Text, View } from 'react-native';
+import * as firebase from 'firebase';
+import { Font } from 'expo';
+import styles from '../src/styles/Styles';
+import { numberWithCommas } from '../src/helpers/helpers/';
 
-const ncaa = require("../assets/fonts/ncaa.otf");
+const ncaa = require('../assets/fonts/ncaa.otf');
 
 class CountDown extends Component {
   _isMounted = false;
@@ -23,19 +23,26 @@ class CountDown extends Component {
     };
 
     this.getCountryNameData = this.getCountryNameData.bind(this);
-    this.getCountryNameRef = this.getRef().child("World_Teams/World/Titles/CountryLeader");
+    this.getCountryNameRef = this.getRef().child('World_Teams/World/Titles/CountryLeader');
 
     this.getContLeaderData = this.getContLeaderData.bind(this);
-    this.getContLeaderRef = this.getRef().child("World_Teams/World/Titles/ContinentLeader");
+    this.getContLeaderRef = this.getRef().child('World_Teams/World/Titles/ContinentLeader');
 
     this.getTrumpsWallData = this.getTrumpsWallData.bind(this);
-    this.getTrumpsWallRef = this.getRef().child("World_Teams/TrumpsWall/TrumpsWallTotal/Score");
+    this.getTrumpsWallRef = this.getRef().child('World_Teams/TrumpsWall/TrumpsWallTotal/Score');
   }
 
   componentWillMount() {
     if (this._isMounted) {
       this.getTimeUntil(this.props.deadline);
     }
+  }
+
+  componentWillUnmount() {
+    this.getCountryNameRef.off('value');
+    this.getContLeaderRef.off('value');
+    this.getTrumpsWallRef.off('value');
+    if (this.interval) clearInterval(this.interval);
   }
 
   async componentDidMount() {
@@ -51,8 +58,8 @@ class CountDown extends Component {
       this.getCountryNameData(this.getCountryNameRef);
       this.getContLeaderData(this.getContLeaderRef);
       this.getTrumpsWallData(this.getTrumpsWallRef);
-  
-      setInterval(() => this.getTimeUntil(this.props.deadline), 1000);
+
+      this.interval = setInterval(() => this.getTimeUntil(this.props.deadline), 1000);
     }
   }
 
@@ -62,14 +69,14 @@ class CountDown extends Component {
 
   getTrumpsWallData(getTrumpsWallRef) {
     getTrumpsWallRef.on('value', (snap) => {
-        this.setState({
-            TrumpsWallTotalTeamScore: snap.val()
-        });
+      this.setState({
+        TrumpsWallTotalTeamScore: snap.val()
+      });
     });
-}
+  }
 
   getCountryNameData(getCountryNameRef) {
-    getCountryNameRef.on("value", snap => {
+    getCountryNameRef.on('value', (snap) => {
       this.setState({
         countryLeaderName: snap.val()
       });
@@ -77,7 +84,7 @@ class CountDown extends Component {
   }
 
   getContLeaderData(getContLeaderRef) {
-    getContLeaderRef.on("value", snap => {
+    getContLeaderRef.on('value', (snap) => {
       this.setState({
         continentLeaderName: snap.val()
       });
@@ -85,7 +92,7 @@ class CountDown extends Component {
   }
 
   leading0(num) {
-    return num < 10 ? "0" + num : num;
+    return num < 10 ? '0' + num : num;
   }
   getTimeUntil(deadline) {
     if (this._isMounted) {
@@ -111,100 +118,143 @@ class CountDown extends Component {
       }
     }
   }
-  
+
   render() {
     const { fontLoaded } = this.state;
     return (
-      <View style={{ flexDirection: "column", alignItems: "center", justifyContent: 'center'}}>
-        <View style={{ flexDirection: "row" }}>
+      <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+        <View style={{ flexDirection: 'row' }}>
           <View style={styles.playButtonContainerTime}>
-            <Text style={[fontLoaded && { fontFamily: "ncaa", fontSize: 20, color: "red" }]}>
+            <Text
+              allowFontScaling={false}
+              style={[fontLoaded && { fontFamily: 'ncaa', fontSize: 20, color: 'red' }]}
+            >
               {numberWithCommas(this.leading0(this.state.days))}
               <Text
+                allowFontScaling={false}
                 style={[
                   fontLoaded && {
-                    fontFamily: "ncaa",
-                    color: "black",
+                    fontFamily: 'ncaa',
+                    color: 'black',
                     fontSize: 16
-                  }]}>
-                {" "}
-                Days -{" "}
+                  }
+                ]}
+              >
+                {' '}
+                Days -{' '}
               </Text>
             </Text>
 
-            <Text style={[fontLoaded && { fontFamily: "ncaa", fontSize: 20, color: "red" }]}>
+            <Text
+              allowFontScaling={false}
+              style={[fontLoaded && { fontFamily: 'ncaa', fontSize: 20, color: 'red' }]}
+            >
               {this.leading0(this.state.hours)}
               <Text
+                allowFontScaling={false}
                 style={[
                   fontLoaded && {
-                    fontFamily: "ncaa",
-                    color: "black",
+                    fontFamily: 'ncaa',
+                    color: 'black',
                     fontSize: 16
-                  }]}>
-                {" "}
-                Hrs -{" "}
+                  }
+                ]}
+              >
+                {' '}
+                Hrs -{' '}
               </Text>
             </Text>
 
             <Text
-              style={[fontLoaded && { fontFamily: "ncaa", fontSize: 20, color: "red" }]}>
+              allowFontScaling={false}
+              style={[fontLoaded && { fontFamily: 'ncaa', fontSize: 20, color: 'red' }]}
+            >
               {this.leading0(this.state.minutes)}
               <Text
+                allowFontScaling={false}
                 style={[
                   fontLoaded && {
-                    fontFamily: "ncaa",
-                    color: "black",
+                    fontFamily: 'ncaa',
+                    color: 'black',
                     fontSize: 16
                   }
                 ]}
               >
-                {" "}
-                Mins -{" "}
+                {' '}
+                Mins -{' '}
               </Text>
             </Text>
 
             <Text
-              style={[fontLoaded && { fontFamily: "ncaa", fontSize: 20, color: "red" }]}>
+              allowFontScaling={false}
+              style={[fontLoaded && { fontFamily: 'ncaa', fontSize: 20, color: 'red' }]}
+            >
               {this.leading0(this.state.seconds)}
               <Text
+                allowFontScaling={false}
                 style={[
                   fontLoaded && {
-                    fontFamily: "ncaa",
-                    color: "black",
+                    fontFamily: 'ncaa',
+                    color: 'black',
                     fontSize: 16
                   }
                 ]}
               >
-                {" "}
-                Secs{" "}
+                {' '}
+                Secs{' '}
               </Text>
             </Text>
           </View>
         </View>
         {/* <View style={[styles.playButtonContainerTime, { flexDirection: "column", alignItems: "center", shadowOpacity: .2 }]}>
-          <Text style={[fontLoaded && { fontFamily: "ncaa", color: "black", fontSize: 18 }]}>
+          <Text allowFontScaling={false}style={[fontLoaded && { fontFamily: "ncaa", color: "black", fontSize: 18 }]}>
             Current Continent Leader
           </Text>
-          <Text style={[fontLoaded && { fontFamily: "ncaa", color: "white", fontSize: 16 }]}>
+          <Text allowFontScaling={false}style={[fontLoaded && { fontFamily: "ncaa", color: "white", fontSize: 16 }]}>
             {this.state.continentLeaderName}
           </Text>
         </View> */}
 
-        <View style={[styles.playButtonContainerTime, { flexDirection: "column", alignItems: "center", shadowOpacity: .2 }]}>
-          <Text style={[fontLoaded && { fontFamily: "ncaa", color: "black", fontSize: 18 }]}>
+        <View
+          style={[
+            styles.playButtonContainerTime,
+            { flexDirection: 'column', alignItems: 'center', shadowOpacity: 0.2 }
+          ]}
+        >
+          <Text
+            allowFontScaling={false}
+            style={[fontLoaded && { fontFamily: 'ncaa', color: 'black', fontSize: 18 }]}
+          >
             Current Leader
           </Text>
-          <Text style={[fontLoaded && { fontFamily: "ncaa", color: "white", fontSize: 16 }]}>
+          <Text
+            allowFontScaling={false}
+            style={[fontLoaded && { fontFamily: 'ncaa', color: 'white', fontSize: 16 }]}
+          >
             {this.state.countryLeaderName}
           </Text>
         </View>
-        
-        <View style={[styles.playButtonContainerTime, { flexDirection: "column", alignItems: "center", shadowOpacity: .2 }]}>
-          <Text style={[fontLoaded && { fontFamily: "ncaa", color: "black", fontSize: 18 }]}>
+
+        <View
+          style={[
+            styles.playButtonContainerTime,
+            { flexDirection: 'column', alignItems: 'center', shadowOpacity: 0.2 }
+          ]}
+        >
+          <Text
+            allowFontScaling={false}
+            style={[fontLoaded && { fontFamily: 'ncaa', color: 'black', fontSize: 18 }]}
+          >
             Trumps Wall
           </Text>
-          <Text style={[fontLoaded && { fontFamily: "ncaa", color: "white", fontSize: 16 }]}>
-            {this.state.TrumpsWallTotalTeamScore} <Text style={{color: 'black', fontSize: 16}}>ft.</Text>
+          <Text
+            allowFontScaling={false}
+            style={[fontLoaded && { fontFamily: 'ncaa', color: 'white', fontSize: 16 }]}
+          >
+            {this.state.TrumpsWallTotalTeamScore}{' '}
+            <Text allowFontScaling={false} style={{ color: 'black', fontSize: 16 }}>
+              ft.
+            </Text>
           </Text>
         </View>
       </View>

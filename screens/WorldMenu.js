@@ -75,7 +75,7 @@ class WorldMenu extends React.Component {
                                 onPressIn={() => this.setState({buttonPressed: true})}
                                 onPressOut={() => this.setState({buttonPressed: false})}>
                         <View style={styles.playButtonContainerTime}>
-                            <Text 
+                            <Text allowFontScaling={false}
                                 style={[styles.buttonText, fontLoaded && { fontFamily: 'gamefont', color: 'grey', textShadowColor: 'black', textShadowOffset: {width: 1, height: 2}, textShadowRadius: 1, textAlign: 'center'}]}>
                             HOME SCREEN
                             </Text>

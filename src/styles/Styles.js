@@ -1,18 +1,16 @@
-import {
-  StyleSheet,
-} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   imageContainer: {
     flex: 1,
     // zIndex: 0,
-    alignItems: 'center',
+    alignItems: 'center'
   },
   menuContainer: {
-    flex: .8,
+    flex: 0.8,
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   mainTitle: {
     fontSize: 82
@@ -27,10 +25,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     position: 'absolute',
     bottom: 35,
-    alignItems: 'center',
+    alignItems: 'center'
   },
   buttonLayoutTwo: {
-    flexDirection: 'row',
+    flexDirection: 'row'
   },
   playButtonContainer: {
     backgroundColor: 'lightgray',
@@ -45,7 +43,7 @@ const styles = StyleSheet.create({
     shadowOffset: {
       width: 0,
       height: 7
-    },
+    }
   },
   playButtonContainerFlagButton: {
     backgroundColor: 'lightgrey',
@@ -60,7 +58,7 @@ const styles = StyleSheet.create({
     shadowOffset: {
       width: 0,
       height: 7
-    },
+    }
   },
   playButtonContainerTwo: {
     backgroundColor: '#0E69AA',
@@ -75,7 +73,7 @@ const styles = StyleSheet.create({
     shadowOffset: {
       width: 0,
       height: 7
-    },
+    }
   },
   playButtonContainerTime: {
     flexDirection: 'row',
@@ -83,13 +81,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     shadowColor: 'black',
     padding: 4,
-    shadowOpacity: .3,
+    shadowOpacity: 0.3,
     // elevation: 6,
     shadowRadius: 2,
     shadowOffset: {
       width: 0,
       height: 7
-    },
+    }
   },
   gameMenu: {
     flexDirection: 'column',
@@ -105,7 +103,7 @@ const styles = StyleSheet.create({
     shadowOffset: {
       width: 3,
       height: 7
-    },
+    }
   },
   playButtonContainerTimeGame: {
     borderRadius: 2,
@@ -117,7 +115,7 @@ const styles = StyleSheet.create({
     shadowOffset: {
       width: 0,
       height: 7
-    },
+    }
   },
   buttonText: {
     fontSize: 30
@@ -136,20 +134,20 @@ const styles = StyleSheet.create({
     top: 15,
     height: 58,
     width: 58,
-    resizeMode: 'contain',
+    resizeMode: 'contain'
   },
   topContainer: {
     flex: 1,
-    flexDirection: 'column',
+    flexDirection: 'column'
   },
   titleContainer: {
-    flex: .2,
+    flex: 0.2,
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
     backgroundColor: '#6aaf6a',
-    borderWidth: .1,
-    borderColor: 'black',
+    borderWidth: 0.1,
+    borderColor: 'black'
   },
   titleContainerMenu: {
     // flex: .2,
@@ -157,15 +155,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'column',
     backgroundColor: '#6aaf6a',
-    borderWidth: .1,
-    borderColor: 'black',
+    borderWidth: 0.1,
+    borderColor: 'black'
   },
   titleContainerMainMenu: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
-    borderWidth: .1,
+    borderWidth: 0.1,
     borderColor: 'black'
   },
   underText: {
@@ -180,7 +178,7 @@ const styles = StyleSheet.create({
   },
   eastText: {
     color: 'white',
-    fontSize: 32,
+    fontSize: 32
   },
   flagImage: {
     height: 35,
@@ -193,7 +191,7 @@ const styles = StyleSheet.create({
   flagImageCount: {
     height: 35,
     width: 35,
-    resizeMode: 'contain',
+    resizeMode: 'contain'
   },
   flagImageShare: {
     height: 100,
@@ -209,7 +207,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: null,
     height: null,
-    backgroundColor: "rgb(46,46,48)"
+    backgroundColor: 'rgb(46,46,48)'
   },
   trophyBox: {
     height: 30,
@@ -219,7 +217,7 @@ const styles = StyleSheet.create({
   flagBox: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: "#eafeea",
+    backgroundColor: '#eafeea',
     borderWidth: 2,
     borderColor: 'grey'
   },
@@ -232,7 +230,7 @@ const styles = StyleSheet.create({
     fontSize: 20
   },
   trophyText: {
-    flex: .2,
+    flex: 0.2,
     textAlign: 'center',
     color: 'black',
     fontWeight: 'bold',
@@ -244,7 +242,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   scoreText: {
-    flex: .5,
+    flex: 0.5,
     textAlign: 'center',
     color: 'red',
     fontWeight: 'bold',
@@ -255,7 +253,7 @@ const styles = StyleSheet.create({
     flex: 1,
     // backgroundColor: 'red',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   topScoreText: {
     fontSize: 22
@@ -268,7 +266,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     top: 64,
-    backgroundColor: 'transparent',
+    backgroundColor: 'transparent'
   },
   userTotalPoints: {
     textAlign: 'center',
@@ -276,7 +274,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     color: 'blue',
-    backgroundColor: 'transparent',
+    backgroundColor: 'transparent'
   },
   scoreMainText: {
     textAlign: 'center',
@@ -284,7 +282,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     color: 'white',
-    backgroundColor: 'transparent',
+    backgroundColor: 'transparent'
   },
   scoreMainTextTwo: {
     textAlign: 'center',
@@ -292,7 +290,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     color: 'black',
-    backgroundColor: 'transparent',
+    backgroundColor: 'transparent'
   },
   scoreTextGame: {
     fontSize: 18,
@@ -305,7 +303,7 @@ const styles = StyleSheet.create({
   },
   scoreColumn: {
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   scoreBoxTwo: {
     flexDirection: 'row',
@@ -314,7 +312,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     left: 0,
     right: 0,
-    bottom: 50,
+    bottom: 50
   },
   scoreBoxThree: {
     flexDirection: 'row',
@@ -323,10 +321,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     left: 0,
     right: 0,
-    bottom: 50,
+    bottom: 50
   },
   flexPadding: {
-    flex: .1
+    flex: 0.1
   },
   containerShare: {
     flex: 1,
@@ -336,9 +334,8 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   underTextTwo: {
-    fontSize: 20,
+    fontSize: 20
   }
-
 });
 
 module.exports = styles;

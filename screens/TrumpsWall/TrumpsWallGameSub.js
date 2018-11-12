@@ -676,15 +676,15 @@ renderScore = () => (
       <View style={styles.playButtonContainerTimeGame}>
         <GameTopScore hide={this.state.isNotHidden}>
 
-          <Text style={[styles.scoreMainTextTwo, { fontFamily: 'ncaa'}]}>
+          <Text allowFontScaling={false}style={[styles.scoreMainTextTwo, { fontFamily: 'ncaa'}]}>
             Level {this.state.shotValue}
           </Text>
 
-          <Text style={[styles.scoreMainText, { fontFamily: 'ncaa'}]}>
+          <Text allowFontScaling={false}style={[styles.scoreMainText, { fontFamily: 'ncaa'}]}>
             {this.state.score} / {this.state.shotGoal}
           </Text>
 
-          <Text style={[styles.userTotalPoints, { fontFamily: 'ncaa'}]}>
+          <Text allowFontScaling={false}style={[styles.userTotalPoints, { fontFamily: 'ncaa'}]}>
             {numberWithCommas(this.state.teamTP)}
           </Text>
         </GameTopScore>
@@ -696,7 +696,7 @@ renderMenu = () => (
     <GameMenuScreen hide={this.state.isHidden}>
           <View style={styles.gameMenu}>
             <View style={styles.playButtonContainerTime}>
-                <Text style={[styles.buttonText, { fontFamily: 'gamefont', color: 'grey', textShadowColor: 'black', textShadowOffset: {width: 1, height: 2}, textShadowRadius: 1, textAlign: 'center', lineHeight: 35}]}>
+                <Text allowFontScaling={false}style={[styles.buttonText, { fontFamily: 'gamefont', color: 'grey', textShadowColor: 'black', textShadowOffset: {width: 1, height: 2}, textShadowRadius: 1, textAlign: 'center', lineHeight: 35}]}>
                   GAME MENU
                 </Text>
             </View>
@@ -712,18 +712,18 @@ renderMenu = () => (
                       onPressOut={() => this.setState({buttonPressedThree: false})}
                       disabled={this.state.adOneDisable}>
                             <View style={styles.playButtonContainerTime}>
-                              <Text style={[styles.buttonText, { fontFamily: 'gamefont', color: 'grey', textShadowColor: 'black', textShadowOffset: {width: 1, height: 2}, textShadowRadius: 1, fontSize: 14}]}>
+                              <Text allowFontScaling={false}style={[styles.buttonText, { fontFamily: 'gamefont', color: 'grey', textShadowColor: 'black', textShadowOffset: {width: 1, height: 2}, textShadowRadius: 1, fontSize: 14}]}>
                                 BUFF ONE
                               </Text>
                             </View>
                     </ButtonSmall>
                   </View>
                   <View style={styles.playButtonContainerTime}>
-                    <Text style={[styles.scoreTextGame, { fontFamily: 'ncaa'}]}>
+                    <Text allowFontScaling={false}style={[styles.scoreTextGame, { fontFamily: 'ncaa'}]}>
                       GAIN 200 POINTS FOR {this.state.countryName}
                     </Text>
                   </View>
-                  <Text style={[styles.scoreTextGame, { fontFamily: 'ncaa', fontSize: 16, color: 'red'}]}>
+                  <Text allowFontScaling={false}style={[styles.scoreTextGame, { fontFamily: 'ncaa', fontSize: 16, color: 'red'}]}>
                     {secondsToHms(this.state.timerOne)}
                   </Text>
 
@@ -734,18 +734,18 @@ renderMenu = () => (
                       onPressOut={() => this.setState({buttonPressedSix: false})}
                       disabled={this.state.adTwoDisable}>
                             <View style={styles.playButtonContainerTime}>
-                              <Text style={[styles.buttonText, { fontFamily: 'gamefont', color: 'grey', textShadowColor: 'black', textShadowOffset: {width: 1, height: 2}, textShadowRadius: 1, fontSize: 14}]}>
+                              <Text allowFontScaling={false}style={[styles.buttonText, { fontFamily: 'gamefont', color: 'grey', textShadowColor: 'black', textShadowOffset: {width: 1, height: 2}, textShadowRadius: 1, fontSize: 14}]}>
                                 BUFF TWO
                               </Text>
                             </View>
                     </ButtonSmall>
                   </View>
                   <View style={styles.playButtonContainerTime}>
-                    <Text style={[styles.scoreTextGame, { fontFamily: 'ncaa'}]}>
+                    <Text allowFontScaling={false}style={[styles.scoreTextGame, { fontFamily: 'ncaa'}]}>
                       30 Seconds x2 MULTIPLIER 
                     </Text>
                   </View>
-                  <Text style={[styles.scoreTextGame, { fontFamily: 'ncaa', fontSize: 16, color: 'red'}]}>
+                  <Text allowFontScaling={false}style={[styles.scoreTextGame, { fontFamily: 'ncaa', fontSize: 16, color: 'red'}]}>
                     {secondsToHms(this.state.timerTwo)}
                   </Text> */}
                 </View>
@@ -757,7 +757,7 @@ renderMenu = () => (
                       onPressIn={() => this.setState({buttonPressedFour: true})} 
                       onPressOut={() => this.setState({buttonPressedFour: false})}>
                               <View style={styles.playButtonContainerTime}>
-                                <Text style={[styles.buttonText, { fontFamily: 'gamefont', color: 'grey', textShadowColor: 'black', textShadowOffset: {width: 1, height: 2}, textShadowRadius: 1, fontSize: 14, textAlign: 'center'}]}>
+                                <Text allowFontScaling={false}style={[styles.buttonText, { fontFamily: 'gamefont', color: 'grey', textShadowColor: 'black', textShadowOffset: {width: 1, height: 2}, textShadowRadius: 1, fontSize: 14, textAlign: 'center'}]}>
                                   SHARE WITH FRIENDS
                                 </Text>
                               </View>
@@ -771,7 +771,7 @@ renderMenu = () => (
                             onPressIn={() => this.setState({buttonPressedFive: true})} 
                             onPressOut={() => this.setState({buttonPressedFive: false})}>
                             <View style={styles.playButtonContainerTime}>
-                              <Text style={[styles.scoreTextGame, { fontFamily: 'ncaa'}]}>
+                              <Text allowFontScaling={false}style={[styles.scoreTextGame, { fontFamily: 'ncaa'}]}>
                                 CLOSE MENU
                               </Text>
                             </View>
@@ -788,10 +788,10 @@ renderMenu = () => (
   renderScoreTwo = () => (
     <View style={styles.scoreBoxTwo}>
       <View style={styles.scoreColumn}>
-        <Text style={[styles.scoreTextGame, { fontFamily: 'ncaa'}]}>
+        <Text allowFontScaling={false}style={[styles.scoreTextGame, { fontFamily: 'ncaa'}]}>
           {this.props.countryName}
         </Text>
-        <Text style={[styles.scoreTextGame, { fontFamily: 'ncaa'}]}>
+        <Text allowFontScaling={false}style={[styles.scoreTextGame, { fontFamily: 'ncaa'}]}>
           {numberWithCommas(this.state.teamScore)} / {numberWithCommas(this.state.teamScoreGoal)}
         </Text>         
       <View style={[styles.buttonLayoutTwo, {flexDirection: 'row'}]}>
@@ -802,7 +802,7 @@ renderMenu = () => (
             onPressIn={() => this.setState({buttonPressed: true})} 
             onPressOut={() => this.setState({buttonPressed: false})}>
             <View style={styles.playButtonContainerTime}>
-              <Text style={[styles.scoreTextGame, { fontFamily: 'ncaa'}]}>
+              <Text allowFontScaling={false}style={[styles.scoreTextGame, { fontFamily: 'ncaa'}]}>
                 BACK 
               </Text>
             </View>
@@ -816,7 +816,7 @@ renderMenu = () => (
             onPressOut={() => this.setState({buttonPressedTwo: false})}
             hide={this.state.isNotHidden}>
             <View style={styles.playButtonContainerTime}>
-              <Text style={[styles.scoreTextGame, { fontFamily: 'ncaa'}]}>
+              <Text allowFontScaling={false}style={[styles.scoreTextGame, { fontFamily: 'ncaa'}]}>
                 Menu
               </Text>
             </View>

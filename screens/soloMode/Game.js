@@ -4,12 +4,12 @@ import Files from './Files';
 import { Font } from 'expo';
 import { Group, Node, Sprite, SpriteView } from '../../GameKit';
 import { withNavigation } from 'react-navigation';
-import { THREE } from 'expo-three'
-import "expo-asset-utils";
-import "three";
-import "react-native-console-time-polyfill";
-import "text-encoding";
-import "xmldom-qsa";
+import { THREE } from 'expo-three';
+import 'expo-asset-utils';
+import 'three';
+import 'react-native-console-time-polyfill';
+import 'text-encoding';
+import 'xmldom-qsa';
 import styles from '../../src/styles/Styles';
 import AdMobBannerComponent from '../components/AdMobBannerComponent';
 import { buttonClick, gameOverSound, levelUpSound } from '../components/SoundEffects';
@@ -35,26 +35,26 @@ class Game extends React.Component {
   velocity = 0;
 
   constructor(props) {
-      super(props);
+    super(props);
 
-      this.state = {
-        fontLoaded: false,
-        score: 0,
-        scoreClone: 0,
-        shot: 1,
-        shots: 0,
-        shotGoal: 3,
-        shotGoalClone: 3,
-        speed: 1.6,
-        speedClone: 1.6,
-        bestScore: 0
-      };
+    this.state = {
+      fontLoaded: false,
+      score: 0,
+      scoreClone: 0,
+      shot: 1,
+      shots: 0,
+      shotGoal: 3,
+      shotGoalClone: 3,
+      speed: 1.6,
+      speedClone: 1.6,
+      bestScore: 0
+    };
   }
 
   async componentDidMount() {
     StatusBar.setHidden(true);
     Font.loadAsync({
-      'ncaa': ncaa
+      ncaa: ncaa
     }).then(() => {
       this.setState({
         fontLoaded: true
@@ -73,19 +73,17 @@ class Game extends React.Component {
         bestScore: Number(totalPoints)
       });
     } else {
-      await AsyncStorage.setItem(this.props.keyTP, '0')
+      await AsyncStorage.setItem(this.props.keyTP, '0');
       this.setState({
         bestScore: Number(totalPoints)
       });
     }
-
   }
-
 
   setupPlayer = async () => {
     const size = {
       width: 28 * this.scale,
-      height: 28 * this.scale,
+      height: 28 * this.scale
     };
 
     const sprite = new Sprite();
@@ -95,11 +93,11 @@ class Game extends React.Component {
       tilesVert: 1,
       numTiles: 1,
       tileDispDuration: 75,
-      size,
+      size
     });
 
     this.player = new Node({
-      sprite,
+      sprite
     });
     this.scene.add(this.player);
   };
@@ -108,28 +106,27 @@ class Game extends React.Component {
     const { scene } = this;
     const size = {
       width: scene.size.width,
-      height: scene.size.width * 0.333333333,
+      height: scene.size.width * 0.333333333
     };
     this.groundNode = new Group();
 
     const node = await this.setupStaticNode({
       image: Files.sprites.ground,
       size,
-      name: 'ground',
+      name: 'ground'
     });
 
     const nodeB = await this.setupStaticNode({
       image: Files.sprites.ground,
       size,
-      name: 'ground',
+      name: 'ground'
     });
     nodeB.x = size.width;
 
     this.groundNode.add(node);
     this.groundNode.add(nodeB);
 
-    this.groundNode.position.y =
-      (scene.size.height + (size.height - GROUND_HEIGHT)) * -0.5;
+    this.groundNode.position.y = (scene.size.height + (size.height - GROUND_HEIGHT)) * -0.5;
 
     this.groundNode.top = this.groundNode.position.y + size.height / 2;
 
@@ -143,7 +140,7 @@ class Game extends React.Component {
     const bg = await this.setupStaticNode({
       image: Files.sprites.bg,
       size,
-      name: 'bg',
+      name: 'bg'
     });
 
     scene.add(bg);
@@ -154,12 +151,12 @@ class Game extends React.Component {
 
     const tbs = {
       top: Files.sprites.pipe_top,
-      bottom: Files.sprites.pipe_bottom,
+      bottom: Files.sprites.pipe_bottom
     };
     const pipe = await this.setupStaticNode({
       image: tbs[key],
       size,
-      name: key,
+      name: key
     });
     pipe.y = y;
 
@@ -174,12 +171,12 @@ class Game extends React.Component {
       image,
       size: {
         width: size.width * scale,
-        height: size.height * scale,
-      },
+        height: size.height * scale
+      }
     });
 
     const node = new Node({
-      sprite,
+      sprite
     });
     node.name = name;
     return node;
@@ -206,7 +203,7 @@ class Game extends React.Component {
       pipe = await this.setupPipe({
         scene: this.scene,
         y: pipeY,
-        key: pipeKey,
+        key: pipeKey
       });
       pipe.x = end;
 
@@ -217,7 +214,7 @@ class Game extends React.Component {
   };
 
   spawnPipes = () => {
-    this.pipes.forEachAlive(pipe => {
+    this.pipes.forEachAlive((pipe) => {
       if (pipe.size && pipe.x + pipe.size.width < this.scene.bounds.left) {
         if (pipe.name === 'top') {
           this.deadPipeTops.push(pipe.kill());
@@ -228,9 +225,7 @@ class Game extends React.Component {
       }
     });
 
-    const pipeY =
-      this.scene.size.height / 2 +
-      (Math.random() - 0.5) * this.scene.size.height * 0.2;
+    const pipeY = this.scene.size.height / 2 + (Math.random() - 0.5) * this.scene.size.height * 0.2;
     this.spawnPipe(pipeY);
     this.spawnPipe(pipeY, true);
   };
@@ -250,9 +245,9 @@ class Game extends React.Component {
   };
 
   addScore = () => {
-    this.setState({ 
-      score: this.state.score += this.state.shot,
-      shots: this.state.shots + 1,
+    this.setState({
+      score: (this.state.score += this.state.shot),
+      shots: this.state.shots + 1
     });
     this.updateShotValue();
     this.updateHighScore();
@@ -265,7 +260,7 @@ class Game extends React.Component {
         score: 0,
         shotValue: this.state.shotValue + 1,
         shotGoal: this.state.shotGoal * 2,
-        speed: this.state.speed + .5,
+        speed: this.state.speed + 0.5,
         bestScore: this.state.bestScore + 1
       });
     }
@@ -276,10 +271,9 @@ class Game extends React.Component {
       this.setState({
         bestScore: Number(this.state.score)
       });
-      AsyncStorage.setItem(this.props.keyTP, `${this.state.score}`)
+      AsyncStorage.setItem(this.props.keyTP, `${this.state.score}`);
     }
   }
-
 
   setGameOver = () => {
     gameOverSound();
@@ -291,7 +285,7 @@ class Game extends React.Component {
   reset = () => {
     this.gameStarted = false;
     this.gameOver = false;
-    this.setState({ 
+    this.setState({
       score: 0,
       shotValue: 1,
       shotGoal: this.state.shotGoalClone,
@@ -313,7 +307,7 @@ class Game extends React.Component {
     this.reset();
   };
 
-  updateGame = delta => {
+  updateGame = (delta) => {
     if (this.gameStarted) {
       this.velocity -= GRAVITY * delta;
       const target = this.groundNode.top;
@@ -321,7 +315,7 @@ class Game extends React.Component {
       if (!this.gameOver) {
         const playerBox = new THREE.Box3().setFromObject(this.player);
 
-        this.pipes.forEachAlive(pipe => {
+        this.pipes.forEachAlive((pipe) => {
           pipe.x += pipe.velocity;
           const pipeBox = new THREE.Box3().setFromObject(pipe);
 
@@ -329,11 +323,7 @@ class Game extends React.Component {
             this.setGameOver();
           }
 
-          if (
-            pipe.name === 'bottom' &&
-            !pipe.passed &&
-            pipe.x < this.player.x
-          ) {
+          if (pipe.name === 'bottom' && !pipe.passed && pipe.x < this.player.x) {
             pipe.passed = true;
             this.addScore();
           }
@@ -381,41 +371,41 @@ class Game extends React.Component {
   goBack = () => {
     buttonClick();
     this.props.navigation.replace('PreMainMenu');
-  }
+  };
 
   renderScore = () => (
     <View style={styles.personalScore}>
       <View style={styles.playButtonContainerTimeGame}>
-
-        <Text style={[styles.scoreMainTextTwo, { fontFamily: 'ncaa'}]}>
+        <Text allowFontScaling={false} style={[styles.scoreMainTextTwo, { fontFamily: 'ncaa' }]}>
           Level {this.state.shotValue}
         </Text>
-        <Text
-          style={[styles.scoreMainText, { fontFamily: 'ncaa'}]}>
+        <Text allowFontScaling={false} style={[styles.scoreMainText, { fontFamily: 'ncaa' }]}>
           {this.state.score} / {this.state.shotGoal}
         </Text>
-        <Text style={[styles.scoreMainTextTwo, { fontFamily: 'ncaa'}]}>
+        <Text allowFontScaling={false} style={[styles.scoreMainTextTwo, { fontFamily: 'ncaa' }]}>
           HighScore = {this.state.bestScore}
         </Text>
-        
       </View>
     </View>
   );
 
-  renderScoreTwo = () => (  
+  renderScoreTwo = () => (
     <View style={styles.scoreBoxTwo}>
-      <View style={{top: this.state.buttonPressed ? 2 : 0}}>
-            <TouchableOpacity
-                activeOpacity={10} 
-                style={styles.playButtonContainer} 
-                onPress={this.goBack} 
-                onPressIn={() => this.setState({buttonPressed: true})}
-                onPressOut={() => this.setState({buttonPressed: false})}>
-                      <View style={styles.playButtonContainerTime}>
-                        <Text style={[styles.scoreTextGame, { fontFamily: 'ncaa'}]}>BACK</Text>
-                      </View>
-              </TouchableOpacity>
-        </View>          
+      <View style={{ top: this.state.buttonPressed ? 2 : 0 }}>
+        <TouchableOpacity
+          activeOpacity={10}
+          style={styles.playButtonContainer}
+          onPress={this.goBack}
+          onPressIn={() => this.setState({ buttonPressed: true })}
+          onPressOut={() => this.setState({ buttonPressed: false })}
+        >
+          <View style={styles.playButtonContainerTime}>
+            <Text allowFontScaling={false} style={[styles.scoreTextGame, { fontFamily: 'ncaa' }]}>
+              BACK
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 
