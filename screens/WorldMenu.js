@@ -61,7 +61,7 @@ class WorldMenu extends React.Component {
     const { fontLoaded } = this.state;
 
     return (
-      <SafeAreaView style={styles.topContainer}>
+      <View style={styles.topContainer}>
         <View style={styles.titleContainerMenu}>
           <View style={{ top: this.state.buttonPressed ? 2 : 0 }}>
             <TouchableOpacity
@@ -73,6 +73,7 @@ class WorldMenu extends React.Component {
             >
               <View style={styles.playButtonContainerTime}>
                 <Text
+                  allowFontScaling={false}
                   style={[
                     styles.buttonText,
                     fontLoaded && {
@@ -95,7 +96,7 @@ class WorldMenu extends React.Component {
         <View style={styles.container}>
           <ContinentIndex />
         </View>
-      </SafeAreaView>
+      </View>
     );
   }
 }

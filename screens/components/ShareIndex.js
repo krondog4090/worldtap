@@ -73,7 +73,7 @@ class ShareIndex extends React.Component {
             onPressIn={() => this.setState({buttonPressedFour: true})} 
             onPressOut={() => this.setState({buttonPressedFour: false})}>
             <View style={styles.playButtonContainerTime}>
-                <Text style={[styles.buttonText, { fontFamily: 'gamefont', color: 'grey', fontWeight: 'bold', textShadowColor: 'black', textShadowOffset: {width: 1, height: 2}, textShadowRadius: 1, fontSize: 14}]}>
+                <Text allowFontScaling={false}style={[styles.buttonText, { fontFamily: 'gamefont', color: 'grey', fontWeight: 'bold', textShadowColor: 'black', textShadowOffset: {width: 1, height: 2}, textShadowRadius: 1, fontSize: 14}]}>
                     SHARE WITH FRIENDS
                 </Text>
             </View>  

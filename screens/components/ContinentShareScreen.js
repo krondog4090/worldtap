@@ -96,7 +96,7 @@ class ContinentMainShareScreen extends React.Component {
                                 onPressIn={() => this.setState({buttonPressedTwo: true})}
                                 onPressOut={() => this.setState({buttonPressedTwo: false})}>
                                 <View style={styles.playButtonContainerTime}>
-                            <Text 
+                            <Text allowFontScaling={false}
                                 style={[styles.buttonText, fontLoaded && { fontFamily: 'ncaa', color: 'black', textShadowOffset: {width: 1, height: 2}, textShadowRadius: 1, textAlign: 'center', fontSize: 36}]}>
                             PRESS TO SHARE FOR {this.state.continentName}
                             </Text>
@@ -106,7 +106,7 @@ class ContinentMainShareScreen extends React.Component {
                         
                 <View style={styles.flexPadding}></View>
                 <View style={styles.playButtonContainerTime}>
-                <Text style={[styles.underText, fontLoaded && { fontFamily: 'ncaa', color: 'black', textAlign: 'center'}]}>Help {this.state.continentName} by sharing with your friends.</Text>
+                <Text allowFontScaling={false}style={[styles.underText, fontLoaded && { fontFamily: 'ncaa', color: 'black', textAlign: 'center'}]}>Help {this.state.continentName} by sharing with your friends.</Text>
                 </View>
 
                     <View style={{top: this.state.buttonPressed ? 2 : 0}}>
@@ -117,7 +117,7 @@ class ContinentMainShareScreen extends React.Component {
                                 onPressIn={() => this.setState({buttonPressed: true})}
                                 onPressOut={() => this.setState({buttonPressed: false})}>
                             <View style={styles.playButtonContainerTime}>
-                            <Text 
+                            <Text allowFontScaling={false}
                                 style={[styles.buttonText, fontLoaded && { fontFamily: 'ncaa', color: 'black', textShadowOffset: {width: 1, height: 2}, textShadowRadius: 1}]}>
                             BACK
                             </Text>

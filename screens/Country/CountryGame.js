@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, AsyncStorage, StatusBar, Image, Share, Alert } from 'react-native';
 import CountryFiles from './CountryFiles';
-import * as firebase from 'firebase';
 import { Font, AdMobRewarded } from 'expo';
 import { Group, Node, Sprite, SpriteView } from '../../GameKit';
 import { withNavigation } from 'react-navigation';
@@ -26,6 +25,8 @@ import ButtonSmall from '../components/ButtonSmall';
 
 const ncaa = require('../../assets/fonts/ncaa.otf');
 const gamefont = require('../../assets/fonts/PressStart2P.ttf');
+
+import { getRef, worldRef, urlMessageRef, admobRewardAdRef } from '../../lib/refs';
 
 // const SPEED = 1.6;
 const GRAVITY = 1100;
@@ -83,26 +84,12 @@ class CountryGame extends React.Component {
       adOneDisable: false
     };
 
-    this.getTeamData = this.getTeamData.bind(this);
-    this.getCountryData = this.getCountryData.bind(this);
-    this.getWorldData = this.getWorldData.bind(this);
-    this.getUrlMessageData = this.getUrlMessageData.bind(this);
-    this.getAdMobRewardAdData = this.getAdMobRewardAdData.bind(this);
-
-    this.getCountryRef = this.getRef().child(
+    this.continentRef = getRef().child(
       `World_Teams/${this.state.continentName}/${this.state.continentName}Total/Score`
     );
-    this.getWorldRef = this.getRef().child('World_Teams/World/WorldTotal/Score');
-    this.getUrlMessageRef = this.getRef().child('World_Teams/ShareMessage/UrlMessage');
-    this.getAdmobRewardAdRef = this.getRef().child('World_Teams/Admob/AdRewardID');
-
-    this.getTeamRef = this.state.teamRef;
-    this.getTeamRefTrophy = this.state.teamRefTrophy;
-    this.getTeamRefScoreGoal = this.state.teamRefScoreGoal;
-    this._shareMessage = this._shareMessage.bind(this);
   }
 
-  _shareMessage() {
+  _shareMessage = () => {
     Share.share({
       ...Platform.select({
         ios: {
@@ -121,67 +108,60 @@ class CountryGame extends React.Component {
         sentSucess: this.state.sentSucess + 1
       });
     });
-  }
+  };
 
   async componentDidMount() {
-    this._isMounted = true;
     StatusBar.setHidden(true);
 
-    if (this._isMounted) {
-      const totalPoints = await AsyncStorage.getItem(this.props.keyTP);
-      if (totalPoints) {
-        this.setState({
-          teamTP: Number(totalPoints)
-        });
-      } else {
-        await AsyncStorage.setItem(this.props.keyTP, '0');
-        this.setState({
-          teamTP: Number(totalPoints)
-        });
-      }
-      this.getTeamData(this.getTeamRef, this.getTeamRefTrophy);
-      this.getCountryData(this.getCountryRef);
-      this.getWorldData(this.getWorldRef);
-      this.getUrlMessageData(this.getUrlMessageRef);
-      this.getAdMobRewardAdData(this.getAdmobRewardAdRef);
+    const totalPoints = await AsyncStorage.getItem(this.props.keyTP);
+    if (totalPoints) {
+      this.setState({
+        teamTP: Number(totalPoints)
+      });
+    } else {
+      await AsyncStorage.setItem(this.props.keyTP, '0');
+      this.setState({
+        teamTP: Number(totalPoints)
+      });
+    }
+    this.getTeamData(this.props.teamRef, this.props.teamRefTrophy);
+    this.getCountryData(this.continentRef);
+    this.getWorldData(worldRef);
+    this.getUrlMessageData(urlMessageRef);
+    this.getAdMobRewardAdData(admobRewardAdRef);
 
-      AdMobRewarded.addEventListener('rewardedVideoDidRewardUser', () => {
-        this.adRewardAmount();
-        this.setState({
-          adRewarded: true,
-          startTimerOne: true
-        });
+    AdMobRewarded.addEventListener('rewardedVideoDidRewardUser', () => {
+      this.adRewardAmount();
+      this.setState({
+        adRewarded: true,
+        startTimerOne: true
       });
 
-      AdMobRewarded.addEventListener('rewardedVideoDidClose', () => {
-        this.adClosed();
-        this.setState({
-          adRewarded: false
-        });
+    AdMobRewarded.addEventListener('rewardedVideoDidClose', () => {
+      this.adClosed();
+      this.setState({
+        adRewarded: false
       });
 
-      Font.loadAsync({
-        ncaa: ncaa,
-        gamefont: gamefont
-      }).then(() => {
-        this.setState({
-          fontLoaded: true
-        });
+    Font.loadAsync({
+      ncaa: ncaa,
+      gamefont: gamefont
+    }).then(() => {
+      this.setState({
+        fontLoaded: true
       });
     }
   }
 
   startTimer = () => {
-    if (this._isMounted) {
-      this.interval = setInterval(
-        () =>
-          this.setState({
-            adOneDisable: true,
-            timer: --this.state.timerOne
-          }),
-        1000
-      );
-    }
+    this.interval = setInterval(
+      () =>
+        this.setState({
+          adOneDisable: true,
+          timer: --this.state.timerOne
+        }),
+      1000
+    );
   };
 
   componentDidUpdate() {
@@ -196,9 +176,14 @@ class CountryGame extends React.Component {
   }
 
   componentWillUnmount() {
-    this._isMounted = false;
     THREE.suppressExpoWarnings(false);
-    // AdMobRewarded.removeAllListeners();
+    this.continentRef.off('value');
+    worldRef.off('value');
+    urlMessageRef.off('value');
+    admobRewardAdRef.off('value');
+
+    this.props.teamRef.off('value');
+    this.props.teamRefTrophy.off('value');
   }
 
   timerOneFinished() {
@@ -209,11 +194,7 @@ class CountryGame extends React.Component {
     });
   }
 
-  getRef = () => {
-    return firebase.database().ref();
-  };
-
-  getTeamData(getTeamRef, getTeamRefTrophy) {
+  getTeamData = (getTeamRef, getTeamRefTrophy) => {
     getTeamRef.on('value', (snap) => {
       this.setState({
         teamScore: Number(snap.val())
@@ -224,39 +205,39 @@ class CountryGame extends React.Component {
         trophyCount: Number(snap.val())
       });
     });
-  }
+  };
 
-  getCountryData(getCountryRef) {
+  getCountryData = (getCountryRef) => {
     getCountryRef.on('value', (snap) => {
       this.setState({
         CountryTotalScore: Number(snap.val())
       });
     });
-  }
+  };
 
-  getWorldData(getWorldRef) {
-    getWorldRef.on('value', (snap) => {
+  getWorldData = (worldRef) => {
+    worldRef.on('value', (snap) => {
       this.setState({
         worldTotalScore: Number(snap.val())
       });
     });
-  }
+  };
 
-  getUrlMessageData(getUrlMessageRef) {
-    getUrlMessageRef.on('value', (snap) => {
+  getUrlMessageData = (urlMessageRef) => {
+    urlMessageRef.on('value', (snap) => {
       this.setState({
         urlMessage: snap.val()
       });
     });
-  }
+  };
 
-  getAdMobRewardAdData(getAdmobRewardAdRef) {
-    getAdmobRewardAdRef.on('value', (snap) => {
+  getAdMobRewardAdData = (admobRewardAdRef) => {
+    admobRewardAdRef.on('value', (snap) => {
       this.setState({
         AdMobRewardAdID: snap.val()
       });
     });
-  }
+  };
 
   setupPlayer = async () => {
     const size = {
@@ -419,29 +400,21 @@ class CountryGame extends React.Component {
   };
 
   addScore = () => {
-    if (this._isMounted) {
-      this.setState({
-        score: (this.state.score += this.state.shot),
-        teamScore: this.state.teamScore + 1,
-        teamTP: this.state.teamTP + this.state.shotValue
-      });
-      this.updateTeamTP();
-      this.updateTeamScores();
-      this.updateShotValue();
-      this.updateCountryScores();
-      this.updateWorldScores();
-      this.updateAfterTeamScoreGoal();
-    }
+    this.setState((prevState) => ({
+      score: (prevState.score += prevState.shot),
+      teamScore: prevState.teamScore + 1,
+      teamTP: prevState.teamTP + prevState.shotValue
+    }));
+    this.updateTeamTP();
+    this.updateShotValue();
   };
 
   adRewardAmount = () => {
-    if (this._isMounted) {
-      if ((this.adRewarded = true)) {
-        this.updateCountryScoresAdReward();
-        this.updateWorldScoresAdReward();
-        this.updateTeamScoresAdReward();
-        this.updateTeamTPAdReward();
-      }
+    if ((this.adRewarded = true)) {
+      this.updateContinentScoresAdReward();
+      this.updateWorldScoresAdReward();
+      this.updateTeamScoresAdReward();
+      this.updateTeamTPAdReward();
     }
   };
 
@@ -455,110 +428,92 @@ class CountryGame extends React.Component {
     this.startTimer();
   };
 
-  updateTeamScores() {
-    if (this._isMounted) {
-      this.getTeamRef.once('value', (snap) => {
-        this.getTeamRef.set(snap.val() + this.state.shotValue);
+  updateTeamScores = () => {
+    this.props.teamRef.once('value', (snap) => {
+      this.props.teamRef.set(snap.val() + this.state.shotValue);
+    });
+  };
+
+  updateTeamScoresAdReward = () => {
+    this.props.teamRef.once('value', (snap) => {
+      this.props.teamRef.set(snap.val() + 200);
+    });
+  };
+
+  updateContinentScoresAdReward = () => {
+    this.continentRef.once('value', (snap) => {
+      this.continentRef.set(snap.val() + 200);
+    });
+  };
+
+  updateWorldScoresAdReward = () => {
+    worldRef.once('value', (snap) => {
+      worldRef.set(snap.val() + 200);
+    });
+  };
+
+  updateTeamTPAdReward = () => {
+    if (this.state.teamTP === this.state.teamTP) {
+      this.setState({
+        teamTP: Number(this.state.teamTP + 200)
       });
-    }
-  }
-
-  updateTeamScoresAdReward() {
-    if (this._isMounted) {
-      this.getTeamRef.once('value', (snap) => {
-        this.getTeamRef.set(snap.val() + 200);
-      });
-    }
-  }
-
-  updateCountryScoresAdReward() {
-    if (this._isMounted) {
-      this.getCountryRef.once('value', (snap) => {
-        this.getCountryRef.set(snap.val() + 200);
-      });
-    }
-  }
-
-  updateWorldScoresAdReward() {
-    if (this._isMounted) {
-      this.getWorldRef.once('value', (snap) => {
-        this.getWorldRef.set(snap.val() + 200);
-      });
-    }
-  }
-
-  updateTeamTPAdReward() {
-    if (this._isMounted) {
-      if (this.state.teamTP === this.state.teamTP) {
-        this.setState({
-          teamTP: Number(this.state.teamTP + 200)
-        });
-        AsyncStorage.setItem(this.props.keyTP, `${this.state.teamTP}`);
-      }
-    }
-  }
-
-  updateCountryScores() {
-    if (this._isMounted) {
-      this.getCountryRef.once('value', (snap) => {
-        this.getCountryRef.set(snap.val() + this.state.shotValue);
-      });
-    }
-  }
-
-  updateWorldScores() {
-    if (this._isMounted) {
-      this.getWorldRef.once('value', (snap) => {
-        this.getWorldRef.set(snap.val() + this.state.shotValue);
-      });
-    }
-  }
-
-  updateTeamTP() {
-    if (this._isMounted) {
-      if (this.state.teamTP === this.state.teamTP) {
-        this.setState({
-          teamTP: Number(this.state.teamTP)
-        });
-        AsyncStorage.setItem(this.props.keyTP, `${this.state.teamTP}`);
-      }
-    }
-  }
-
-  updateShotValue() {
-    if (this._isMounted) {
-      if (this.state.score >= this.state.shotGoal) {
-        levelUpSound();
-        this.setState({
-          score: 0,
-          shotValue: this.state.shotValue + 1,
-          shotGoal: this.state.shotGoal + 3,
-          speed: this.state.speed + 0.5
-        });
-      }
-    }
-  }
-
-  updateAfterTeamScoreGoal = () => {
-    if (this._isMounted) {
-      if (this.state.teamScore >= this.state.teamScoreGoal) {
-        const newTrophyCount = this.state.trophyCount + 1;
-        this.setState((previousState) => ({
-          trophyCount: newTrophyCount,
-          teamScore: previousState.cloneTeamScore
-        }));
-        this.getTeamRefTrophy.once('value', (snap) => {
-          this.getTeamRefTrophy.set(snap.val() + newTrophyCount);
-          this.getTeamRef.set(snap.val() + this.state.cloneTeamScore);
-        });
-      }
+      AsyncStorage.setItem(this.props.keyTP, `${this.state.teamTP}`);
     }
   };
 
-  setGameOver = () => {
+  updateContinentScores = () => {
+    this.continentRef.once('value', (snap) => {
+      this.continentRef.set(snap.val() + this.state.shotValue);
+    });
+  };
+
+  updateWorldScores = () => {
+    worldRef.once('value', (snap) => {
+      worldRef.set(snap.val() + this.state.shotValue);
+    });
+  };
+
+  updateTeamTP = () => {
+    this.setState({
+      teamTP: Number(this.state.teamTP)
+    });
+  };
+
+  updateShotValue = () => {
+    if (this.state.score >= this.state.shotGoal) {
+      levelUpSound();
+      this.setState((prevState) => ({
+        score: 0,
+        shotValue: prevState.shotValue + 1,
+        shotGoal: prevState.shotGoal + 3,
+        speed: prevState.speed + 0.5
+      }));
+    }
+  };
+
+  updateAfterTeamScoreGoal = () => {
+    if (this.state.teamScore >= this.state.teamScoreGoal) {
+      const newTrophyCount = this.state.trophyCount + 1;
+      this.setState((previousState) => ({
+        trophyCount: newTrophyCount,
+        teamScore: previousState.cloneTeamScore
+      }));
+      this.getTeamRefTrophy.once('value', (snap) => {
+        this.getTeamRefTrophy.set(snap.val() + newTrophyCount);
+        this.getTeamRef.set(snap.val() + this.state.cloneTeamScore);
+      });
+    }
+  };
+
+  setGameOver = async () => {
     this.gameOver = true;
     clearInterval(this.pillarInterval);
     gameOverSound();
+    this.updateTeamScores();
+    this.updateContinentScores();
+    this.updateWorldScores();
+    this.updateAfterTeamScoreGoal();
+    await AsyncStorage.setItem(this.props.keyTP, `${this.state.teamTP}`);
   };
 
   reset = () => {
@@ -649,15 +604,15 @@ class CountryGame extends React.Component {
 
   goBack = () => {
     buttonClick();
-    this.props.navigation.replace('WorldPreMenu');
+    this.props.navigation.goBack();
   };
 
   toggleMenu = () => {
     buttonClick();
-    this.setState({
-      isHidden: !this.state.isHidden,
-      isNotHidden: !this.state.isNotHidden
-    });
+    this.setState((prevState) => ({
+      isHidden: !prevState.isHidden,
+      isNotHidden: !prevState.isNotHidden
+    }));
   };
 
   goAlert = () => {
@@ -678,15 +633,15 @@ class CountryGame extends React.Component {
     <View style={styles.personalScore}>
       <View style={styles.playButtonContainerTimeGame}>
         <GameTopScore hide={this.state.isNotHidden}>
-          <Text style={[styles.scoreMainTextTwo, { fontFamily: 'ncaa' }]}>
+          <Text allowFontScaling={false} style={[styles.scoreMainTextTwo, { fontFamily: 'ncaa' }]}>
             Level {this.state.shotValue}
           </Text>
 
-          <Text style={[styles.scoreMainText, { fontFamily: 'ncaa' }]}>
+          <Text allowFontScaling={false} style={[styles.scoreMainText, { fontFamily: 'ncaa' }]}>
             {this.state.score} / {this.state.shotGoal}
           </Text>
 
-          <Text style={[styles.userTotalPoints, { fontFamily: 'ncaa' }]}>
+          <Text allowFontScaling={false} style={[styles.userTotalPoints, { fontFamily: 'ncaa' }]}>
             {numberWithCommas(this.state.teamTP)}
           </Text>
         </GameTopScore>
@@ -699,6 +654,7 @@ class CountryGame extends React.Component {
       <View style={styles.gameMenu}>
         <View style={styles.playButtonContainerTime}>
           <Text
+            allowFontScaling={false}
             style={[
               styles.buttonText,
               {
@@ -729,6 +685,7 @@ class CountryGame extends React.Component {
               >
                 <View style={styles.playButtonContainerTime}>
                   <Text
+                    allowFontScaling={false}
                     style={[
                       styles.buttonText,
                       {
@@ -747,11 +704,12 @@ class CountryGame extends React.Component {
               </ButtonSmall>
             </View>
             <View style={styles.playButtonContainerTime}>
-              <Text style={[styles.scoreTextGame, { fontFamily: 'ncaa' }]}>
+              <Text allowFontScaling={false} style={[styles.scoreTextGame, { fontFamily: 'ncaa' }]}>
                 GAIN 200 POINTS FOR {this.state.countryName}
               </Text>
             </View>
             <Text
+              allowFontScaling={false}
               style={[styles.scoreTextGame, { fontFamily: 'ncaa', fontSize: 16, color: 'red' }]}
             >
               {secondsToHms(this.state.timerOne)}
@@ -764,18 +722,18 @@ class CountryGame extends React.Component {
                       onPressOut={() => this.setState({buttonPressedSix: false})}
                       disabled={this.state.adTwoDisable}>
                             <View style={styles.playButtonContainerTime}>
-                              <Text style={[styles.buttonText, { fontFamily: 'gamefont', color: 'grey', textShadowColor: 'black', textShadowOffset: {width: 1, height: 2}, textShadowRadius: 1, fontSize: 14}]}>
+                              <Text allowFontScaling={false}style={[styles.buttonText, { fontFamily: 'gamefont', color: 'grey', textShadowColor: 'black', textShadowOffset: {width: 1, height: 2}, textShadowRadius: 1, fontSize: 14}]}>
                                 BUFF TWO
                               </Text>
                             </View>
                     </ButtonSmall>
                   </View>
                   <View style={styles.playButtonContainerTime}>
-                    <Text style={[styles.scoreTextGame, { fontFamily: 'ncaa'}]}>
+                    <Text allowFontScaling={false}style={[styles.scoreTextGame, { fontFamily: 'ncaa'}]}>
                       30 Seconds x2 MULTIPLIER 
                     </Text>
                   </View>
-                  <Text style={[styles.scoreTextGame, { fontFamily: 'ncaa', fontSize: 16, color: 'red'}]}>
+                  <Text allowFontScaling={false}style={[styles.scoreTextGame, { fontFamily: 'ncaa', fontSize: 16, color: 'red'}]}>
                     {secondsToHms(this.state.timerTwo)}
                   </Text> */}
           </View>
@@ -789,6 +747,7 @@ class CountryGame extends React.Component {
               >
                 <View style={styles.playButtonContainerTime}>
                   <Text
+                    allowFontScaling={false}
                     style={[
                       styles.buttonText,
                       {
@@ -816,7 +775,12 @@ class CountryGame extends React.Component {
                     onPressOut={() => this.setState({ buttonPressedFive: false })}
                   >
                     <View style={styles.playButtonContainerTime}>
-                      <Text style={[styles.scoreTextGame, { fontFamily: 'ncaa' }]}>CLOSE MENU</Text>
+                      <Text
+                        allowFontScaling={false}
+                        style={[styles.scoreTextGame, { fontFamily: 'ncaa' }]}
+                      >
+                        CLOSE MENU
+                      </Text>
                     </View>
                   </ButtonSmall>
                 </View>
@@ -829,10 +793,12 @@ class CountryGame extends React.Component {
   );
 
   renderScoreTwo = () => (
-    <View style={styles.scoreBoxTwo}>
-      <View style={styles.scoreColumn}>
-        <Text style={[styles.scoreTextGame, { fontFamily: 'ncaa' }]}>{this.props.countryName}</Text>
-        <Text style={[styles.scoreTextGame, { fontFamily: 'ncaa' }]}>
+    <View style={styles.scoreBoxTwo} pointerEvents="box-none">
+      <View style={styles.scoreColumn} pointerEvents="box-none">
+        <Text allowFontScaling={false} style={[styles.scoreTextGame, { fontFamily: 'ncaa' }]}>
+          {this.props.countryName}
+        </Text>
+        <Text allowFontScaling={false} style={[styles.scoreTextGame, { fontFamily: 'ncaa' }]}>
           {numberWithCommas(this.state.teamScore)} / {numberWithCommas(this.state.teamScoreGoal)}
         </Text>
         <View style={[styles.buttonLayoutTwo, { flexDirection: 'row' }]}>
@@ -843,7 +809,12 @@ class CountryGame extends React.Component {
               onPressOut={() => this.setState({ buttonPressed: false })}
             >
               <View style={styles.playButtonContainerTime}>
-                <Text style={[styles.scoreTextGame, { fontFamily: 'ncaa' }]}>BACK</Text>
+                <Text
+                  allowFontScaling={false}
+                  style={[styles.scoreTextGame, { fontFamily: 'ncaa' }]}
+                >
+                  BACK
+                </Text>
               </View>
             </ButtonSmall>
           </View>
@@ -856,7 +827,12 @@ class CountryGame extends React.Component {
               hide={this.state.isNotHidden}
             >
               <View style={styles.playButtonContainerTime}>
-                <Text style={[styles.scoreTextGame, { fontFamily: 'ncaa' }]}>Menu</Text>
+                <Text
+                  allowFontScaling={false}
+                  style={[styles.scoreTextGame, { fontFamily: 'ncaa' }]}
+                >
+                  Menu
+                </Text>
               </View>
             </ButtonSmall>
           </View>

@@ -123,8 +123,8 @@ class TrumpsWallIndex extends React.Component {
         <View style={styles.containerIndex}>
         <View style={styles.eastContainer}>
         <View style={[styles.playButtonContainerTime, {flexDirection: 'column'}]}>
-            <Text style={[styles.eastText, fontLoaded && { fontFamily:'ncaa'}]}>Trumps Wall Height</Text>
-            <Text style={[styles.topScoreText, fontLoaded && { fontFamily: 'ncaa'}]}>{numberWithCommas(this.state.TrumpsWallTotalScore)} m</Text>
+            <Text allowFontScaling={false}style={[styles.eastText, fontLoaded && { fontFamily:'ncaa'}]}>Trumps Wall Height</Text>
+            <Text allowFontScaling={false}style={[styles.topScoreText, fontLoaded && { fontFamily: 'ncaa'}]}>{numberWithCommas(this.state.TrumpsWallTotalScore)} m</Text>
         </View>
         </View>
         {/* TEAMS */}
@@ -133,20 +133,20 @@ class TrumpsWallIndex extends React.Component {
           <View style={styles.flagBox}>
             <TouchableOpacity style={styles.buttonIndex} activeOpacity={.5} onPress={() =>  this.goAddTeam()}>
                 <Image source={addImage} style={styles.flagImage} />
-                <Text style={[styles.countryText, fontLoaded && { fontFamily: 'ncaa' }]}>Yay</Text>
-                <Text style={[styles.scoreText, fontLoaded && { fontFamily: 'ncaa' }]}>{abbreviateNumber(this.state.addTeamScore)} / 50M</Text>
+                <Text allowFontScaling={false}style={[styles.countryText, fontLoaded && { fontFamily: 'ncaa' }]}>Yay</Text>
+                <Text allowFontScaling={false}style={[styles.scoreText, fontLoaded && { fontFamily: 'ncaa' }]}>{abbreviateNumber(this.state.addTeamScore)} / 50M</Text>
                 <Image style={styles.trophyBox} source={nbaTrophy} />
-                <Text style={[styles.trophyText, fontLoaded && { fontFamily: 'ncaa'}]}>{this.state.addTrophyCount}</Text>
+                <Text allowFontScaling={false}style={[styles.trophyText, fontLoaded && { fontFamily: 'ncaa'}]}>{this.state.addTrophyCount}</Text>
             </TouchableOpacity>
           </View>
 
           <View style={styles.flagBox}>
             <TouchableOpacity style={styles.buttonIndex} activeOpacity={.5} onPress={() =>  this.goSubTeam()}>
                 <Image source={subImage} style={styles.flagImage} />
-                <Text style={[styles.countryText, fontLoaded && { fontFamily: 'ncaa' }]}>Nay</Text>
-                <Text style={[styles.scoreText, fontLoaded && { fontFamily: 'ncaa' }]}>{abbreviateNumber(this.state.subTeamScore)} / 50M</Text>
+                <Text allowFontScaling={false}style={[styles.countryText, fontLoaded && { fontFamily: 'ncaa' }]}>Nay</Text>
+                <Text allowFontScaling={false}style={[styles.scoreText, fontLoaded && { fontFamily: 'ncaa' }]}>{abbreviateNumber(this.state.subTeamScore)} / 50M</Text>
                 <Image style={styles.trophyBox} source={nbaTrophy} />
-                <Text style={[styles.trophyText, fontLoaded && { fontFamily: 'ncaa'}]}>{this.state.subTrophyCount}</Text>
+                <Text allowFontScaling={false}style={[styles.trophyText, fontLoaded && { fontFamily: 'ncaa'}]}>{this.state.subTrophyCount}</Text>
             </TouchableOpacity>
           </View>
           

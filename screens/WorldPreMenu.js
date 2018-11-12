@@ -1,23 +1,22 @@
-import { AppLoading } from "expo";
-import React from "react";
-import arrayFromObject from "../utils/arrayFromObject";
-import cacheAssetsAsync from "../utils/cacheAssetsAsync";
+import { AppLoading } from 'expo';
+import React from 'react';
+import arrayFromObject from '../utils/arrayFromObject';
+import cacheAssetsAsync from '../utils/cacheAssetsAsync';
 import WorldFiles from './WorldFiles';
-import WorldMenu from "./WorldMenu";
-
+import WorldMenu from './WorldMenu';
 
 export default class WorldPreMenu extends React.Component {
   static navigationOptions = {
-    header: null,
+    header: null
   };
 
   constructor(props) {
     super(props);
     this.state = {
-      assetsLoaded: false,
-    }
+      assetsLoaded: false
+    };
   }
-  
+
   componentWillMount() {
     this.loadAssetsAsync();
   }
@@ -28,20 +27,16 @@ export default class WorldPreMenu extends React.Component {
         files: arrayFromObject(WorldFiles)
       });
     } catch (e) {
-      console.warn(
-        "cache didn't work correctly"
-      );
+      console.warn("cache didn't work correctly");
       console.log(e.message);
     } finally {
-      this.setState({ 
-        assetsLoaded: true 
+      this.setState({
+        assetsLoaded: true
       });
     }
   };
 
   render() {
-    return this.state.assetsLoaded ? 
-    <WorldMenu
-     /> : <AppLoading />;
+    return <WorldMenu />;
   }
 }
