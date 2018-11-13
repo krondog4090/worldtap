@@ -12,7 +12,7 @@ import { Font } from 'expo';
 import * as firebase from 'firebase';
 import { withNavigation } from 'react-navigation';
 import styles from './src/styles/Styles';
-import { buttonClick } from './screens/components/SoundEffects';
+import { buttonClickTwo, mainMenuLoop, mainLoop } from './screens/components/SoundEffects';
 import CountDownScreen from './screens/components/CountDownScreen';
 import CountDownScreenTwo from './screens/components/CountDownScreenTwo';
 import OfflineBox from './screens/components/OfflineBox';
@@ -50,6 +50,7 @@ class MainMenu extends React.Component {
   }
 
   componentDidMount() {
+    mainMenuLoop();
     StatusBar.setHidden(true);
     Font.loadAsync({
       ncaa: ncaa,
@@ -66,19 +67,19 @@ class MainMenu extends React.Component {
   };
 
   goSoloMode = () => {
-    buttonClick();
-    this.props.navigation.replace('SoloPreMenu', {
+    buttonClickTwo();
+    this.props.navigation.push('SoloPreMenu', {
       keyTP: 'soloTPkey'
     });
   };
 
   goWorldMode = () => {
-    buttonClick();
-    this.props.navigation.replace('WorldPreMenu');
+    buttonClickTwo();
+    this.props.navigation.push('WorldPreMenu');
   };
 
   goSmallMenu = () => {
-    buttonClick();
+    buttonClickTwo();
     this.setState({
       isHidden: !this.state.isHidden,
       isNotHidden: !this.state.isNotHidden
@@ -115,7 +116,6 @@ class MainMenu extends React.Component {
               </View>
 
               <View style={styles.playButtonContainerTime}>
-                {/* <Image style={styles.flagImageCount} source={krondog} /> */}
                 <Text
                   style={[
                     styles.buttonText,
@@ -199,12 +199,6 @@ class MainMenu extends React.Component {
               </View>
 
               <View style={[styles.playButtonContainerTwo, { justifyContent: 'space-evenly' }]}>
-                {/* <View style={styles.playButtonContainerTime}>
-                                    <Text style={[fontLoaded && { fontFamily: 'ncaa', color: 'white', fontSize: 24, textAlign: 'center'}]}>
-                                    WORLD CUP STARTS IN
-                                    </Text>
-                                </View> */}
-
                 <View style={{ top: this.state.buttonPressedThree ? 2 : 0 }}>
                   <TouchableOpacity
                     activeOpacity={10}
@@ -220,9 +214,22 @@ class MainMenu extends React.Component {
                       ]}
                     >
                       <Image style={styles.flagImageCount} source={worldflag} />
-                      {/* <Text style={fontLoaded && {fontFamily: 'ncaa', color: 'white'}}>Info</Text> */}
                     </View>
                   </TouchableOpacity>
+                </View>
+                <View style={styles.playButtonContainerTime}>
+                  <Text
+                    style={[
+                      fontLoaded && {
+                        fontFamily: 'ncaa',
+                        color: 'white',
+                        fontSize: 24,
+                        textAlign: 'center'
+                      }
+                    ]}
+                  >
+                    WORLD CUP STARTS IN
+                  </Text>
                 </View>
                 <CountDownScreen deadline={this.state.deadline} hide={this.state.isNotHidden} />
                 <CountDownScreenTwo deadline={this.state.deadline} hide={this.state.isHidden} />

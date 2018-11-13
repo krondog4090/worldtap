@@ -335,6 +335,23 @@ const styles = StyleSheet.create({
   },
   underTextTwo: {
     fontSize: 20
+  },
+  offlineContainer: {
+    backgroundColor: '#b52424',
+    height: 60,
+    padding: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    // width,
+    position: 'absolute',
+    top: 30
+  },
+  offlineText: {
+    color: '#fff',
+    position: 'absolute',
+    bottom: 5
   }
 });
 

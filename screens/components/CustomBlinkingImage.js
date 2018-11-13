@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Image } from 'react-native';
 import styles from '../../src/styles/Styles';
 
-const offline = require('../../assets/images/offlineWifiIcon.png');
+const warning = require('../../assets/images/warning.png');
 
 class CustomBlinkingImage extends Component {
   constructor(props) {
@@ -26,7 +26,7 @@ class CustomBlinkingImage extends Component {
 
   render() {
     if (this.state.visible) {
-      return <Image source={offline} style={styles.flagImageCount} />;
+      return <Image source={warning} style={styles.flagImageCount} />;
     } else {
       return null;
     }

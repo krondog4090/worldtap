@@ -54,47 +54,49 @@ class WorldMenu extends React.Component {
 
   goBack = () => {
     buttonClick();
-    this.props.navigation.navigate('PreMainMenu');
+    this.props.navigation.goBack();
   };
 
   render() {
     const { fontLoaded } = this.state;
 
     return (
-      <View style={styles.topContainer}>
-        <View style={styles.titleContainerMenu}>
-          <View style={{ top: this.state.buttonPressed ? 2 : 0 }}>
-            <TouchableOpacity
-              activeOpacity={10}
-              style={[styles.playButtonContainer, { padding: 3 }]}
-              onPress={this.goBack}
-              onPressIn={() => this.setState({ buttonPressed: true })}
-              onPressOut={() => this.setState({ buttonPressed: false })}
-            >
-              <View style={styles.playButtonContainerTime}>
-                <Text
-                  allowFontScaling={false}
-                  style={[
-                    styles.buttonText,
-                    fontLoaded && {
-                      fontFamily: 'gamefont',
-                      color: 'grey',
-                      textShadowColor: 'black',
-                      textShadowOffset: { width: 1, height: 2 },
-                      textShadowRadius: 1,
-                      textAlign: 'center'
-                    }
-                  ]}
-                >
-                  HOME SCREEN
-                </Text>
-              </View>
-            </TouchableOpacity>
+      <View style={styles.imageContainer}>
+        <View style={styles.topContainer}>
+          <View style={styles.titleContainer}>
+            <View style={{ top: this.state.buttonPressed ? 2 : 0 }}>
+              <TouchableOpacity
+                activeOpacity={10}
+                style={[styles.playButtonContainer, { padding: 3 }]}
+                onPress={this.goBack}
+                onPressIn={() => this.setState({ buttonPressed: true })}
+                onPressOut={() => this.setState({ buttonPressed: false })}
+              >
+                <View style={styles.playButtonContainerTime}>
+                  <Text
+                    allowFontScaling={false}
+                    style={[
+                      styles.buttonText,
+                      fontLoaded && {
+                        fontFamily: 'gamefont',
+                        color: 'grey',
+                        textShadowColor: 'black',
+                        textShadowOffset: { width: 1, height: 2 },
+                        textShadowRadius: 1,
+                        textAlign: 'center'
+                      }
+                    ]}
+                  >
+                    HOME SCREEN
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.playButtonContainerTime} />
           </View>
-          <View style={styles.playButtonContainerTime} />
-        </View>
-        <View style={styles.container}>
-          <ContinentIndex />
+          <View style={styles.container}>
+            <ContinentIndex />
+          </View>
         </View>
       </View>
     );

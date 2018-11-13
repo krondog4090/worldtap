@@ -1,5 +1,15 @@
 import React from 'react';
-import { StyleSheet, Text, View, AsyncStorage, StatusBar, Image, Share, Alert } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  AsyncStorage,
+  StatusBar,
+  Image,
+  Share,
+  Alert,
+  SafeAreaView
+} from 'react-native';
 import CountryFiles from './CountryFiles';
 import { Font, AdMobRewarded } from 'expo';
 import { Group, Node, Sprite, SpriteView } from '../../GameKit';
@@ -17,7 +27,8 @@ import {
   buttonClick,
   levelUpSound,
   gameOverSound,
-  adRewardSound
+  adRewardSound,
+  mainLoop
 } from '../components/SoundEffects';
 import GameMenuScreen from '../components/GameMenuScreen';
 import GameTopScore from '../components/GameTopScore';
@@ -112,6 +123,7 @@ class CountryGame extends React.Component {
 
   async componentDidMount() {
     StatusBar.setHidden(true);
+    // mainLoop();
 
     const totalPoints = await AsyncStorage.getItem(this.props.keyTP);
     if (totalPoints) {
@@ -404,7 +416,7 @@ class CountryGame extends React.Component {
   addScore = () => {
     this.setState((prevState) => ({
       score: (prevState.score += prevState.shot),
-      teamScore: prevState.teamScore + 1,
+      teamScore: prevState.teamScore + prevState.shotValue,
       teamTP: prevState.teamTP + prevState.shotValue
     }));
     this.updateTeamTP();
@@ -432,7 +444,7 @@ class CountryGame extends React.Component {
 
   updateTeamScores = () => {
     this.props.teamRef.once('value', (snap) => {
-      this.props.teamRef.set(snap.val() + this.state.shotValue);
+      this.props.teamRef.set(snap.val() + this.state.teamScore);
     });
   };
 
@@ -483,7 +495,7 @@ class CountryGame extends React.Component {
 
   updateShotValue = () => {
     if (this.state.score >= this.state.shotGoal) {
-      levelUpSound();
+      // levelUpSound();
       this.setState((prevState) => ({
         score: 0,
         shotValue: prevState.shotValue + 1,
@@ -632,7 +644,7 @@ class CountryGame extends React.Component {
   };
 
   renderScore = () => (
-    <View style={styles.personalScore}>
+    <SafeAreaView style={styles.personalScore}>
       <View style={styles.playButtonContainerTimeGame}>
         <GameTopScore hide={this.state.isNotHidden}>
           <Text allowFontScaling={false} style={[styles.scoreMainTextTwo, { fontFamily: 'ncaa' }]}>
@@ -648,7 +660,7 @@ class CountryGame extends React.Component {
           </Text>
         </GameTopScore>
       </View>
-    </View>
+    </SafeAreaView>
   );
 
   renderMenu = () => (
@@ -848,7 +860,7 @@ class CountryGame extends React.Component {
     AdMobRewarded.setAdUnitID(ADBANNER_ID);
     console.disableYellowBox = true;
     return (
-      <View style={StyleSheet.absoluteFill}>
+      <SafeAreaView style={StyleSheet.absoluteFill}>
         <SpriteView
           touchDown={() => this.tap()}
           touchMoved={() => {}}
@@ -860,7 +872,7 @@ class CountryGame extends React.Component {
         {this.renderMenu()}
         {this.renderScoreTwo()}
         <AdMobBannerComponent />
-      </View>
+      </SafeAreaView>
     );
   }
 }
