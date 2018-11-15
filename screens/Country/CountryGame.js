@@ -123,9 +123,8 @@ class CountryGame extends React.Component {
   };
 
   async componentDidMount() {
+    levelUpSound();
     StatusBar.setHidden(true);
-    // mainLoop();
-
     const totalPoints = await AsyncStorage.getItem(this.props.keyTP);
     if (totalPoints) {
       this.setState({
