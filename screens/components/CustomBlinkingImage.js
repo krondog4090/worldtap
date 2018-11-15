@@ -26,7 +26,7 @@ class CustomBlinkingImage extends Component {
 
   render() {
     if (this.state.visible) {
-      return <Image source={warning} style={styles.flagImageCount} />;
+      return <Image source={warning} style={styles.warningSign} />;
     } else {
       return null;
     }

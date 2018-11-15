@@ -11,7 +11,6 @@ import 'react-native-console-time-polyfill';
 import 'text-encoding';
 import 'xmldom-qsa';
 import styles from '../../src/styles/Styles';
-import AdMobBannerComponent from '../components/AdMobBannerComponent';
 import { buttonClick, gameOverSound, levelUpSound } from '../components/SoundEffects';
 
 // const SPEED = 1.6;
@@ -64,9 +63,6 @@ class Game extends React.Component {
 
   async componentWillMount() {
     THREE.suppressExpoWarnings(true);
-
-    // this.props.bestscore
-
     const totalPoints = await AsyncStorage.getItem(this.props.keyTP);
     if (totalPoints) {
       this.setState({
@@ -255,7 +251,6 @@ class Game extends React.Component {
 
   updateShotValue() {
     if (this.state.score >= this.state.shotGoal) {
-      levelUpSound();
       this.setState({
         score: 0,
         shotValue: this.state.shotValue + 1,
@@ -421,7 +416,6 @@ class Game extends React.Component {
         />
         {this.renderScore()}
         {this.renderScoreTwo()}
-        <AdMobBannerComponent />
       </View>
     );
   }

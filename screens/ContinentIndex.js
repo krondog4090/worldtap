@@ -16,6 +16,7 @@ import { numberWithCommas } from '../src/helpers/helpers';
 import { buttonClickTwo } from './components/SoundEffects';
 import { getContinentRefs } from '../lib/refs';
 import teamData from '../lib/teamData';
+import BlinkingWarningSign from './components/BlinkingWarningSign';
 
 const continentImageMap = {
   Africa: require('../assets/images/continents/africa.png'),
@@ -127,6 +128,7 @@ class ContinentIndex extends React.Component {
               allowFontScaling={false}
               style={[styles.topScoreText, fontLoaded && { fontFamily: 'ncaa' }]}
             >
+              {/* <BlinkingWarningSign /> */}
               {numberWithCommas(this.state.worldTotalTeamScore)}
             </Text>
           </View>
@@ -154,6 +156,7 @@ class ContinentIndex extends React.Component {
                           allowFontScaling={false}
                           style={[styles.scoreText, fontLoaded && { fontFamily: 'ncaa' }]}
                         >
+                          {/* <BlinkingWarningSign /> */}
                           {numberWithCommas(this.state[`${camelcase(continent)}TotalTeamScore`])}
                         </Text>
                       </View>

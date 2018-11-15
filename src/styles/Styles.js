@@ -193,6 +193,11 @@ const styles = StyleSheet.create({
     width: 35,
     resizeMode: 'contain'
   },
+  warningSign: {
+    height: 30,
+    width: 30,
+    resizeMode: 'contain'
+  },
   flagImageShare: {
     height: 100,
     width: 100,

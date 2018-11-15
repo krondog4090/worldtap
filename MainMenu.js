@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
   StatusBar,
   Linking,
-  Image
+  Image,
+  NetInfo
 } from 'react-native';
 import { Font } from 'expo';
 import * as firebase from 'firebase';
@@ -46,6 +47,7 @@ class MainMenu extends React.Component {
       deadline: 'November, 21, 2022',
       isHidden: true,
       isNotHidden: false
+      // isOnline: true
     };
   }
 
@@ -60,7 +62,20 @@ class MainMenu extends React.Component {
         fontLoaded: true
       });
     });
+    // NetInfo.isOnline.addEventListener('connectivityChange', this.handleOnlineStatus);
   }
+
+  componentWillUnmount() {
+    // NetInfo.isOnline.removeEventListener('connectivityChange', this.handleOnlineStatus);
+  }
+
+  // handleOnlineStatus = (isOnline) => {
+  //   if (isOnline) {
+  //     this.setState({ isOnline });
+  //   } else {
+  //     this.setState({ isOnline });
+  //   }
+  // };
 
   getRef = () => {
     return firebase.database().ref();
@@ -87,6 +102,7 @@ class MainMenu extends React.Component {
   };
 
   render() {
+    // console.log(this.state.isOnline);
     const { fontLoaded } = this.state;
     return (
       <OfflineBox>

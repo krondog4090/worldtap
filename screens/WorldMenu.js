@@ -54,7 +54,7 @@ class WorldMenu extends React.Component {
 
   goBack = () => {
     buttonClick();
-    this.props.navigation.goBack();
+    this.props.navigation.navigate('PreMainMenu');
   };
 
   render() {

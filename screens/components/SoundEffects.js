@@ -61,7 +61,7 @@ export const mainLoop = async () => {
 export const mainMenuLoop = async () => {
   const soundObject = new Audio.Sound();
   try {
-    await soundObject.loadAsync(require('../../assets/audio/mainmenuloop.wav'));
+    await soundObject.loadAsync(require('../../assets/audio/mainmusicloop.wav'));
     await soundObject.setPositionAsync(0);
     await soundObject.playAsync();
     await soundObject.setIsLoopingAsync(true);

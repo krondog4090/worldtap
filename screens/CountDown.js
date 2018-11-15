@@ -4,6 +4,7 @@ import * as firebase from 'firebase';
 import { Font } from 'expo';
 import styles from '../src/styles/Styles';
 import { numberWithCommas } from '../src/helpers/helpers/';
+import BlinkingWarningSign from './components/BlinkingWarningSign';
 
 const ncaa = require('../assets/fonts/ncaa.otf');
 
@@ -118,7 +119,6 @@ class CountDown extends Component {
       }
     }
   }
-
   render() {
     const { fontLoaded } = this.state;
     return (
@@ -206,15 +206,6 @@ class CountDown extends Component {
             </Text>
           </View>
         </View>
-        {/* <View style={[styles.playButtonContainerTime, { flexDirection: "column", alignItems: "center", shadowOpacity: .2 }]}>
-          <Text allowFontScaling={false}style={[fontLoaded && { fontFamily: "ncaa", color: "black", fontSize: 18 }]}>
-            Current Continent Leader
-          </Text>
-          <Text allowFontScaling={false}style={[fontLoaded && { fontFamily: "ncaa", color: "white", fontSize: 16 }]}>
-            {this.state.continentLeaderName}
-          </Text>
-        </View> */}
-
         <View
           style={[
             styles.playButtonContainerTime,
@@ -231,10 +222,10 @@ class CountDown extends Component {
             allowFontScaling={false}
             style={[fontLoaded && { fontFamily: 'ncaa', color: 'white', fontSize: 16 }]}
           >
+            {/* <BlinkingWarningSign /> */}
             {this.state.countryLeaderName}
           </Text>
         </View>
-
         <View
           style={[
             styles.playButtonContainerTime,
@@ -251,10 +242,8 @@ class CountDown extends Component {
             allowFontScaling={false}
             style={[fontLoaded && { fontFamily: 'ncaa', color: 'white', fontSize: 16 }]}
           >
-            {this.state.TrumpsWallTotalTeamScore}{' '}
-            <Text allowFontScaling={false} style={{ color: 'black', fontSize: 16 }}>
-              ft.
-            </Text>
+            {/* <BlinkingWarningSign /> */}
+            {this.state.TrumpsWallTotalTeamScore}
           </Text>
         </View>
       </View>
