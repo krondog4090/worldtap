@@ -271,29 +271,6 @@ class TrumpsWallMenu extends React.Component {
         </View>
 
         <View style={[styles.buttonLayoutTwo, { flexDirection: 'column' }]}>
-          {/* <View style={styles.scoreColumn}>
-            <View style={{ top: this.state.buttonPressedThree ? 2 : 0 }}>
-              <ButtonSmall
-                onPress={this.goRewardedAd}
-                onPressIn={() => this.setState({ buttonPressedThree: true })}
-                onPressOut={() => this.setState({ buttonPressedThree: false })}>
-                <View style={styles.playButtonContainerTime}>
-                  <Text allowFontScaling={false}style={[styles.buttonText, { fontFamily: "gamefont", color: "grey", textShadowColor: "black", textShadowOffset: { width: 1, height: 2 }, textShadowRadius: 1, fontSize: 14}]}>
-                    WATCH VIDEO
-                  </Text>
-                </View>
-              </ButtonSmall>
-            </View>
-            <View style={styles.playButtonContainerTime}>
-              <Text allowFontScaling={false}style={[styles.scoreTextGame, { fontFamily: "ncaa" }]}>
-                EARN 1000 POINTS FOR TRUMPS WALL
-              </Text>
-            </View>
-            <Text allowFontScaling={false}style={[styles.scoreTextGame, { fontFamily: 'ncaa', fontSize: 16, color: 'red'}]}>
-                {secondsToHms(this.state.timerOne)}
-              </Text>
-          </View> */}
-
           <View style={styles.scoreColumn}>
             <View style={{ top: this.state.buttonPressedFour ? 2 : 0 }}>
               <ButtonSmall

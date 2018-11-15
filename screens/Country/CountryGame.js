@@ -23,7 +23,12 @@ import 'xmldom-qsa';
 import styles from '../../src/styles/Styles';
 import { numberWithCommas, secondsToHms } from '../../src/helpers/helpers';
 import AdMobBannerComponent from '../components/AdMobBannerComponent';
-import { buttonClick, gameOverSound, adRewardSound } from '../components/SoundEffects';
+import {
+  buttonClick,
+  gameOverSound,
+  adRewardSound,
+  levelUpSound
+} from '../components/SoundEffects';
 import GameMenuScreen from '../components/GameMenuScreen';
 import GameTopScore from '../components/GameTopScore';
 import ButtonSmall from '../components/ButtonSmall';
@@ -34,7 +39,6 @@ const gamefont = require('../../assets/fonts/PressStart2P.ttf');
 
 import { getRef, worldRef, urlMessageRef, admobRewardAdRef } from '../../lib/refs';
 
-// const SPEED = 1.6;
 const GRAVITY = 1100;
 const FLAP = 320;
 const SPAWN_RATE = 2600;
@@ -71,14 +75,14 @@ class CountryGame extends React.Component {
       score: 0,
       scoreClone: 0,
       shot: 1,
-      shotGoal: 3,
-      shotGoalClone: 3,
+      shotGoal: 2,
+      shotGoalClone: 2,
       shotValue: 1,
       missed: 0,
       cloneMissed: 0,
       teamTP: 0,
-      speed: 1.6,
-      speedClone: 1.6,
+      speed: 2,
+      speedClone: 2,
       isHidden: true,
       isNotHidden: false,
       adRewarded: false,
@@ -493,12 +497,12 @@ class CountryGame extends React.Component {
 
   updateShotValue = () => {
     if (this.state.score >= this.state.shotGoal) {
-      // levelUpSound();
+      levelUpSound();
       this.setState((prevState) => ({
         score: 0,
         shotValue: prevState.shotValue + 1,
-        shotGoal: prevState.shotGoal + 3,
-        speed: prevState.speed + 0.5
+        shotGoal: prevState.shotGoal + 2,
+        speed: prevState.speed + 1
       }));
     }
   };
@@ -510,9 +514,9 @@ class CountryGame extends React.Component {
         trophyCount: newTrophyCount,
         teamScore: previousState.cloneTeamScore
       }));
-      this.getTeamRefTrophy.once('value', (snap) => {
-        this.getTeamRefTrophy.set(snap.val() + newTrophyCount);
-        this.getTeamRef.set(snap.val() + this.state.cloneTeamScore);
+      this.props.teamRefTrophy.once('value', (snap) => {
+        this.props.teamRefTrophy.set(snap.val() + newTrophyCount);
+        this.props.teamRef.set(snap.val() + this.state.cloneTeamScore);
       });
     }
   };

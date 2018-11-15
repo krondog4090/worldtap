@@ -8,7 +8,9 @@ function OfflineSign() {
   return (
     <View style={styles.offlineContainer}>
       <CustomBlinkingImage />
-      <Text style={styles.offlineText}>Your Internet Connection May Affect Gameplay</Text>
+      <Text allowFontScaling={false} style={styles.offlineText}>
+        Your Internet Connection May Affect Gameplay
+      </Text>
     </View>
   );
 }

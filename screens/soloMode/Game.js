@@ -13,7 +13,6 @@ import 'xmldom-qsa';
 import styles from '../../src/styles/Styles';
 import { buttonClick, gameOverSound, levelUpSound } from '../components/SoundEffects';
 
-// const SPEED = 1.6;
 const GRAVITY = 1100;
 const FLAP = 320;
 const SPAWN_RATE = 2600;
@@ -42,15 +41,18 @@ class Game extends React.Component {
       scoreClone: 0,
       shot: 1,
       shots: 0,
-      shotGoal: 3,
-      shotGoalClone: 3,
-      speed: 1.6,
-      speedClone: 1.6,
-      bestScore: 0
+      shotGoal: 2,
+      shotGoalClone: 2,
+      speed: 2,
+      speedClone: 2,
+      bestScore: 0,
+      shotScore: 0,
+      shotScoreClone: 0
     };
   }
 
   async componentDidMount() {
+    levelUpSound();
     StatusBar.setHidden(true);
     Font.loadAsync({
       ncaa: ncaa
@@ -243,38 +245,40 @@ class Game extends React.Component {
   addScore = () => {
     this.setState({
       score: (this.state.score += this.state.shot),
-      shots: this.state.shots + 1
+      shots: this.state.shots + 1,
+      // bestScore: this.state.shotScore + 1 * this.state.shotValue,
+      shotScore: this.state.shotScore + 1 * this.state.shotValue
     });
     this.updateShotValue();
-    this.updateHighScore();
+    // this.updateHighScore();
   };
 
   updateShotValue() {
     if (this.state.score >= this.state.shotGoal) {
+      levelUpSound();
       this.setState({
         score: 0,
         shotValue: this.state.shotValue + 1,
-        shotGoal: this.state.shotGoal * 2,
-        speed: this.state.speed + 0.5,
-        bestScore: this.state.bestScore + 1
+        shotGoal: this.state.shotGoal + 2,
+        speed: this.state.speed + 1
       });
     }
   }
 
   updateHighScore() {
-    if (this.state.score > this.state.bestScore) {
+    if (this.state.shotScore > this.state.bestScore) {
       this.setState({
-        bestScore: Number(this.state.score)
+        bestScore: Number(this.state.shotScore)
       });
-      AsyncStorage.setItem(this.props.keyTP, `${this.state.score}`);
+      AsyncStorage.setItem(this.props.keyTP, `${this.state.shotScore}`);
     }
   }
 
   setGameOver = () => {
-    gameOverSound();
     this.gameOver = true;
-
     clearInterval(this.pillarInterval);
+    gameOverSound();
+    this.updateHighScore();
   };
 
   reset = () => {
@@ -284,7 +288,8 @@ class Game extends React.Component {
       score: 0,
       shotValue: 1,
       shotGoal: this.state.shotGoalClone,
-      speed: this.state.speedClone
+      speed: this.state.speedClone,
+      shotScore: this.state.shotScoreClone
     });
 
     this.player.reset(this.scene.size.width * -0.3, 0);
@@ -365,7 +370,7 @@ class Game extends React.Component {
 
   goBack = () => {
     buttonClick();
-    this.props.navigation.replace('PreMainMenu');
+    this.props.navigation.goBack();
   };
 
   renderScore = () => (
@@ -378,28 +383,36 @@ class Game extends React.Component {
           {this.state.score} / {this.state.shotGoal}
         </Text>
         <Text allowFontScaling={false} style={[styles.scoreMainTextTwo, { fontFamily: 'ncaa' }]}>
-          HighScore = {this.state.bestScore}
+          Best = {this.state.bestScore}
         </Text>
       </View>
     </View>
   );
 
   renderScoreTwo = () => (
-    <View style={styles.scoreBoxTwo}>
-      <View style={{ top: this.state.buttonPressed ? 2 : 0 }}>
-        <TouchableOpacity
-          activeOpacity={10}
-          style={styles.playButtonContainer}
-          onPress={this.goBack}
-          onPressIn={() => this.setState({ buttonPressed: true })}
-          onPressOut={() => this.setState({ buttonPressed: false })}
+    <View style={styles.scoreBoxTwo} pointerEvents="box-none">
+      <View style={styles.scoreColumn} pointerEvents="box-none">
+        <Text
+          allowFontScaling={false}
+          style={[styles.scoreTextGame, { fontFamily: 'ncaa', color: 'blue' }]}
         >
-          <View style={styles.playButtonContainerTime}>
-            <Text allowFontScaling={false} style={[styles.scoreTextGame, { fontFamily: 'ncaa' }]}>
-              BACK
-            </Text>
-          </View>
-        </TouchableOpacity>
+          {this.state.shotScore}
+        </Text>
+        <View style={{ top: this.state.buttonPressed ? 2 : 0 }}>
+          <TouchableOpacity
+            activeOpacity={10}
+            style={styles.playButtonContainer}
+            onPress={this.goBack}
+            onPressIn={() => this.setState({ buttonPressed: true })}
+            onPressOut={() => this.setState({ buttonPressed: false })}
+          >
+            <View style={styles.playButtonContainerTime}>
+              <Text allowFontScaling={false} style={[styles.scoreTextGame, { fontFamily: 'ncaa' }]}>
+                BACK
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );

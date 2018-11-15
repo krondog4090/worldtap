@@ -98,7 +98,6 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 10,
     shadowOpacity: 1,
-    // elevation: 6,
     shadowRadius: 2,
     shadowOffset: {
       width: 3,
@@ -110,7 +109,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     shadowColor: 'gray',
     shadowOpacity: 1,
-    // elevation: 6,
     shadowRadius: 2,
     shadowOffset: {
       width: 0,
@@ -118,7 +116,7 @@ const styles = StyleSheet.create({
     }
   },
   buttonText: {
-    fontSize: 30
+    fontSize: 28
   },
   buttonTextTwo: {
     fontSize: 22

@@ -9,11 +9,11 @@ import {
   Image,
   NetInfo
 } from 'react-native';
-import { Font } from 'expo';
+import { Font, Audio } from 'expo';
 import * as firebase from 'firebase';
 import { withNavigation } from 'react-navigation';
 import styles from './src/styles/Styles';
-import { buttonClickTwo, mainMenuLoop, mainLoop } from './screens/components/SoundEffects';
+import { buttonClickTwo, mainMenuLoop } from './screens/components/SoundEffects';
 import CountDownScreen from './screens/components/CountDownScreen';
 import CountDownScreenTwo from './screens/components/CountDownScreenTwo';
 import OfflineBox from './screens/components/OfflineBox';
@@ -52,6 +52,10 @@ class MainMenu extends React.Component {
   }
 
   componentDidMount() {
+    Audio.setAudioModeAsync({
+      playsInSilentModeIOS: false,
+      interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX
+    });
     mainMenuLoop();
     StatusBar.setHidden(true);
     Font.loadAsync({
@@ -62,20 +66,7 @@ class MainMenu extends React.Component {
         fontLoaded: true
       });
     });
-    // NetInfo.isOnline.addEventListener('connectivityChange', this.handleOnlineStatus);
   }
-
-  componentWillUnmount() {
-    // NetInfo.isOnline.removeEventListener('connectivityChange', this.handleOnlineStatus);
-  }
-
-  // handleOnlineStatus = (isOnline) => {
-  //   if (isOnline) {
-  //     this.setState({ isOnline });
-  //   } else {
-  //     this.setState({ isOnline });
-  //   }
-  // };
 
   getRef = () => {
     return firebase.database().ref();
@@ -113,6 +104,7 @@ class MainMenu extends React.Component {
             >
               <View style={styles.playButtonContainerTime}>
                 <Text
+                  allowFontScaling={false}
                   style={[
                     styles.buttonText,
                     fontLoaded && {
@@ -133,6 +125,7 @@ class MainMenu extends React.Component {
 
               <View style={styles.playButtonContainerTime}>
                 <Text
+                  allowFontScaling={false}
                   style={[
                     styles.buttonText,
                     fontLoaded && {
@@ -148,6 +141,7 @@ class MainMenu extends React.Component {
                 >
                   MADE BY:
                   <Text
+                    allowFontScaling={false}
                     style={[
                       styles.buttonText,
                       fontLoaded && {
@@ -175,6 +169,7 @@ class MainMenu extends React.Component {
               <View style={styles.playButtonContainerTime}>
                 {/* <Image style={styles.flagImageCount} source={harvey} /> */}
                 <Text
+                  allowFontScaling={false}
                   style={[
                     styles.buttonText,
                     fontLoaded && {
@@ -191,6 +186,7 @@ class MainMenu extends React.Component {
                   ART BY:
                 </Text>
                 <Text
+                  allowFontScaling={false}
                   style={[
                     styles.buttonText,
                     fontLoaded && {
@@ -233,8 +229,9 @@ class MainMenu extends React.Component {
                     </View>
                   </TouchableOpacity>
                 </View>
-                <View style={styles.playButtonContainerTime}>
+                {/* <View style={styles.playButtonContainerTime}>
                   <Text
+                    allowFontScaling={false}
                     style={[
                       fontLoaded && {
                         fontFamily: 'ncaa',
@@ -246,7 +243,7 @@ class MainMenu extends React.Component {
                   >
                     WORLD CUP STARTS IN
                   </Text>
-                </View>
+                </View> */}
                 <CountDownScreen deadline={this.state.deadline} hide={this.state.isNotHidden} />
                 <CountDownScreenTwo deadline={this.state.deadline} hide={this.state.isHidden} />
               </View>
@@ -264,12 +261,11 @@ class MainMenu extends React.Component {
               >
                 <View style={styles.playButtonContainerTime}>
                   <Text
+                    allowFontScaling={false}
                     style={[
                       styles.buttonText,
                       fontLoaded && {
-                        fontFamily: 'gamefont',
-                        color: 'grey',
-                        textShadowColor: 'black',
+                        fontFamily: 'ncaa',
                         textShadowOffset: { width: 1, height: 2 },
                         textShadowRadius: 1
                       }
@@ -291,12 +287,11 @@ class MainMenu extends React.Component {
               >
                 <View style={styles.playButtonContainerTime}>
                   <Text
+                    allowFontScaling={false}
                     style={[
                       styles.buttonText,
                       fontLoaded && {
-                        fontFamily: 'gamefont',
-                        color: 'grey',
-                        textShadowColor: 'black',
+                        fontFamily: 'ncaa',
                         textShadowOffset: { width: 1, height: 2 },
                         textShadowRadius: 1
                       }

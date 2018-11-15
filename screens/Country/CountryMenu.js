@@ -217,7 +217,8 @@ class CountryMenu extends React.Component {
     <GameMenuScreen hide={false}>
       <View style={[styles.gameMenu, { backgroundColor: '#eafeea' }]}>
         <View style={styles.playButtonContainerTime}>
-          <Text allowFontScaling={false}
+          <Text
+            allowFontScaling={false}
             style={[
               styles.buttonText,
               {
@@ -253,7 +254,8 @@ class CountryMenu extends React.Component {
                 onPressOut={() => this.setState({ buttonPressedThree: false })}
               >
                 <View style={styles.playButtonContainerTime}>
-                  <Text allowFontScaling={false}
+                  <Text
+                    allowFontScaling={false}
                     style={[
                       styles.buttonText,
                       {
@@ -272,11 +274,12 @@ class CountryMenu extends React.Component {
               </ButtonSmall>
             </View>
             <View style={styles.playButtonContainerTime}>
-              <Text allowFontScaling={false}style={[styles.scoreTextGame, { fontFamily: 'ncaa' }]}>
+              <Text allowFontScaling={false} style={[styles.scoreTextGame, { fontFamily: 'ncaa' }]}>
                 EARN 1000 POINTS FOR {this.state.continentName}
               </Text>
             </View>
-            <Text allowFontScaling={false}
+            <Text
+              allowFontScaling={false}
               style={[styles.scoreTextGame, { fontFamily: 'ncaa', fontSize: 16, color: 'red' }]}
             >
               {secondsToHms(this.state.timerOne)}
@@ -291,7 +294,8 @@ class CountryMenu extends React.Component {
                 onPressOut={() => this.setState({ buttonPressedFour: false })}
               >
                 <View style={styles.playButtonContainerTime}>
-                  <Text allowFontScaling={false}
+                  <Text
+                    allowFontScaling={false}
                     style={[
                       styles.buttonText,
                       {
@@ -311,7 +315,7 @@ class CountryMenu extends React.Component {
               </ButtonSmall>
             </View>
             <View style={styles.playButtonContainerTime}>
-              <Text allowFontScaling={false}style={[styles.scoreTextGame, { fontFamily: 'ncaa' }]}>
+              <Text allowFontScaling={false} style={[styles.scoreTextGame, { fontFamily: 'ncaa' }]}>
                 TELL YOUR FRIENDS ABOUT {this.state.continentName}
               </Text>
             </View>
@@ -325,7 +329,12 @@ class CountryMenu extends React.Component {
                     onPressOut={() => this.setState({ buttonPressedFive: false })}
                   >
                     <View style={styles.playButtonContainerTime}>
-                      <Text allowFontScaling={false}style={[styles.scoreTextGame, { fontFamily: 'ncaa' }]}>CLOSE MENU</Text>
+                      <Text
+                        allowFontScaling={false}
+                        style={[styles.scoreTextGame, { fontFamily: 'ncaa' }]}
+                      >
+                        CLOSE MENU
+                      </Text>
                     </View>
                   </ButtonSmall>
                 </View>
@@ -365,7 +374,8 @@ class CountryMenu extends React.Component {
                 onPressOut={() => this.setState({ buttonPressed: false })}
               >
                 <View style={styles.playButtonContainerTime}>
-                  <Text allowFontScaling={false}
+                  <Text
+                    allowFontScaling={false}
                     style={[
                       styles.buttonTextTwo,
                       fontLoaded && {
@@ -394,7 +404,8 @@ class CountryMenu extends React.Component {
                 onPressOut={() => this.setState({ buttonPressedTwo: false })}
               >
                 <View style={styles.playButtonContainerTime}>
-                  <Text allowFontScaling={false}
+                  <Text
+                    allowFontScaling={false}
                     style={[
                       styles.buttonTextTwo,
                       {
