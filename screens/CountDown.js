@@ -4,12 +4,10 @@ import * as firebase from 'firebase';
 import { Font } from 'expo';
 import styles from '../src/styles/Styles';
 import { numberWithCommas } from '../src/helpers/helpers/';
-import BlinkingWarningSign from './components/BlinkingWarningSign';
 
 const ncaa = require('../assets/fonts/ncaa.otf');
 
 class CountDown extends Component {
-  _isMounted = false;
   constructor(props) {
     super(props);
     this.state = {
@@ -34,9 +32,7 @@ class CountDown extends Component {
   }
 
   componentWillMount() {
-    if (this._isMounted) {
-      this.getTimeUntil(this.props.deadline);
-    }
+    this.getTimeUntil(this.props.deadline);
   }
 
   componentWillUnmount() {
@@ -47,21 +43,18 @@ class CountDown extends Component {
   }
 
   async componentDidMount() {
-    this._isMounted = true;
-    if (this._isMounted) {
-      Font.loadAsync({
-        ncaa: ncaa
-      }).then(() => {
-        this.setState({
-          fontLoaded: true
-        });
+    Font.loadAsync({
+      ncaa: ncaa
+    }).then(() => {
+      this.setState({
+        fontLoaded: true
       });
-      this.getCountryNameData(this.getCountryNameRef);
-      this.getContLeaderData(this.getContLeaderRef);
-      this.getTrumpsWallData(this.getTrumpsWallRef);
+    });
+    this.getCountryNameData(this.getCountryNameRef);
+    this.getContLeaderData(this.getContLeaderRef);
+    this.getTrumpsWallData(this.getTrumpsWallRef);
 
-      this.interval = setInterval(() => this.getTimeUntil(this.props.deadline), 1000);
-    }
+    this.interval = setInterval(() => this.getTimeUntil(this.props.deadline), 1000);
   }
 
   getRef = () => {
@@ -96,27 +89,25 @@ class CountDown extends Component {
     return num < 10 ? '0' + num : num;
   }
   getTimeUntil(deadline) {
-    if (this._isMounted) {
-      const time = Date.parse(deadline) - Date.parse(new Date());
-      if (time < 0) {
-        this.setState({
-          days: 0,
-          hours: 0,
-          minutes: 0,
-          seconds: 0
-        });
-      } else {
-        const seconds = Math.floor((time / 1000) % 60);
-        const minutes = Math.floor((time / 1000 / 60) % 60);
-        const hours = Math.floor((time / (1000 * 60 * 60)) % 24);
-        const days = Math.floor(time / (1000 * 60 * 60 * 24));
-        this.setState({
-          days,
-          hours,
-          minutes,
-          seconds
-        });
-      }
+    const time = Date.parse(deadline) - Date.parse(new Date());
+    if (time < 0) {
+      this.setState({
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0
+      });
+    } else {
+      const seconds = Math.floor((time / 1000) % 60);
+      const minutes = Math.floor((time / 1000 / 60) % 60);
+      const hours = Math.floor((time / (1000 * 60 * 60)) % 24);
+      const days = Math.floor(time / (1000 * 60 * 60 * 24));
+      this.setState({
+        days,
+        hours,
+        minutes,
+        seconds
+      });
     }
   }
   render() {
@@ -222,7 +213,6 @@ class CountDown extends Component {
             allowFontScaling={false}
             style={[fontLoaded && { fontFamily: 'ncaa', color: 'white', fontSize: 16 }]}
           >
-            {/* <BlinkingWarningSign /> */}
             {this.state.countryLeaderName}
           </Text>
         </View>
@@ -242,7 +232,6 @@ class CountDown extends Component {
             allowFontScaling={false}
             style={[fontLoaded && { fontFamily: 'ncaa', color: 'white', fontSize: 16 }]}
           >
-            {/* <BlinkingWarningSign /> */}
             {this.state.TrumpsWallTotalTeamScore}
           </Text>
         </View>

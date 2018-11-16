@@ -46,7 +46,6 @@ const OPENING = 120;
 const GROUND_HEIGHT = 64;
 
 class TrumpsWallGameAdd extends React.Component {
-  _isMounted = false;
   scale = 1;
   pipes = new Group();
   deadPipeTops = [];
@@ -618,7 +617,7 @@ class TrumpsWallGameAdd extends React.Component {
 
   goBack = () => {
     buttonClick();
-    this.props.navigation.goBack();
+    this.props.navigation.navigate('TrumpsWallPreMenu');
   };
 
   toggleMenu = () => {

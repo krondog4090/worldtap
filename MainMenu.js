@@ -6,8 +6,7 @@ import {
   TouchableOpacity,
   StatusBar,
   Linking,
-  Image,
-  NetInfo
+  Image
 } from 'react-native';
 import { Font, Audio } from 'expo';
 import * as firebase from 'firebase';
@@ -54,7 +53,10 @@ class MainMenu extends React.Component {
   componentDidMount() {
     Audio.setAudioModeAsync({
       playsInSilentModeIOS: false,
-      interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX
+      interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
+      interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DUCK_OTHERS,
+      interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
+      interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DUCK_OTHERS
     });
     mainMenuLoop();
     StatusBar.setHidden(true);
@@ -167,7 +169,6 @@ class MainMenu extends React.Component {
               </View>
 
               <View style={styles.playButtonContainerTime}>
-                {/* <Image style={styles.flagImageCount} source={harvey} /> */}
                 <Text
                   allowFontScaling={false}
                   style={[
@@ -229,21 +230,6 @@ class MainMenu extends React.Component {
                     </View>
                   </TouchableOpacity>
                 </View>
-                {/* <View style={styles.playButtonContainerTime}>
-                  <Text
-                    allowFontScaling={false}
-                    style={[
-                      fontLoaded && {
-                        fontFamily: 'ncaa',
-                        color: 'white',
-                        fontSize: 24,
-                        textAlign: 'center'
-                      }
-                    ]}
-                  >
-                    WORLD CUP STARTS IN
-                  </Text>
-                </View> */}
                 <CountDownScreen deadline={this.state.deadline} hide={this.state.isNotHidden} />
                 <CountDownScreenTwo deadline={this.state.deadline} hide={this.state.isHidden} />
               </View>

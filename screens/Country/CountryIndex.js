@@ -81,7 +81,7 @@ class CountryIndex extends React.Component {
     buttonClickTwo();
     const { teamImage, countryName, keyTP } = team;
     const teamName = team.countryName.split(' ').join('');
-    this.props.navigation.push('CountryMainGame', {
+    this.props.navigation.navigate('CountryMainGame', {
       teamScore: this.state[`${teamName}TeamScore`],
       trophyCount: this.state[`${teamName}TrophyCount`],
       teamImage: teamImage,

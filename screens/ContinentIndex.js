@@ -105,8 +105,8 @@ class ContinentIndex extends React.Component {
 
   goToMenu = (continent) => {
     buttonClickTwo();
-    if (continent === 'TrumpsWall') return this.props.navigation.replace('TrumpsWallPreMenu');
-    this.props.navigation.replace('CountryPreMenu', {
+    if (continent === 'TrumpsWall') return this.props.navigation.navigate('TrumpsWallPreMenu');
+    this.props.navigation.navigate('CountryPreMenu', {
       continentName: continent,
       continentImage: continentImageMap[continent]
     });
@@ -204,7 +204,6 @@ const styles = StyleSheet.create({
     borderColor: 'grey'
   },
   countryText: {
-    fontWeight: 'bold',
     paddingLeft: 10,
     textAlign: 'auto',
     flex: 1,
@@ -215,7 +214,6 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: 'center',
     color: 'red',
-    fontWeight: 'bold',
     backgroundColor: 'rgba(0,0,0,0)',
     fontSize: 18
   },

@@ -92,7 +92,7 @@ class TrumpsWallIndex extends React.Component {
   }
 
   goAddTeam = () => {
-    this.props.navigation.replace('TrumpsWallMainGameAdd', {
+    this.props.navigation.navigate('TrumpsWallMainGameAdd', {
       teamScore: this.state.addTeamScore,
       trophyCount: this.state.addTrophyCount,
       teamImage: addImage,
@@ -105,7 +105,7 @@ class TrumpsWallIndex extends React.Component {
     });
   };
   goSubTeam = () => {
-    this.props.navigation.replace('TrumpsWallMainGameSub', {
+    this.props.navigation.navigate('TrumpsWallMainGameSub', {
       teamScore: this.state.subTeamScore,
       trophyCount: this.state.subTrophyCount,
       teamImage: subImage,

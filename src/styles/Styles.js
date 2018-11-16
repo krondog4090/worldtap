@@ -3,7 +3,6 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   imageContainer: {
     flex: 1,
-    // zIndex: 0,
     alignItems: 'center'
   },
   menuContainer: {
@@ -38,7 +37,6 @@ const styles = StyleSheet.create({
     padding: 10,
     shadowColor: 'black',
     shadowOpacity: 1,
-    // elevation: 6,
     shadowRadius: 2,
     shadowOffset: {
       width: 0,
@@ -53,7 +51,6 @@ const styles = StyleSheet.create({
     padding: 2,
     shadowColor: 'black',
     shadowOpacity: 1,
-    // elevation: 6,
     shadowRadius: 2,
     shadowOffset: {
       width: 0,
@@ -68,7 +65,6 @@ const styles = StyleSheet.create({
     padding: 1,
     shadowColor: 'gray',
     shadowOpacity: 1,
-    // elevation: 6,
     shadowRadius: 2,
     shadowOffset: {
       width: 0,
@@ -82,7 +78,6 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     padding: 4,
     shadowOpacity: 0.3,
-    // elevation: 6,
     shadowRadius: 2,
     shadowOffset: {
       width: 0,
@@ -148,7 +143,6 @@ const styles = StyleSheet.create({
     borderColor: 'black'
   },
   titleContainerMenu: {
-    // flex: .2,
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
@@ -225,7 +219,6 @@ const styles = StyleSheet.create({
     borderColor: 'grey'
   },
   countryText: {
-    fontWeight: 'bold',
     paddingLeft: 10,
     textAlign: 'auto',
     flex: 1,
@@ -236,7 +229,6 @@ const styles = StyleSheet.create({
     flex: 0.2,
     textAlign: 'center',
     color: 'black',
-    fontWeight: 'bold',
     backgroundColor: 'rgba(0,0,0,0)',
     fontSize: 18
   },
@@ -248,13 +240,10 @@ const styles = StyleSheet.create({
     flex: 0.5,
     textAlign: 'center',
     color: 'red',
-    fontWeight: 'bold',
-    backgroundColor: 'rgba(0,0,0,0)',
     fontSize: 18
   },
   containerCont: {
     flex: 1,
-    // backgroundColor: 'red',
     alignItems: 'center',
     justifyContent: 'center'
   },
@@ -347,7 +336,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    // width,
     position: 'absolute',
     top: 30
   },
