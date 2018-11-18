@@ -8,7 +8,8 @@ import {
   Image,
   Share,
   Alert,
-  SafeAreaView
+  SafeAreaView,
+  Vibration
 } from 'react-native';
 import TrumpsWallFiles from './TrumpsWallFiles';
 import { Font, AdMobRewarded } from 'expo';
@@ -415,7 +416,7 @@ class TrumpsWallGameAdd extends React.Component {
       score: (prevState.score += prevState.shot),
       teamScore: prevState.teamScore + prevState.shotValue,
       teamTP: prevState.teamTP + prevState.shotValue,
-      shotScore: this.state.shotScore + 1 * this.state.shotValue
+      shotScore: prevState.shotScore + 1 * prevState.shotValue
     }));
     this.updateTeamTP();
     this.updateShotValue();
@@ -521,6 +522,7 @@ class TrumpsWallGameAdd extends React.Component {
     this.gameOver = true;
     clearInterval(this.pillarInterval);
     gameOverSound();
+    Vibration.vibrate();
     this.updateTeamScores();
     this.updateContinentScores();
     this.updateWorldScores();

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, AsyncStorage, Vibration } from 'react-native';
 import Files from './Files';
 import { Font } from 'expo';
 import { Group, Node, Sprite, SpriteView } from '../../GameKit';
@@ -277,6 +277,7 @@ class Game extends React.Component {
   setGameOver = () => {
     this.gameOver = true;
     clearInterval(this.pillarInterval);
+    Vibration.vibrate();
     gameOverSound();
     this.updateHighScore();
   };

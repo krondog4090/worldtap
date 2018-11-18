@@ -1,15 +1,15 @@
 import React, { PureComponent } from 'react';
 import { View, Text, NetInfo, Dimensions, StyleSheet } from 'react-native';
-import CustomBlinkingImage from '../components/CustomBlinkingImage';
+// import CustomBlinkingImage from '../components/CustomBlinkingImage';
 
 const { width } = Dimensions.get('window');
 
 function OfflineSign() {
   return (
     <View style={styles.offlineContainer}>
-      <CustomBlinkingImage />
+      {/* <CustomBlinkingImage /> */}
       <Text allowFontScaling={false} style={styles.offlineText}>
-        Your Internet Connection May Affect Gameplay
+        No Internet Connection
       </Text>
     </View>
   );
@@ -49,8 +49,8 @@ class OfflineBox extends PureComponent {
 
 const styles = StyleSheet.create({
   offlineContainer: {
-    backgroundColor: '#b52424',
-    height: 60,
+    backgroundColor: '#FF7900',
+    height: 30,
     padding: 5,
     justifyContent: 'center',
     alignItems: 'center',
@@ -61,7 +61,8 @@ const styles = StyleSheet.create({
     top: 30
   },
   offlineText: {
-    color: '#fff',
+    // color: '#fff',
+    color: 'black',
     position: 'absolute',
     bottom: 5
   }

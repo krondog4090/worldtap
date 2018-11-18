@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StatusBar, SafeAreaView } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import * as firebase from 'firebase';
 import { Font } from 'expo';
 import styles from '../src/styles/Styles';
 import { buttonClick } from './components/SoundEffects';
@@ -19,12 +18,8 @@ class WorldMenu extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      fontLoaded: false,
-      titleTwo: ''
+      fontLoaded: false
     };
-
-    this.getTitleTwoData = this.getTitleTwoData.bind(this);
-    this.getTitleTwoRef = this.getRef().child('World_Teams/World/Titles/TitleTwo');
   }
 
   async componentDidMount() {
@@ -35,19 +30,6 @@ class WorldMenu extends React.Component {
     }).then(() => {
       this.setState({
         fontLoaded: true
-      });
-    });
-    this.getTitleTwoData(this.getTitleTwoRef);
-  }
-
-  getRef = () => {
-    return firebase.database().ref();
-  };
-
-  getTitleTwoData(getTitleTwoRef) {
-    getTitleTwoRef.on('value', (snap) => {
-      this.setState({
-        titleTwo: snap.val()
       });
     });
   }
@@ -61,7 +43,7 @@ class WorldMenu extends React.Component {
     const { fontLoaded } = this.state;
 
     return (
-      <View style={styles.imageContainer}>
+      <SafeAreaView style={styles.imageContainer}>
         <View style={styles.topContainer}>
           <View style={styles.titleContainer}>
             <View style={{ top: this.state.buttonPressed ? 2 : 0 }}>
@@ -98,7 +80,7 @@ class WorldMenu extends React.Component {
             <ContinentIndex />
           </View>
         </View>
-      </View>
+      </SafeAreaView>
     );
   }
 }

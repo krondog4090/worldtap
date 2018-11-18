@@ -3,10 +3,10 @@
     "sdkVersion": "31.0.0",
     "name": "World Tap",
     "slug": "World-Tap",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "platforms": ["ios", "android"],
     "orientation": "portrait",
-    "privacy": "public",  
+    "privacy": "public",
     "icon": "./assets/images/wtappicon.png",
     "splash": {
       "backgroundColor": "#000000",

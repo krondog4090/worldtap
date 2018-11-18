@@ -8,7 +8,8 @@ import {
   Image,
   Share,
   Alert,
-  SafeAreaView
+  SafeAreaView,
+  Vibration
 } from 'react-native';
 import CountryFiles from './CountryFiles';
 import { Font, AdMobRewarded } from 'expo';
@@ -523,6 +524,7 @@ class CountryGame extends React.Component {
     this.gameOver = true;
     clearInterval(this.pillarInterval);
     gameOverSound();
+    Vibration.vibrate();
     this.updateTeamScores();
     this.updateContinentScores();
     this.updateWorldScores();

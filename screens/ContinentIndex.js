@@ -14,9 +14,8 @@ import { Font } from 'expo';
 import camelcase from 'camelcase';
 import { numberWithCommas } from '../src/helpers/helpers';
 import { buttonClickTwo } from './components/SoundEffects';
-import { getContinentRefs } from '../lib/refs';
+import { getContinentRefs, worldRef } from '../lib/refs';
 import teamData from '../lib/teamData';
-import BlinkingWarningSign from './components/BlinkingWarningSign';
 
 const continentImageMap = {
   Africa: require('../assets/images/continents/africa.png'),
@@ -38,7 +37,7 @@ class ContinentIndex extends React.Component {
     super(props);
     this.state = {
       fontLoaded: false,
-      worldTotalTeamScore: [],
+      worldTotalScore: [],
       africaTotalTeamScore: [],
       africaTotalTrophyCount: [],
       asiaTotalTeamScore: [],
@@ -68,18 +67,29 @@ class ContinentIndex extends React.Component {
       this.setState({
         fontLoaded: true
       });
+      this.getWorldData(this.getWorldRef);
     });
 
     Object.keys(teamData).forEach((continent) => {
       const isWallOrWorld = continent === 'World' || continent === 'TrumpsWall';
       this.getData(continent, !isWallOrWorld);
     });
+    this.getWorldData(worldRef);
   }
+
+  getWorldData = (worldRef) => {
+    worldRef.on('value', (snap) => {
+      this.setState({
+        worldTotalScore: Number(snap.val())
+      });
+    });
+  };
 
   componentWillUnmount() {
     Object.keys(teamData).forEach((continent) =>
       getContinentRefs(continent).continentRef.off('value')
     );
+    worldRef.off('value');
   }
 
   getData = (continent, getTrophy) => {
@@ -128,8 +138,7 @@ class ContinentIndex extends React.Component {
               allowFontScaling={false}
               style={[styles.topScoreText, fontLoaded && { fontFamily: 'ncaa' }]}
             >
-              {/* <BlinkingWarningSign /> */}
-              {numberWithCommas(this.state.worldTotalTeamScore)}
+              {numberWithCommas(this.state.worldTotalScore)}
             </Text>
           </View>
         </View>
@@ -156,7 +165,6 @@ class ContinentIndex extends React.Component {
                           allowFontScaling={false}
                           style={[styles.scoreText, fontLoaded && { fontFamily: 'ncaa' }]}
                         >
-                          {/* <BlinkingWarningSign /> */}
                           {numberWithCommas(this.state[`${camelcase(continent)}TotalTeamScore`])}
                         </Text>
                       </View>
