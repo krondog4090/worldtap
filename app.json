@@ -3,7 +3,7 @@
     "sdkVersion": "31.0.0",
     "name": "World Tap",
     "slug": "World-Tap",
-    "descrption": "Players playing for their countries",
+    "description": "Players playing for their countries",
     "version": "0.1.2",
     "platforms": ["ios", "android"],
     "orientation": "portrait",

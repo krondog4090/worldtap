@@ -10,6 +10,8 @@ import teamData from '../lib/teamData';
 import { getRef } from '../lib/refs';
 
 const ncaa = require('../assets/fonts/ncaa.otf');
+const continents = Object.keys(teamData);
+const gotScoresPromises = [];
 
 class CountDown extends React.Component {
   constructor(props) {
@@ -20,7 +22,8 @@ class CountDown extends React.Component {
       hours: 0,
       minutes: 0,
       seconds: 0,
-      worldTotalScore: []
+      worldTotalScore: [],
+      countryLeader: ''
     };
 
     this.getWorldData = this.getWorldData.bind(this);
@@ -37,7 +40,7 @@ class CountDown extends React.Component {
     });
     this.getWorldData(this.getWorldRef);
     this.interval = setInterval(() => this.getTimeUntil(this.props.deadline), 1000);
-    this.calculateTotalScore();
+    this.getHighScore();
   }
 
   componentWillMount() {
@@ -49,58 +52,39 @@ class CountDown extends React.Component {
     this.getWorldRef.off('value');
   }
 
-  // setCountryData = (countryKey, score, team) => {
-  //   this.setState({
-  //     countryData: {
-  //       ...this.state.countryData,
-  //       [countryKey]: {
-  //         name: team.countryName,
-  //         score
-  //       }
-  //     }
-  //   });
-  // };
+  getHighScore = () => {
+    const countryTotalScores = continents
+      .map((continentName) => {
+        return teamData[continentName].countries.map((team) => {
+          return new Promise((resolve) => {
+            getRef()
+              .child(
+                `World_Teams/${continentName}/${continentName}Teams/${team.countryName
+                  .split(' ')
+                  .join('')}/Score`
+              )
+              .on('value', (snap) => {
+                const score = snap.val();
+                resolve({ countryName: team.countryName, score: score });
+              });
+          });
+        });
+      })
+      .flat();
 
-  // calculateTotalScore = () => {
-  //   console.log('in hereee');
-  //   getRef()
-  //     .child(`World_Teams`)
-  //     .on('value', (snap) => {
-  //       const filtered = Object.keys(snap.val()).filter((value) => {
-  //         return Object.keys(teamData).includes(value) && value !== 'TrumpsWall';
-  //       });
-  //       filtered.forEach((cont) => {
-  //         console.log(snap.val()[cont]);
-  //       });
-  //     });
-  //   const withoutTrump = Object.keys(teamData).filter((country) => country !== 'TrumpsWall');
-  //   withoutTrump.forEach((data, i) => {
-  //     teamData[data].countries.forEach((team, j) => {
-  //       const countryNameNoSpace = team.countryName.split(' ').join('');
-  //       getRef()
-  //         .child(`World_Teams/${data}/${data}Teams/${countryNameNoSpace}/Score`)
-  //         .on('value', (snap) => {
-  //           const score = snap.val();
-  //           // console.log(score);
-  //           this.setCountryData(countryNameNoSpace, score, team);
-  //           if (Object.keys(this.state.countryData).length) {
-  //             this.analyzeHighScores();
-  //         });
-  //     });
-  //   });
-  // };
-
-  componentDidUpdate() {
-    // this.analyzeHighScores();
-  }
-
-  // analyzeHighScores = () => {
-  //   const highScore = Object.keys(this.state.countryData).reduce((a, b) => {
-  //     console.log(this.state.countryData[a], 'dfasdfasdfasdfasdfsdafsdaf');
-  //     return Math.max(this.state.countryData[a].score, this.state.countryData[b].score);
-  //   });
-  //   console.log('highScore', highScore);
-  // };
+    Promise.all(countryTotalScores).then((arrayValues) => {
+      let highestScore = -1;
+      let highestScoringCountry = null;
+      const highScore = arrayValues.reduce((a, b) => {
+        if (b.score > a.score) return b;
+        else return a;
+      });
+      this.setState({
+        countryLeader: highScore.countryName
+      });
+      // console.log(highScore);
+    });
+  };
 
   getWorldData(getWorldRef) {
     getWorldRef.on('value', (snap) => {
@@ -273,7 +257,7 @@ class CountDown extends React.Component {
             allowFontScaling={false}
             style={[fontLoaded && { fontFamily: 'ncaa', color: 'white', fontSize: 16 }]}
           >
-            Coming Soon
+            {this.state.countryLeader}
           </Text>
         </View>
       </View>
