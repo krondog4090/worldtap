@@ -3,6 +3,7 @@
     "sdkVersion": "31.0.0",
     "name": "World Tap",
     "slug": "World-Tap",
+    "descrption": "Players playing for their countries",
     "version": "0.1.2",
     "platforms": ["ios", "android"],
     "orientation": "portrait",
@@ -15,6 +16,10 @@
     },
     "ios": {
       "bundleIdentifier": "com.blakemcnary.worldtap"
+    },
+    "android": {
+      "package": "com.blakemcnaryandroid.worldtap",
+      "permissions": []
     }
   }
 }

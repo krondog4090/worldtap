@@ -1,5 +1,13 @@
 import React from 'react';
-import { Image, Text, View, TouchableOpacity, FlatList, AsyncStorage } from 'react-native';
+import {
+  Image,
+  Text,
+  View,
+  TouchableOpacity,
+  FlatList,
+  AsyncStorage,
+  SafeAreaView
+} from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Font } from 'expo';
 import styles from '../../src/styles/Styles';
@@ -7,6 +15,7 @@ import { numberWithCommas, abbreviateNumber } from '../../src/helpers/helpers';
 import { buttonClickTwo } from '../components/SoundEffects';
 import teamData from '../../lib/teamData';
 import { getTeamRefs, getContinentRef } from '../../lib/refs';
+import OfflineBox from '../components/OfflineBox';
 
 const nbaTrophy = require('../../assets/images/trophy.png');
 
@@ -96,65 +105,67 @@ class CountryIndex extends React.Component {
   render() {
     const { fontLoaded } = this.state;
     return (
-      <View style={styles.containerIndex}>
-        <View style={styles.eastContainer}>
-          <View style={[styles.playButtonContainerTime, { flexDirection: 'column' }]}>
-            <Text
-              allowFontScaling={false}
-              style={[styles.eastText, fontLoaded && { fontFamily: 'ncaa' }]}
-            >
-              {this.state.continentName.replace(/([A-Z])/g, ' $1').trim()} Total
-            </Text>
-            <Text
-              allowFontScaling={false}
-              style={[styles.topScoreText, fontLoaded && { fontFamily: 'ncaa' }]}
-            >
-              {numberWithCommas(this.state.CountryTotalScore)}
-            </Text>
+      <OfflineBox>
+        <SafeAreaView style={styles.containerIndex}>
+          <View style={styles.eastContainer}>
+            <View style={[styles.playButtonContainerTime, { flexDirection: 'column' }]}>
+              <Text
+                allowFontScaling={false}
+                style={[styles.eastText, fontLoaded && { fontFamily: 'ncaa' }]}
+              >
+                {this.state.continentName.replace(/([A-Z])/g, ' $1').trim()} Total
+              </Text>
+              <Text
+                allowFontScaling={false}
+                style={[styles.topScoreText, fontLoaded && { fontFamily: 'ncaa' }]}
+              >
+                {numberWithCommas(this.state.CountryTotalScore)}
+              </Text>
+            </View>
           </View>
-        </View>
-        {/* TEAMS */}
-        <FlatList
-          keyExtractor={(item) => item.keyTP}
-          data={teamData[this.state.continentName].countries}
-          extraData={this.state}
-          renderItem={({ item }) => {
-            return (
-              <View style={styles.flagBox} key={item.countryName}>
-                <TouchableOpacity
-                  style={styles.buttonIndex}
-                  activeOpacity={0.5}
-                  onPress={() => this.goToTeam(item)}
-                >
-                  <Image source={item.teamImage} style={styles.flagImage} />
-                  <Text
-                    allowFontScaling={false}
-                    style={[styles.countryText, fontLoaded && { fontFamily: 'ncaa' }]}
+          {/* TEAMS */}
+          <FlatList
+            keyExtractor={(item) => item.keyTP}
+            data={teamData[this.state.continentName].countries}
+            extraData={this.state}
+            renderItem={({ item }) => {
+              return (
+                <View style={styles.flagBox} key={item.countryName}>
+                  <TouchableOpacity
+                    style={styles.buttonIndex}
+                    activeOpacity={0.5}
+                    onPress={() => this.goToTeam(item)}
                   >
-                    {item.countryName}
-                  </Text>
-                  <Text
-                    allowFontScaling={false}
-                    style={[styles.scoreText, fontLoaded && { fontFamily: 'ncaa' }]}
-                  >
-                    {abbreviateNumber(
-                      this.state[`${item.countryName.split(' ').join('')}TeamScore`]
-                    )}{' '}
-                    / 50M
-                  </Text>
-                  <Image style={styles.trophyBox} source={nbaTrophy} />
-                  <Text
-                    allowFontScaling={false}
-                    style={[styles.trophyText, fontLoaded && { fontFamily: 'ncaa' }]}
-                  >
-                    {this.state[`${item.countryName.split(' ').join('')}TrophyCount`]}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            );
-          }}
-        />
-      </View>
+                    <Image source={item.teamImage} style={styles.flagImage} />
+                    <Text
+                      allowFontScaling={false}
+                      style={[styles.countryText, fontLoaded && { fontFamily: 'ncaa' }]}
+                    >
+                      {item.countryName}
+                    </Text>
+                    <Text
+                      allowFontScaling={false}
+                      style={[styles.scoreText, fontLoaded && { fontFamily: 'ncaa' }]}
+                    >
+                      {abbreviateNumber(
+                        this.state[`${item.countryName.split(' ').join('')}TeamScore`]
+                      )}{' '}
+                      / 50M
+                    </Text>
+                    <Image style={styles.trophyBox} source={nbaTrophy} />
+                    <Text
+                      allowFontScaling={false}
+                      style={[styles.trophyText, fontLoaded && { fontFamily: 'ncaa' }]}
+                    >
+                      {this.state[`${item.countryName.split(' ').join('')}TrophyCount`]}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              );
+            }}
+          />
+        </SafeAreaView>
+      </OfflineBox>
     );
   }
 }

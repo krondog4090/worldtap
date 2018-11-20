@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Text, View, Linking } from 'react-native';
-import * as firebase from 'firebase';
 import { Font } from 'expo';
 import styles from '../src/styles/Styles';
 
@@ -26,10 +25,6 @@ class CountDownTwo extends Component {
       });
     });
   }
-
-  getRef = () => {
-    return firebase.database().ref();
-  };
 
   render() {
     const { fontLoaded } = this.state;

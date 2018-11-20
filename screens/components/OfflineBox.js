@@ -1,16 +1,21 @@
 import React, { PureComponent } from 'react';
-import { View, Text, NetInfo, Dimensions, StyleSheet } from 'react-native';
-// import CustomBlinkingImage from '../components/CustomBlinkingImage';
+import { View, Text, NetInfo, Dimensions, StyleSheet, Image } from 'react-native';
+import CustomBlinkingImage from '../components/CustomBlinkingImage';
+import { withNavigation } from 'react-navigation';
 
 const { width } = Dimensions.get('window');
+const warning = require('../../assets/images/warning.png');
 
 function OfflineSign() {
   return (
     <View style={styles.offlineContainer}>
-      {/* <CustomBlinkingImage /> */}
+      {/* <Image source={warning} style={styles.warningSign} /> */}
+      <CustomBlinkingImage />
       <Text allowFontScaling={false} style={styles.offlineText}>
         No Internet Connection
       </Text>
+      <CustomBlinkingImage />
+      {/* <Image source={warning} style={styles.warningSign} /> */}
     </View>
   );
 }
@@ -49,23 +54,26 @@ class OfflineBox extends PureComponent {
 
 const styles = StyleSheet.create({
   offlineContainer: {
-    backgroundColor: '#FF7900',
+    flex: 1,
+    backgroundColor: '#B33A3A',
     height: 30,
     padding: 5,
     justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
     width,
     position: 'absolute',
     top: 30
   },
   offlineText: {
-    // color: '#fff',
-    color: 'black',
-    position: 'absolute',
-    bottom: 5
+    color: '#fff'
+  },
+  warningSign: {
+    height: 25,
+    width: 25,
+    resizeMode: 'contain'
   }
 });
 
-export default OfflineBox;
+export default withNavigation(OfflineBox);

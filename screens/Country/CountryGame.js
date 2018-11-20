@@ -12,7 +12,7 @@ import {
   Vibration
 } from 'react-native';
 import CountryFiles from './CountryFiles';
-import { Font, AdMobRewarded } from 'expo';
+import { Font, AdMobRewarded, Audio } from 'expo';
 import { Group, Node, Sprite, SpriteView } from '../../GameKit';
 import { withNavigation } from 'react-navigation';
 import { THREE } from 'expo-three';
@@ -24,12 +24,7 @@ import 'xmldom-qsa';
 import styles from '../../src/styles/Styles';
 import { numberWithCommas, secondsToHms } from '../../src/helpers/helpers';
 import AdMobBannerComponent from '../components/AdMobBannerComponent';
-import {
-  buttonClick,
-  gameOverSound,
-  adRewardSound,
-  levelUpSound
-} from '../components/SoundEffects';
+import { buttonClick, gameOverSound, adRewardSound } from '../components/SoundEffects';
 import GameMenuScreen from '../components/GameMenuScreen';
 import GameTopScore from '../components/GameTopScore';
 import ButtonSmall from '../components/ButtonSmall';
@@ -99,6 +94,8 @@ class CountryGame extends React.Component {
     this.continentRef = getRef().child(
       `World_Teams/${this.state.continentName}/${this.state.continentName}Total/Score`
     );
+    this.levelUpSound = new Audio.Sound();
+    this.levelUpSound.loadAsync(require('../../assets/audio/levelupsound.wav'));
   }
 
   _shareMessage = () => {
@@ -123,7 +120,6 @@ class CountryGame extends React.Component {
   };
 
   async componentDidMount() {
-    levelUpSound();
     StatusBar.setHidden(true);
     const totalPoints = await AsyncStorage.getItem(this.props.keyTP);
     if (totalPoints) {
@@ -418,7 +414,7 @@ class CountryGame extends React.Component {
       score: (prevState.score += prevState.shot),
       teamScore: prevState.teamScore + prevState.shotValue,
       teamTP: prevState.teamTP + prevState.shotValue,
-      shotScore: this.state.shotScore + 1 * this.state.shotValue
+      shotScore: prevState.shotScore + 1 * prevState.shotValue
     }));
     this.updateTeamTP();
     this.updateShotValue();
@@ -496,7 +492,8 @@ class CountryGame extends React.Component {
 
   updateShotValue = () => {
     if (this.state.score >= this.state.shotGoal) {
-      levelUpSound();
+      this.levelUpSound.setPositionAsync(0);
+      this.levelUpSound.playAsync();
       this.setState((prevState) => ({
         score: 0,
         shotValue: prevState.shotValue + 1,

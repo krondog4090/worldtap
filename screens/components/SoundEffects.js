@@ -1,13 +1,13 @@
 import { Audio } from 'expo';
 
-export const levelUpSound = async () => {
-  const soundObject = new Audio.Sound();
-  try {
-    await soundObject.loadAsync(require('../../assets/audio/levelupsound.wav'));
-    await soundObject.setPositionAsync(0);
-    await soundObject.playAsync();
-  } catch (error) {}
-};
+// export const levelUpSound = async () => {
+//   const soundObject = new Audio.Sound();
+//   try {
+//     await soundObject.loadAsync(require('../../assets/audio/levelupsound.wav'));
+//     await soundObject.setPositionAsync(0);
+//     await soundObject.playAsync();
+//   } catch (error) {}
+// };
 
 export const gameOverSound = async () => {
   const soundObject = new Audio.Sound();

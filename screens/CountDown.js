@@ -1,13 +1,17 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Text, View } from 'react-native';
 import * as firebase from 'firebase';
 import { Font } from 'expo';
+import { withNavigation } from 'react-navigation';
 import styles from '../src/styles/Styles';
 import { numberWithCommas } from '../src/helpers/helpers/';
+import '../lib/leaderCalculations';
+import teamData from '../lib/teamData';
+import { getRef } from '../lib/refs';
 
 const ncaa = require('../assets/fonts/ncaa.otf');
 
-class CountDown extends Component {
+class CountDown extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,30 +20,11 @@ class CountDown extends Component {
       hours: 0,
       minutes: 0,
       seconds: 0,
-      countryLeaderName: '',
-      continentLeaderName: '',
-      TrumpsTotalTeamScore: []
+      worldTotalScore: []
     };
 
-    this.getCountryNameData = this.getCountryNameData.bind(this);
-    this.getCountryNameRef = this.getRef().child('World_Teams/World/Titles/CountryLeader');
-
-    this.getContLeaderData = this.getContLeaderData.bind(this);
-    this.getContLeaderRef = this.getRef().child('World_Teams/World/Titles/ContinentLeader');
-
-    this.getTrumpsWallData = this.getTrumpsWallData.bind(this);
-    this.getTrumpsWallRef = this.getRef().child('World_Teams/TrumpsWall/TrumpsWallTotal/Score');
-  }
-
-  componentWillMount() {
-    this.getTimeUntil(this.props.deadline);
-  }
-
-  componentWillUnmount() {
-    this.getCountryNameRef.off('value');
-    this.getContLeaderRef.off('value');
-    this.getTrumpsWallRef.off('value');
-    if (this.interval) clearInterval(this.interval);
+    this.getWorldData = this.getWorldData.bind(this);
+    this.getWorldRef = this.getRef().child('World_Teams/World/WorldTotal/Score');
   }
 
   async componentDidMount() {
@@ -50,37 +35,77 @@ class CountDown extends Component {
         fontLoaded: true
       });
     });
-    this.getCountryNameData(this.getCountryNameRef);
-    this.getContLeaderData(this.getContLeaderRef);
-    this.getTrumpsWallData(this.getTrumpsWallRef);
-
+    this.getWorldData(this.getWorldRef);
     this.interval = setInterval(() => this.getTimeUntil(this.props.deadline), 1000);
+    this.calculateTotalScore();
   }
 
-  getRef = () => {
-    return firebase.database().ref();
-  };
-
-  getTrumpsWallData(getTrumpsWallRef) {
-    getTrumpsWallRef.on('value', (snap) => {
-      this.setState({
-        TrumpsWallTotalTeamScore: snap.val()
-      });
-    });
+  componentWillMount() {
+    this.getTimeUntil(this.props.deadline);
   }
 
-  getCountryNameData(getCountryNameRef) {
-    getCountryNameRef.on('value', (snap) => {
-      this.setState({
-        countryLeaderName: snap.val()
-      });
-    });
+  componentWillUnmount() {
+    if (this.interval) clearInterval(this.interval);
+    this.getWorldRef.off('value');
   }
 
-  getContLeaderData(getContLeaderRef) {
-    getContLeaderRef.on('value', (snap) => {
+  // setCountryData = (countryKey, score, team) => {
+  //   this.setState({
+  //     countryData: {
+  //       ...this.state.countryData,
+  //       [countryKey]: {
+  //         name: team.countryName,
+  //         score
+  //       }
+  //     }
+  //   });
+  // };
+
+  // calculateTotalScore = () => {
+  //   console.log('in hereee');
+  //   getRef()
+  //     .child(`World_Teams`)
+  //     .on('value', (snap) => {
+  //       const filtered = Object.keys(snap.val()).filter((value) => {
+  //         return Object.keys(teamData).includes(value) && value !== 'TrumpsWall';
+  //       });
+  //       filtered.forEach((cont) => {
+  //         console.log(snap.val()[cont]);
+  //       });
+  //     });
+  //   const withoutTrump = Object.keys(teamData).filter((country) => country !== 'TrumpsWall');
+  //   withoutTrump.forEach((data, i) => {
+  //     teamData[data].countries.forEach((team, j) => {
+  //       const countryNameNoSpace = team.countryName.split(' ').join('');
+  //       getRef()
+  //         .child(`World_Teams/${data}/${data}Teams/${countryNameNoSpace}/Score`)
+  //         .on('value', (snap) => {
+  //           const score = snap.val();
+  //           // console.log(score);
+  //           this.setCountryData(countryNameNoSpace, score, team);
+  //           if (Object.keys(this.state.countryData).length) {
+  //             this.analyzeHighScores();
+  //         });
+  //     });
+  //   });
+  // };
+
+  componentDidUpdate() {
+    // this.analyzeHighScores();
+  }
+
+  // analyzeHighScores = () => {
+  //   const highScore = Object.keys(this.state.countryData).reduce((a, b) => {
+  //     console.log(this.state.countryData[a], 'dfasdfasdfasdfasdfsdafsdaf');
+  //     return Math.max(this.state.countryData[a].score, this.state.countryData[b].score);
+  //   });
+  //   console.log('highScore', highScore);
+  // };
+
+  getWorldData(getWorldRef) {
+    getWorldRef.on('value', (snap) => {
       this.setState({
-        continentLeaderName: snap.val()
+        worldTotalScore: Number(snap.val())
       });
     });
   }
@@ -110,10 +135,26 @@ class CountDown extends Component {
       });
     }
   }
+  getRef = () => {
+    return firebase.database().ref();
+  };
   render() {
     const { fontLoaded } = this.state;
     return (
       <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+        <View
+          style={[
+            styles.playButtonContainerTime,
+            { flexDirection: 'column', alignItems: 'center', shadowOpacity: 0.2 }
+          ]}
+        >
+          <Text
+            allowFontScaling={false}
+            style={[fontLoaded && { fontFamily: 'ncaa', color: 'white', fontSize: 16 }]}
+          >
+            World Cup Starts In
+          </Text>
+        </View>
         <View style={{ flexDirection: 'row' }}>
           <View style={styles.playButtonContainerTime}>
             <Text
@@ -207,13 +248,13 @@ class CountDown extends Component {
             allowFontScaling={false}
             style={[fontLoaded && { fontFamily: 'ncaa', color: 'black', fontSize: 18 }]}
           >
-            Current Leader
+            Global Score
           </Text>
           <Text
             allowFontScaling={false}
             style={[fontLoaded && { fontFamily: 'ncaa', color: 'white', fontSize: 16 }]}
           >
-            {this.state.countryLeaderName}
+            {numberWithCommas(this.state.worldTotalScore)}
           </Text>
         </View>
         <View
@@ -226,13 +267,13 @@ class CountDown extends Component {
             allowFontScaling={false}
             style={[fontLoaded && { fontFamily: 'ncaa', color: 'black', fontSize: 18 }]}
           >
-            Trumps Wall
+            Country Leader
           </Text>
           <Text
             allowFontScaling={false}
             style={[fontLoaded && { fontFamily: 'ncaa', color: 'white', fontSize: 16 }]}
           >
-            {this.state.TrumpsWallTotalTeamScore}
+            Coming Soon
           </Text>
         </View>
       </View>
@@ -240,4 +281,4 @@ class CountDown extends Component {
   }
 }
 
-export default CountDown;
+export default withNavigation(CountDown);

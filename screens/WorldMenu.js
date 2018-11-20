@@ -4,7 +4,6 @@ import { withNavigation } from 'react-navigation';
 import { Font } from 'expo';
 import styles from '../src/styles/Styles';
 import { buttonClick } from './components/SoundEffects';
-
 import ContinentIndex from './ContinentIndex';
 
 const ncaa = require('../assets/fonts/ncaa.otf');
@@ -43,7 +42,7 @@ class WorldMenu extends React.Component {
     const { fontLoaded } = this.state;
 
     return (
-      <SafeAreaView style={styles.imageContainer}>
+      <View style={styles.imageContainer}>
         <View style={styles.topContainer}>
           <View style={styles.titleContainer}>
             <View style={{ top: this.state.buttonPressed ? 2 : 0 }}>
@@ -80,7 +79,7 @@ class WorldMenu extends React.Component {
             <ContinentIndex />
           </View>
         </View>
-      </SafeAreaView>
+      </View>
     );
   }
 }

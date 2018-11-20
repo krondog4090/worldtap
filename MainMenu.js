@@ -16,6 +16,7 @@ import { buttonClickTwo, mainMenuLoop } from './screens/components/SoundEffects'
 import CountDownScreen from './screens/components/CountDownScreen';
 import CountDownScreenTwo from './screens/components/CountDownScreenTwo';
 import OfflineBox from './screens/components/OfflineBox';
+import './lib/refs';
 
 const ncaa = require('./assets/fonts/ncaa.otf');
 const gamefont = require('./assets/fonts/PressStart2P.ttf');
@@ -23,16 +24,6 @@ const mainmenu = require('./assets/sprites/tapbg.png');
 const harvey = require('./assets/images/harvey.png');
 const krondog = require('./assets/images/doghead.png');
 const worldflag = require('./assets/images/flagimages/worldflag.png');
-
-const config = {
-  apiKey: 'AIzaSyDqrxgtlKHSfBrcJtg-5ZCyQIB_aUC2U4M',
-  authDomain: 'worldtapfinal.firebaseapp.com',
-  databaseURL: 'https://worldtapfinal.firebaseio.com',
-  projectId: 'worldtapfinal',
-  storageBucket: '',
-  messagingSenderId: '545372152981'
-};
-firebase.initializeApp(config);
 
 class MainMenu extends React.Component {
   static navigationOptions = {
@@ -46,7 +37,6 @@ class MainMenu extends React.Component {
       deadline: 'November, 21, 2022',
       isHidden: true,
       isNotHidden: false
-      // isOnline: true
     };
   }
 
@@ -95,7 +85,6 @@ class MainMenu extends React.Component {
   };
 
   render() {
-    // console.log(this.state.isOnline);
     const { fontLoaded } = this.state;
     return (
       <OfflineBox>

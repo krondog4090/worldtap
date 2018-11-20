@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, AsyncStorage, Vibration } from 'react-native';
 import Files from './Files';
-import { Font } from 'expo';
+import { Font, Audio } from 'expo';
 import { Group, Node, Sprite, SpriteView } from '../../GameKit';
 import { withNavigation } from 'react-navigation';
 import { THREE } from 'expo-three';
@@ -11,7 +11,7 @@ import 'react-native-console-time-polyfill';
 import 'text-encoding';
 import 'xmldom-qsa';
 import styles from '../../src/styles/Styles';
-import { buttonClick, gameOverSound, levelUpSound } from '../components/SoundEffects';
+import { buttonClick, gameOverSound } from '../components/SoundEffects';
 
 const GRAVITY = 1100;
 const FLAP = 320;
@@ -49,10 +49,12 @@ class Game extends React.Component {
       shotScore: 0,
       shotScoreClone: 0
     };
+
+    this.levelUpSound = new Audio.Sound();
+    this.levelUpSound.loadAsync(require('../../assets/audio/levelupsound.wav'));
   }
 
   async componentDidMount() {
-    levelUpSound();
     StatusBar.setHidden(true);
     Font.loadAsync({
       ncaa: ncaa
@@ -255,7 +257,8 @@ class Game extends React.Component {
 
   updateShotValue() {
     if (this.state.score >= this.state.shotGoal) {
-      levelUpSound();
+      this.levelUpSound.setPositionAsync(0);
+      this.levelUpSound.playAsync();
       this.setState({
         score: 0,
         shotValue: this.state.shotValue + 1,

@@ -12,7 +12,7 @@ import {
   Vibration
 } from 'react-native';
 import TrumpsWallFiles from './TrumpsWallFiles';
-import { Font, AdMobRewarded } from 'expo';
+import { Font, AdMobRewarded, Audio } from 'expo';
 import { Group, Node, Sprite, SpriteView } from '../../GameKit';
 import { withNavigation } from 'react-navigation';
 import { THREE } from 'expo-three';
@@ -24,12 +24,7 @@ import 'xmldom-qsa';
 import styles from '../../src/styles/Styles';
 import { numberWithCommas, secondsToHms } from '../../src/helpers/helpers';
 import AdMobBannerComponent from '../components/AdMobBannerComponent';
-import {
-  buttonClick,
-  gameOverSound,
-  adRewardSound,
-  levelUpSound
-} from '../components/SoundEffects';
+import { buttonClick, gameOverSound, adRewardSound } from '../components/SoundEffects';
 import GameMenuScreen from '../components/GameMenuScreen';
 import GameTopScore from '../components/GameTopScore';
 import ButtonSmall from '../components/ButtonSmall';
@@ -96,6 +91,9 @@ class TrumpsWallGameAdd extends React.Component {
       shotScoreClone: 0
     };
 
+    this.levelUpSound = new Audio.Sound();
+    this.levelUpSound.loadAsync(require('../../assets/audio/levelupsound.wav'));
+
     this.continentRef = getRef().child(`World_Teams/TrumpsWall/TrumpsWallTotal/Score`);
   }
 
@@ -121,7 +119,6 @@ class TrumpsWallGameAdd extends React.Component {
   };
 
   async componentDidMount() {
-    levelUpSound();
     StatusBar.setHidden(true);
     const totalPoints = await AsyncStorage.getItem(this.props.keyTP);
     if (totalPoints) {
@@ -494,7 +491,8 @@ class TrumpsWallGameAdd extends React.Component {
 
   updateShotValue = () => {
     if (this.state.score >= this.state.shotGoal) {
-      levelUpSound();
+      this.levelUpSound.setPositionAsync(0);
+      this.levelUpSound.playAsync();
       this.setState((prevState) => ({
         score: 0,
         shotValue: prevState.shotValue + 1,
