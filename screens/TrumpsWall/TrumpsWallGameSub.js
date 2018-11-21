@@ -26,9 +26,9 @@ import { numberWithCommas, secondsToHms } from '../../src/helpers/helpers';
 import AdMobBannerComponent from '../components/AdMobBannerComponent';
 import { buttonClick, gameOverSound, adRewardSound } from '../components/SoundEffects';
 import GameMenuScreen from '../components/GameMenuScreen';
+import DeathPopUpScreen from '../components/DeathPopUpScreen';
 import GameTopScore from '../components/GameTopScore';
 import ButtonSmall from '../components/ButtonSmall';
-import OfflineBox from '../components/OfflineBox';
 
 const ncaa = require('../../assets/fonts/ncaa.otf');
 const gamefont = require('../../assets/fonts/PressStart2P.ttf');
@@ -88,7 +88,10 @@ class TrumpsWallGameSub extends React.Component {
       startTimerOne: false,
       adOneDisable: false,
       shotScore: 0,
-      shotScoreClone: 0
+      shotScoreClone: 0,
+      deathIsHidden: true,
+      bestLevel: 1,
+      shotLevel: 1
     };
     this.levelUpSound = new Audio.Sound();
     this.levelUpSound.loadAsync(require('../../assets/audio/levelupsound.wav'));
@@ -127,6 +130,17 @@ class TrumpsWallGameSub extends React.Component {
       await AsyncStorage.setItem(this.props.keyTP, '0');
       this.setState({
         teamTP: Number(totalPoints)
+      });
+    }
+    const totalLevel = await AsyncStorage.getItem(this.props.keyHL);
+    if (totalLevel) {
+      this.setState({
+        bestLevel: Number(totalLevel)
+      });
+    } else {
+      await AsyncStorage.setItem(this.props.keyHL, '0');
+      this.setState({
+        bestLevel: Number(totalLevel)
       });
     }
     this.getTeamData(this.props.teamRef, this.props.teamRefTrophy);
@@ -495,10 +509,20 @@ class TrumpsWallGameSub extends React.Component {
         score: 0,
         shotValue: prevState.shotValue + 1,
         shotGoal: prevState.shotGoal + 2,
-        speed: prevState.speed + 2
+        speed: prevState.speed + 2,
+        shotLevel: this.state.shotLevel + 1
       }));
     }
   };
+
+  updateHighLevel() {
+    if (this.state.shotValue > this.state.bestLevel) {
+      this.setState({
+        bestLevel: Number(this.state.shotValue)
+      });
+      AsyncStorage.setItem(this.props.keyHL, `${this.state.shotValue}`);
+    }
+  }
 
   updateAfterTeamScoreGoal = () => {
     if (this.state.teamScore >= this.state.teamScoreGoal) {
@@ -518,7 +542,9 @@ class TrumpsWallGameSub extends React.Component {
     this.gameOver = true;
     clearInterval(this.pillarInterval);
     gameOverSound();
+    this.setState({ deathIsHidden: false });
     Vibration.vibrate();
+    this.updateHighLevel();
     this.updateTeamScores();
     this.updateContinentScores();
     this.updateWorldScores();
@@ -535,7 +561,8 @@ class TrumpsWallGameSub extends React.Component {
       shotGoal: this.state.shotGoalClone,
       speed: this.state.speedClone,
       adRewarded: (this.state.adRewarded = false),
-      shotScore: this.state.shotScoreClone
+      shotScore: this.state.shotScoreClone,
+      deathIsHidden: true
     });
     this.player.reset(this.scene.size.width * -0.3, 0);
     this.player.angle = 0;
@@ -658,6 +685,60 @@ class TrumpsWallGameSub extends React.Component {
         </GameTopScore>
       </View>
     </SafeAreaView>
+  );
+
+  renderDeathScreen = () => (
+    <DeathPopUpScreen>
+      <View style={styles.deathPopUpMenu} pointerEvents="box-none">
+        <View style={styles.playButtonContainerTime}>
+          <Text
+            allowFontScaling={false}
+            style={[
+              styles.buttonText,
+              {
+                fontFamily: 'gamefont',
+                color: 'grey',
+                textShadowColor: 'black',
+                textShadowOffset: { width: 1, height: 2 },
+                textShadowRadius: 1,
+                textAlign: 'center',
+                lineHeight: 35
+              }
+            ]}
+          >
+            GAME OVER
+          </Text>
+        </View>
+        <View style={styles.playButtonContainerTime}>
+          <Text
+            allowFontScaling={false}
+            style={[
+              styles.buttonText,
+              {
+                fontFamily: 'gamefont',
+                color: 'white',
+                textShadowColor: 'black',
+                textShadowOffset: { width: 1, height: 2 },
+                textShadowRadius: 1,
+                textAlign: 'center',
+                lineHeight: 35,
+                fontSize: 12
+              }
+            ]}
+          >
+            TAP ANYWHERE TO TRY AGAIN
+          </Text>
+        </View>
+        <View style={styles.playButtonContainerTime}>
+          <Text
+            allowFontScaling={false}
+            style={[styles.scoreMainTextTwo, { fontFamily: 'ncaa', color: 'black', fontSize: 18 }]}
+          >
+            Best Level {this.state.bestLevel}
+          </Text>
+        </View>
+      </View>
+    </DeathPopUpScreen>
   );
 
   renderMenu = () => (
@@ -835,21 +916,20 @@ class TrumpsWallGameSub extends React.Component {
     AdMobRewarded.setAdUnitID(ADBANNER_ID);
     console.disableYellowBox = true;
     return (
-      <OfflineBox>
-        <SafeAreaView style={StyleSheet.absoluteFill}>
-          <SpriteView
-            touchDown={() => this.tap()}
-            touchMoved={() => {}}
-            touchUp={() => {}}
-            update={this.updateGame}
-            onSetup={this.onSetup}
-          />
-          {this.renderScore()}
-          {this.renderMenu()}
-          {this.renderScoreTwo()}
-          <AdMobBannerComponent />
-        </SafeAreaView>
-      </OfflineBox>
+      <SafeAreaView style={StyleSheet.absoluteFill}>
+        <SpriteView
+          touchDown={() => this.tap()}
+          touchMoved={() => {}}
+          touchUp={() => {}}
+          update={this.updateGame}
+          onSetup={this.onSetup}
+        />
+        {this.renderScore()}
+        {this.state.deathIsHidden ? null : this.renderDeathScreen()}
+        {this.renderMenu()}
+        {this.renderScoreTwo()}
+        <AdMobBannerComponent />
+      </SafeAreaView>
     );
   }
 }

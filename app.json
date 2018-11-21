@@ -4,7 +4,7 @@
     "name": "World Tap",
     "slug": "World-Tap",
     "description": "Players playing for their countries",
-    "version": "0.1.2",
+    "version": "0.2.0",
     "platforms": ["ios", "android"],
     "orientation": "portrait",
     "privacy": "public",
@@ -15,7 +15,8 @@
       "resizeMode": "cover"
     },
     "ios": {
-      "bundleIdentifier": "com.blakemcnary.worldtap"
+      "bundleIdentifier": "com.blakemcnary.worldtap",
+      "supportsTablet": true
     },
     "android": {
       "package": "com.blakemcnaryandroid.worldtap",

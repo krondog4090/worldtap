@@ -92,7 +92,7 @@ class TrumpsWallIndex extends React.Component {
   }
 
   goAddTeam = () => {
-    this.props.navigation.navigate('TrumpsWallMainGameAdd', {
+    this.props.navigation.replace('TrumpsWallMainGameAdd', {
       teamScore: this.state.addTeamScore,
       trophyCount: this.state.addTrophyCount,
       teamImage: addImage,
@@ -101,11 +101,12 @@ class TrumpsWallIndex extends React.Component {
       teamData: this.getAddData,
       teamRef: this.getRef().child('World_Teams/TrumpsWall/TrumpsWallTeams/Add/Score'),
       teamRefTrophy: this.getRef().child('World_Teams/TrumpsWall/TrumpsWallTeams/Add/TrophyCount'),
-      keyTP: 'addTPkey'
+      keyTP: 'addTPkey',
+      keyHL: 'addkeyHL'
     });
   };
   goSubTeam = () => {
-    this.props.navigation.navigate('TrumpsWallMainGameSub', {
+    this.props.navigation.replace('TrumpsWallMainGameSub', {
       teamScore: this.state.subTeamScore,
       trophyCount: this.state.subTrophyCount,
       teamImage: subImage,
@@ -114,7 +115,8 @@ class TrumpsWallIndex extends React.Component {
       teamData: this.getSubData,
       teamRef: this.getRef().child('World_Teams/TrumpsWall/TrumpsWallTeams/Sub/Score'),
       teamRefTrophy: this.getRef().child('World_Teams/TrumpsWall/TrumpsWallTeams/Sub/TrophyCount'),
-      keyTP: 'subTPkey'
+      keyTP: 'subTPkey',
+      keyHL: 'subkeyHL'
     });
   };
 

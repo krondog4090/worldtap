@@ -1,14 +1,13 @@
-import { AppLoading } from "expo";
-import React from "react";
-import arrayFromObject from "../../utils/arrayFromObject";
-import cacheAssetsAsync from "../../utils/cacheAssetsAsync";
+import { AppLoading } from 'expo';
+import React from 'react';
+import arrayFromObject from '../../utils/arrayFromObject';
+import cacheAssetsAsync from '../../utils/cacheAssetsAsync';
 import CountryFiles from './CountryFiles';
-import CountryGame from "./CountryGame";
-
+import CountryGame from './CountryGame';
 
 export default class CountryMainGame extends React.Component {
   static navigationOptions = {
-    header: null,
+    header: null
   };
 
   constructor(props) {
@@ -24,10 +23,11 @@ export default class CountryMainGame extends React.Component {
       teamData: this.props.navigation.state.params.teamData,
       teamRef: this.props.navigation.state.params.teamRef,
       teamRefTrophy: this.props.navigation.state.params.teamRefTrophy,
-      keyTP: this.props.navigation.state.params.keyTP
-    }
+      keyTP: this.props.navigation.state.params.keyTP,
+      keyHL: this.props.navigation.state.params.keyHL
+    };
   }
-  
+
   componentWillMount() {
     this.loadAssetsAsync();
   }
@@ -39,31 +39,35 @@ export default class CountryMainGame extends React.Component {
       });
     } catch (e) {
       console.warn(
-        "There was an error caching assets (see: app.js), perhaps due to a " +
-          "network timeout, so we skipped caching. Reload the app to try again."
+        'There was an error caching assets (see: app.js), perhaps due to a ' +
+          'network timeout, so we skipped caching. Reload the app to try again.'
       );
       console.log(e.message);
     } finally {
-      this.setState({ 
-        assetsLoaded: true 
+      this.setState({
+        assetsLoaded: true
       });
     }
   };
 
   render() {
-    return this.state.assetsLoaded ? 
-    <CountryGame
-      {...this.props}
-      continentName={this.state.continentName}
-      continentImage={this.state.continentImage}
-      // teamName={this.state.teamName}
-      countryName={this.state.countryName}
-      teamImage={this.state.teamImage}
-      teamScore={this.state.teamScore}
-      teamData={this.state.teamData}
-      teamRef={this.state.teamRef}
-      teamRefTrophy={this.state.teamRefTrophy}
-      keyTP={this.state.keyTP}
-     /> : <AppLoading />;
+    return this.state.assetsLoaded ? (
+      <CountryGame
+        {...this.props}
+        continentName={this.state.continentName}
+        continentImage={this.state.continentImage}
+        // teamName={this.state.teamName}
+        countryName={this.state.countryName}
+        teamImage={this.state.teamImage}
+        teamScore={this.state.teamScore}
+        teamData={this.state.teamData}
+        teamRef={this.state.teamRef}
+        teamRefTrophy={this.state.teamRefTrophy}
+        keyTP={this.state.keyTP}
+        keyHL={this.state.keyHL}
+      />
+    ) : (
+      <AppLoading />
+    );
   }
 }

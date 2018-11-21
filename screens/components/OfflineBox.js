@@ -1,21 +1,19 @@
 import React, { PureComponent } from 'react';
-import { View, Text, NetInfo, Dimensions, StyleSheet, Image } from 'react-native';
+import { View, Text, NetInfo, Dimensions, StyleSheet } from 'react-native';
 import CustomBlinkingImage from '../components/CustomBlinkingImage';
 import { withNavigation } from 'react-navigation';
 
 const { width } = Dimensions.get('window');
-const warning = require('../../assets/images/warning.png');
+// const warning = require('../../assets/images/warning.png');
 
 function OfflineSign() {
   return (
     <View style={styles.offlineContainer}>
-      {/* <Image source={warning} style={styles.warningSign} /> */}
       <CustomBlinkingImage />
       <Text allowFontScaling={false} style={styles.offlineText}>
         No Internet Connection
       </Text>
       <CustomBlinkingImage />
-      {/* <Image source={warning} style={styles.warningSign} /> */}
     </View>
   );
 }

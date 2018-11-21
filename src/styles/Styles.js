@@ -260,6 +260,22 @@ const styles = StyleSheet.create({
     top: 64,
     backgroundColor: 'transparent'
   },
+  deathPopUpMenu: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    backgroundColor: '#eafeea',
+    borderRadius: 2,
+    borderWidth: 2,
+    borderColor: 'black',
+    // left: 0,
+    // right: 0,
+    top: 200
+    // height: '50%',
+    // backgroundColor: 'transparent'
+  },
   userTotalPoints: {
     textAlign: 'center',
     fontSize: 24,

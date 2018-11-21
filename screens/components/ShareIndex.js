@@ -26,7 +26,7 @@ class ShareIndex extends React.Component {
         },
         android: {
           message:
-            `${this.state.countryName} needs more players on World Tap!` + this.props.urlMessage
+            `${this.state.countryName} needs more players on World Tap!` + this.state.urlMessage
         }
       })
     }).then(({ action, activityType }) => {

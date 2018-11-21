@@ -37,24 +37,24 @@ class ContinentIndex extends React.Component {
     super(props);
     this.state = {
       fontLoaded: false,
-      worldTotalScore: [],
-      africaTotalTeamScore: [],
-      africaTotalTrophyCount: [],
-      asiaTotalTeamScore: [],
-      asiaTotalTrophyCount: [],
-      oceaniaTotalTeamScore: [],
-      oceaniaTotalTrophyCount: [],
-      europeTotalTeamScore: [],
-      europeTotalTrophyCount: [],
-      americasTotalTeamScore: [],
-      americasTotalTrophyCount: [],
-      southAmericaTotalTeamScore: [],
-      southAmericaTotalTrophyCount: [],
-      westerosTotalTeamScore: [],
-      westerosTotalTrophyCount: [],
-      azerothTotalTeamScore: [],
-      azerothTotalTrophyCount: [],
-      trumpsWallTotalTeamScore: []
+      worldTotalScore: 0,
+      africaTotalTeamScore: 0,
+      africaTotalTrophyCount: 0,
+      asiaTotalTeamScore: 0,
+      asiaTotalTrophyCount: 0,
+      oceaniaTotalTeamScore: 0,
+      oceaniaTotalTrophyCount: 0,
+      europeTotalTeamScore: 0,
+      europeTotalTrophyCount: 0,
+      americasTotalTeamScore: 0,
+      americasTotalTrophyCount: 0,
+      southAmericaTotalTeamScore: 0,
+      southAmericaTotalTrophyCount: 0,
+      westerosTotalTeamScore: 0,
+      westerosTotalTrophyCount: 0,
+      azerothTotalTeamScore: 0,
+      azerothTotalTrophyCount: 0,
+      trumpsWallTotalTeamScore: 0
     };
   }
 
@@ -74,10 +74,10 @@ class ContinentIndex extends React.Component {
       const isWallOrWorld = continent === 'World' || continent === 'TrumpsWall';
       this.getData(continent, !isWallOrWorld);
     });
-    this.getWorldData(worldRef);
+    this.getWorldData();
   }
 
-  getWorldData = (worldRef) => {
+  getWorldData = () => {
     worldRef.on('value', (snap) => {
       this.setState({
         worldTotalScore: Number(snap.val())

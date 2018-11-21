@@ -27,7 +27,7 @@ class CountDown extends React.Component {
     };
 
     this.getWorldData = this.getWorldData.bind(this);
-    this.getWorldRef = this.getRef().child('World_Teams/World/WorldTotal/Score');
+    this.getWorldRef = this.getRef().child('World_Teams/World/WorldTotal');
   }
 
   async componentDidMount() {
@@ -123,6 +123,7 @@ class CountDown extends React.Component {
     return firebase.database().ref();
   };
   render() {
+    // console.log(this.state.countryLeader);
     const { fontLoaded } = this.state;
     return (
       <View style={{ flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
@@ -255,7 +256,7 @@ class CountDown extends React.Component {
           </Text>
           <Text
             allowFontScaling={false}
-            style={[fontLoaded && { fontFamily: 'ncaa', color: 'white', fontSize: 16 }]}
+            style={[fontLoaded && { fontFamily: 'ncaa', color: 'white', fontSize: 14 }]}
           >
             {this.state.countryLeader}
           </Text>

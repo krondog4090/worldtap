@@ -204,18 +204,36 @@ class MainMenu extends React.Component {
                 <View style={{ top: this.state.buttonPressedThree ? 2 : 0 }}>
                   <TouchableOpacity
                     activeOpacity={10}
-                    style={styles.playButtonContainerFlagButton}
+                    style={styles.playButtonContainergButton}
                     onPress={this.goSmallMenu}
                     onPressIn={() => this.setState({ buttonPressedThree: true })}
                     onPressOut={() => this.setState({ buttonPressedThree: false })}
                   >
                     <View
                       style={[
-                        styles.playButtonContainerTime,
-                        { flexDirection: 'column', alignContent: 'center', alignItems: 'center' }
+                        styles.playButtonContainer,
+                        {
+                          flexDirection: 'column',
+                          alignContent: 'center',
+                          alignItems: 'center',
+                          backgroundColor: '#90C048'
+                        }
                       ]}
                     >
-                      <Image style={styles.flagImageCount} source={worldflag} />
+                      <Text
+                        allowFontScaling={false}
+                        style={[
+                          styles.buttonText,
+                          fontLoaded && {
+                            fontFamily: 'ncaa',
+                            textShadowOffset: { width: 1, height: 2 },
+                            textShadowRadius: 1,
+                            fontSize: 14
+                          }
+                        ]}
+                      >
+                        Refresh - Info
+                      </Text>
                     </View>
                   </TouchableOpacity>
                 </View>
