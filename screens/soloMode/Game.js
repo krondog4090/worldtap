@@ -238,7 +238,6 @@ class Game extends React.Component {
 
     if (!this.gameOver) {
       this.velocity = FLAP;
-      // ADD SOUND EFFECT HERE
     } else {
       this.reset();
     }
@@ -248,11 +247,9 @@ class Game extends React.Component {
     this.setState({
       score: (this.state.score += this.state.shot),
       shots: this.state.shots + 1,
-      // bestScore: this.state.shotScore + 1 * this.state.shotValue,
       shotScore: this.state.shotScore + 1 * this.state.shotValue
     });
     this.updateShotValue();
-    // this.updateHighScore();
   };
 
   updateShotValue() {

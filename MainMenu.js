@@ -9,7 +9,6 @@ import {
   Image
 } from 'react-native';
 import { Font, Audio } from 'expo';
-import * as firebase from 'firebase';
 import { withNavigation } from 'react-navigation';
 import styles from './src/styles/Styles';
 import { buttonClickTwo, mainMenuLoop } from './screens/components/SoundEffects';
@@ -23,7 +22,6 @@ const gamefont = require('./assets/fonts/PressStart2P.ttf');
 const mainmenu = require('./assets/sprites/tapbg.png');
 const harvey = require('./assets/images/harvey.png');
 const krondog = require('./assets/images/doghead.png');
-const worldflag = require('./assets/images/flagimages/worldflag.png');
 
 class MainMenu extends React.Component {
   static navigationOptions = {
@@ -59,10 +57,6 @@ class MainMenu extends React.Component {
       });
     });
   }
-
-  getRef = () => {
-    return firebase.database().ref();
-  };
 
   goSoloMode = () => {
     buttonClickTwo();
