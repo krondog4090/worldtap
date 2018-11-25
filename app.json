@@ -4,7 +4,7 @@
     "name": "World Tap",
     "slug": "World-Tap",
     "description": "Players playing for their countries",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "platforms": ["ios", "android"],
     "orientation": "portrait",
     "privacy": "public",

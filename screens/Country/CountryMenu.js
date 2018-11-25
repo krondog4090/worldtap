@@ -1,15 +1,15 @@
 import React from 'react';
-import { View, Text, StatusBar, Image, Share, Platform, Alert } from 'react-native';
+import { View, Text, StatusBar, Image, Share, Platform } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import { Font, AppLoading, Asset, AdMobRewarded } from 'expo';
+import { Font, AppLoading, Asset } from 'expo';
 import styles from '../../src/styles/Styles';
-import { buttonClick, adRewardSound } from '../components/SoundEffects';
+import { buttonClick } from '../components/SoundEffects';
 import GameMenuScreen from '../components/GameMenuScreen';
 import ButtonSmall from '../components/ButtonSmall';
-import { secondsToHms } from '../../src/helpers/helpers';
+// import { secondsToHms } from '../../src/helpers/helpers';
 
 import CountryIndex from './CountryIndex';
-import { urlMessageRef, admobRewardAdRef, worldRef, getContinentRef } from '../../lib/refs';
+import { urlMessageRef, worldRef, getContinentRef } from '../../lib/refs';
 
 const ncaa = require('../../assets/fonts/ncaa.otf');
 const gamefont = require('../../assets/fonts/PressStart2P.ttf');
@@ -29,14 +29,14 @@ class CountryMenu extends React.Component {
       continentName: this.props.navigation.state.params.continentName,
       continentImage: this.props.navigation.state.params.continentImage,
       isHidden: true,
-      isNotHidden: false,
-      adRewarded: false,
-      adRewardAmount: 1000,
-      AdMobRewardID: '',
-      startTimerOne: false,
-      adOneDisable: false,
-      timerOne: 300,
-      timerOneClone: 300
+      isNotHidden: false
+      // adRewarded: false,
+      // adRewardAmount: 1000,
+      // AdMobRewardID: '',
+      // startTimerOne: false,
+      // adOneDisable: false,
+      // timerOne: 300,
+      // timerOneClone: 300
     };
 
     this.continentRef = getContinentRef(this.state.continentName);
@@ -76,48 +76,48 @@ class CountryMenu extends React.Component {
     });
 
     this.getUrlMessageData();
-    this.getAdMobRewardAdData();
+    //   this.getAdMobRewardAdData();
 
-    AdMobRewarded.addEventListener('rewardedVideoDidRewardUser', () => {
-      this.adRewardAmount();
-      this.setState({
-        adRewarded: true,
-        startTimerOne: true
-      });
-    });
+    //   AdMobRewarded.addEventListener('rewardedVideoDidRewardUser', () => {
+    //     this.adRewardAmount();
+    //     this.setState({
+    //       adRewarded: true,
+    //       startTimerOne: true
+    //     });
+    //   });
 
-    AdMobRewarded.addEventListener('rewardedVideoDidClose', () => {
-      this.adClosed();
-      this.setState({
-        adRewarded: false
-      });
-    });
+    //   AdMobRewarded.addEventListener('rewardedVideoDidClose', () => {
+    //     this.adClosed();
+    //     this.setState({
+    //       adRewarded: false
+    //     });
+    //   });
+    // }
+
+    // adRewardAmount = () => {
+    //   if ((this.adRewarded = true)) {
+    //     this.updateCountryScoresAdReward();
+    //     this.updateWorldScoresAdReward();
+    //   }
   }
 
-  adRewardAmount = () => {
-    if ((this.adRewarded = true)) {
-      this.updateCountryScoresAdReward();
-      this.updateWorldScoresAdReward();
-    }
-  };
+  // startTimer = () => {
+  //   this.interval = setInterval(
+  //     () =>
+  //       this.setState({
+  //         adOneDisable: true,
+  //         timer: --this.state.timerOne
+  //       }),
+  //     1000
+  //   );
+  // };
 
-  startTimer = () => {
-    this.interval = setInterval(
-      () =>
-        this.setState({
-          adOneDisable: true,
-          timer: --this.state.timerOne
-        }),
-      1000
-    );
-  };
-
-  componentDidUpdate() {
-    if (this.state.timerOne === 1) {
-      clearInterval(this.interval);
-      this.timerOneFinished();
-    }
-  }
+  // componentDidUpdate() {
+  //   if (this.state.timerOne === 1) {
+  //     clearInterval(this.interval);
+  //     this.timerOneFinished();
+  //   }
+  // }
 
   componentWillMount() {
     THREE.suppressExpoWarnings(true);
@@ -129,17 +129,17 @@ class CountryMenu extends React.Component {
 
     this.continentRef.off('value');
     urlMessageRef.off('value');
-    admobRewardAdRef.off('value');
+    // admobRewardAdRef.off('value');
     worldRef.off('value');
   }
 
-  timerOneFinished = () => {
-    this.setState({
-      timerOne: this.state.timerOneClone,
-      startTimerOne: false,
-      adOneDisable: false
-    });
-  };
+  // timerOneFinished = () => {
+  //   this.setState({
+  //     timerOne: this.state.timerOneClone,
+  //     startTimerOne: false,
+  //     adOneDisable: false
+  //   });
+  // };
 
   getWorldData = () => {
     worldRef.on('value', (snap) => {
@@ -157,27 +157,27 @@ class CountryMenu extends React.Component {
     });
   };
 
-  getAdMobRewardAdData = () => {
-    admobRewardAdRef.on('value', (snap) => {
-      this.setState({
-        AdMobRewardAdID: snap.val()
-      });
-    });
-  };
+  // getAdMobRewardAdData = () => {
+  //   admobRewardAdRef.on('value', (snap) => {
+  //     this.setState({
+  //       AdMobRewardAdID: snap.val()
+  //     });
+  //   });
+  // };
 
-  goAlert = () => {
-    Alert.alert(`Sorry, gotta wait ${secondsToHms(this.state.timerOne)}!`);
-  };
+  // goAlert = () => {
+  //   Alert.alert(`Sorry, gotta wait ${secondsToHms(this.state.timerOne)}!`);
+  // };
 
-  goRewardedAd = async () => {
-    buttonClick();
-    if (this.state.adOneDisable == false) {
-      await AdMobRewarded.requestAdAsync();
-      await AdMobRewarded.showAdAsync();
-    } else if (this.state.adOneDisable == true) {
-      this.goAlert();
-    }
-  };
+  // goRewardedAd = async () => {
+  //   buttonClick();
+  //   if (this.state.adOneDisable == false) {
+  //     await AdMobRewarded.requestAdAsync();
+  //     await AdMobRewarded.showAdAsync();
+  //   } else if (this.state.adOneDisable == true) {
+  //     this.goAlert();
+  //   }
+  // };
 
   goBack = () => {
     buttonClick();
@@ -192,26 +192,26 @@ class CountryMenu extends React.Component {
     });
   };
 
-  adClosed = () => {
-    this.setState({
-      isHidden: !this.state.isHidden,
-      isNotHidden: !this.state.isNotHidden
-    });
-    adRewardSound();
-    this.startTimer();
-  };
+  // adClosed = () => {
+  //   this.setState({
+  //     isHidden: !this.state.isHidden,
+  //     isNotHidden: !this.state.isNotHidden
+  //   });
+  //   adRewardSound();
+  //   this.startTimer();
+  // };
 
-  updateCountryScoresAdReward = () => {
-    this.continentRef.once('value', (snap) => {
-      this.continentRef.set(snap.val() + 200);
-    });
-  };
+  // updateCountryScoresAdReward = () => {
+  //   this.continentRef.once('value', (snap) => {
+  //     this.continentRef.set(snap.val() + 200);
+  //   });
+  // };
 
-  updateWorldScoresAdReward = () => {
-    worldRef.once('value', (snap) => {
-      worldRef.set(snap.val() + 200);
-    });
-  };
+  // updateWorldScoresAdReward = () => {
+  //   worldRef.once('value', (snap) => {
+  //     worldRef.set(snap.val() + 200);
+  //   });
+  // };
 
   renderMenu = () => (
     <GameMenuScreen hide={false}>
@@ -247,7 +247,7 @@ class CountryMenu extends React.Component {
 
         <View style={[styles.buttonLayoutTwo, { flexDirection: 'column' }]}>
           <View style={styles.scoreColumn}>
-            <View style={{ top: this.state.buttonPressedThree ? 2 : 0 }}>
+            {/* <View style={{ top: this.state.buttonPressedThree ? 2 : 0 }}>
               <ButtonSmall
                 onPress={this.goRewardedAd}
                 onPressIn={() => this.setState({ buttonPressedThree: true })}
@@ -283,7 +283,7 @@ class CountryMenu extends React.Component {
               style={[styles.scoreTextGame, { fontFamily: 'ncaa', fontSize: 16, color: 'red' }]}
             >
               {secondsToHms(this.state.timerOne)}
-            </Text>
+            </Text> */}
           </View>
 
           <View style={styles.scoreColumn}>
@@ -347,8 +347,8 @@ class CountryMenu extends React.Component {
   );
 
   render() {
-    const ADBANNER_ID = `${this.state.AdMobRewardAdID}`;
-    AdMobRewarded.setAdUnitID(ADBANNER_ID);
+    // const ADBANNER_ID = `${this.state.AdMobRewardAdID}`;
+    // AdMobRewarded.setAdUnitID(ADBANNER_ID);
     console.disableYellowBox = true;
     if (!this.state.isReady) {
       return (

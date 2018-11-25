@@ -2,9 +2,9 @@ import React from 'react';
 import { View, Text, StatusBar, Image, Share, Platform, Alert } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import * as firebase from 'firebase';
-import { Font, AppLoading, Asset, AdMobRewarded } from 'expo';
+import { Font, AppLoading, Asset } from 'expo';
 import styles from '../../src/styles/Styles';
-import { buttonClick, adRewardSound } from '../components/SoundEffects';
+import { buttonClick } from '../components/SoundEffects';
 import GameMenuScreen from '../components/GameMenuScreen';
 import ButtonSmall from '../components/ButtonSmall';
 import { secondsToHms } from '../../src/helpers/helpers';
@@ -28,8 +28,8 @@ class TrumpsWallMenu extends React.Component {
       isReady: false,
       fontLoaded: false,
       isHidden: true,
-      isNotHidden: false,
-      adRewardAmount: 1000
+      isNotHidden: false
+      // adRewardAmount: 1000
     };
 
     this.getUrlMessageData = this.getUrlMessageData.bind(this);
@@ -77,12 +77,12 @@ class TrumpsWallMenu extends React.Component {
     this.getUrlMessageData(this.getUrlMessageRef);
   }
 
-  componentDidUpdate() {
-    if (this.state.timerOne === 1) {
-      clearInterval(this.interval);
-      this.timerOneFinished();
-    }
-  }
+  // componentDidUpdate() {
+  //   if (this.state.timerOne === 1) {
+  //     clearInterval(this.interval);
+  //     this.timerOneFinished();
+  //   }
+  // }
 
   componentWillMount() {
     THREE.suppressExpoWarnings(true);

@@ -7,12 +7,12 @@ import {
   StatusBar,
   Image,
   Share,
-  Alert,
+  // Alert,
   SafeAreaView,
   Vibration
 } from 'react-native';
 import TrumpsWallFiles from './TrumpsWallFiles';
-import { Font, AdMobRewarded, Audio } from 'expo';
+import { Font, Audio } from 'expo';
 import { Group, Node, Sprite, SpriteView } from '../../GameKit';
 import { withNavigation } from 'react-navigation';
 import { THREE } from 'expo-three';
@@ -22,9 +22,9 @@ import 'react-native-console-time-polyfill';
 import 'text-encoding';
 import 'xmldom-qsa';
 import styles from '../../src/styles/Styles';
-import { numberWithCommas, secondsToHms } from '../../src/helpers/helpers';
+import { numberWithCommas } from '../../src/helpers/helpers';
 import AdMobBannerComponent from '../components/AdMobBannerComponent';
-import { buttonClick, gameOverSound, adRewardSound } from '../components/SoundEffects';
+import { buttonClick, gameOverSound } from '../components/SoundEffects';
 import GameMenuScreen from '../components/GameMenuScreen';
 import DeathPopUpScreen from '../components/DeathPopUpScreen';
 import GameTopScore from '../components/GameTopScore';
@@ -80,13 +80,13 @@ class TrumpsWallGameAdd extends React.Component {
       speedClone: 2,
       isHidden: true,
       isNotHidden: false,
-      adRewarded: false,
-      adRewardAmount: 200,
-      AdMobRewardAdID: '',
-      timerOne: 300,
-      timerOneClone: 300,
-      startTimerOne: false,
-      adOneDisable: false,
+      // adRewarded: false,
+      // adRewardAmount: 200,
+      // AdMobRewardAdID: '',
+      // timerOne: 300,
+      // timerOneClone: 300,
+      // startTimerOne: false,
+      // adOneDisable: false,
       shotScore: 0,
       shotScoreClone: 0,
       deathIsHidden: true,
@@ -148,22 +148,22 @@ class TrumpsWallGameAdd extends React.Component {
     this.getCountryData(this.continentRef);
     this.getWorldData(worldRef);
     this.getUrlMessageData(urlMessageRef);
-    this.getAdMobRewardAdData(admobRewardAdRef);
+    // this.getAdMobRewardAdData(admobRewardAdRef);
 
-    AdMobRewarded.addEventListener('rewardedVideoDidRewardUser', () => {
-      this.adRewardAmount();
-      this.setState({
-        adRewarded: true,
-        startTimerOne: true
-      });
-    });
+    // AdMobRewarded.addEventListener('rewardedVideoDidRewardUser', () => {
+    //   this.adRewardAmount();
+    //   this.setState({
+    //     adRewarded: true,
+    //     startTimerOne: true
+    //   });
+    // });
 
-    AdMobRewarded.addEventListener('rewardedVideoDidClose', () => {
-      this.adClosed();
-      this.setState({
-        adRewarded: false
-      });
-    });
+    // AdMobRewarded.addEventListener('rewardedVideoDidClose', () => {
+    //   this.adClosed();
+    //   this.setState({
+    //     adRewarded: false
+    //   });
+    // });
 
     Font.loadAsync({
       ncaa: ncaa,
@@ -175,23 +175,23 @@ class TrumpsWallGameAdd extends React.Component {
     });
   }
 
-  startTimer = () => {
-    this.interval = setInterval(
-      () =>
-        this.setState({
-          adOneDisable: true,
-          timer: --this.state.timerOne
-        }),
-      1000
-    );
-  };
+  // startTimer = () => {
+  //   this.interval = setInterval(
+  //     () =>
+  //       this.setState({
+  //         adOneDisable: true,
+  //         timer: --this.state.timerOne
+  //       }),
+  //     1000
+  //   );
+  // };
 
-  componentDidUpdate() {
-    if (this.state.timerOne === 1) {
-      clearInterval(this.interval);
-      this.timerOneFinished();
-    }
-  }
+  // componentDidUpdate() {
+  //   if (this.state.timerOne === 1) {
+  //     clearInterval(this.interval);
+  //     this.timerOneFinished();
+  //   }
+  // }
 
   componentWillMount() {
     THREE.suppressExpoWarnings(true);
@@ -202,19 +202,19 @@ class TrumpsWallGameAdd extends React.Component {
     this.continentRef.off('value');
     worldRef.off('value');
     urlMessageRef.off('value');
-    admobRewardAdRef.off('value');
+    // admobRewardAdRef.off('value');
 
     this.props.teamRef.off('value');
     this.props.teamRefTrophy.off('value');
   }
 
-  timerOneFinished() {
-    this.setState({
-      timerOne: this.state.timerOneClone,
-      startTimerOne: false,
-      adOneDisable: false
-    });
-  }
+  // timerOneFinished() {
+  //   this.setState({
+  //     timerOne: this.state.timerOneClone,
+  //     startTimerOne: false,
+  //     adOneDisable: false
+  //   });
+  // }
 
   getTeamData = (getTeamRef, getTeamRefTrophy) => {
     getTeamRef.on('value', (snap) => {
@@ -253,13 +253,13 @@ class TrumpsWallGameAdd extends React.Component {
     });
   };
 
-  getAdMobRewardAdData = (admobRewardAdRef) => {
-    admobRewardAdRef.on('value', (snap) => {
-      this.setState({
-        AdMobRewardAdID: snap.val()
-      });
-    });
-  };
+  // getAdMobRewardAdData = (admobRewardAdRef) => {
+  //   admobRewardAdRef.on('value', (snap) => {
+  //     this.setState({
+  //       AdMobRewardAdID: snap.val()
+  //     });
+  //   });
+  // };
 
   setupPlayer = async () => {
     const size = {
@@ -432,24 +432,24 @@ class TrumpsWallGameAdd extends React.Component {
     this.updateShotValue();
   };
 
-  adRewardAmount = () => {
-    if ((this.adRewarded = true)) {
-      this.updateContinentScoresAdReward();
-      this.updateWorldScoresAdReward();
-      this.updateTeamScoresAdReward();
-      this.updateTeamTPAdReward();
-    }
-  };
+  // adRewardAmount = () => {
+  //   if ((this.adRewarded = true)) {
+  //     this.updateContinentScoresAdReward();
+  //     this.updateWorldScoresAdReward();
+  //     this.updateTeamScoresAdReward();
+  //     this.updateTeamTPAdReward();
+  //   }
+  // };
 
-  adClosed = () => {
-    this.setState({
-      isHidden: !this.state.isHidden,
-      isNotHidden: !this.state.isNotHidden
-    });
-    adRewardSound();
-    this.reset();
-    this.startTimer();
-  };
+  // adClosed = () => {
+  //   this.setState({
+  //     isHidden: !this.state.isHidden,
+  //     isNotHidden: !this.state.isNotHidden
+  //   });
+  //   adRewardSound();
+  //   this.reset();
+  //   this.startTimer();
+  // };
 
   updateTeamScores = () => {
     this.props.teamRef.once('value', (snap) => {
@@ -457,32 +457,32 @@ class TrumpsWallGameAdd extends React.Component {
     });
   };
 
-  updateTeamScoresAdReward = () => {
-    this.props.teamRef.once('value', (snap) => {
-      this.props.teamRef.set(snap.val() + 200);
-    });
-  };
+  // updateTeamScoresAdReward = () => {
+  //   this.props.teamRef.once('value', (snap) => {
+  //     this.props.teamRef.set(snap.val() + 200);
+  //   });
+  // };
 
-  updateContinentScoresAdReward = () => {
-    this.continentRef.once('value', (snap) => {
-      this.continentRef.set(snap.val() + 200);
-    });
-  };
+  // updateContinentScoresAdReward = () => {
+  //   this.continentRef.once('value', (snap) => {
+  //     this.continentRef.set(snap.val() + 200);
+  //   });
+  // };
 
-  updateWorldScoresAdReward = () => {
-    worldRef.once('value', (snap) => {
-      worldRef.set(snap.val() + 200);
-    });
-  };
+  // updateWorldScoresAdReward = () => {
+  //   worldRef.once('value', (snap) => {
+  //     worldRef.set(snap.val() + 200);
+  //   });
+  // };
 
-  updateTeamTPAdReward = () => {
-    if (this.state.teamTP === this.state.teamTP) {
-      this.setState({
-        teamTP: Number(this.state.teamTP + 200)
-      });
-      AsyncStorage.setItem(this.props.keyTP, `${this.state.teamTP}`);
-    }
-  };
+  // updateTeamTPAdReward = () => {
+  //   if (this.state.teamTP === this.state.teamTP) {
+  //     this.setState({
+  //       teamTP: Number(this.state.teamTP + 200)
+  //     });
+  //     AsyncStorage.setItem(this.props.keyTP, `${this.state.teamTP}`);
+  //   }
+  // };
 
   updateContinentScores = () => {
     this.continentRef.once('value', (snap) => {
@@ -561,7 +561,7 @@ class TrumpsWallGameAdd extends React.Component {
       shotValue: 1,
       shotGoal: this.state.shotGoalClone,
       speed: this.state.speedClone,
-      adRewarded: (this.state.adRewarded = false),
+      // adRewarded: (this.state.adRewarded = false),
       shotScore: this.state.shotScoreClone,
       deathIsHidden: true
     });
@@ -654,19 +654,19 @@ class TrumpsWallGameAdd extends React.Component {
     }));
   };
 
-  goAlert = () => {
-    Alert.alert(`Sorry, gotta wait ${secondsToHms(this.state.timerOne)}!`);
-  };
+  // goAlert = () => {
+  //   Alert.alert(`Sorry, gotta wait ${secondsToHms(this.state.timerOne)}!`);
+  // };
 
-  goRewardedAd = async () => {
-    buttonClick();
-    if (this.state.adOneDisable == false) {
-      await AdMobRewarded.requestAdAsync();
-      await AdMobRewarded.showAdAsync();
-    } else if (this.state.adOneDisable == true) {
-      this.goAlert();
-    }
-  };
+  // goRewardedAd = async () => {
+  //   buttonClick();
+  //   if (this.state.adOneDisable == false) {
+  //     await AdMobRewarded.requestAdAsync();
+  //     await AdMobRewarded.showAdAsync();
+  //   } else if (this.state.adOneDisable == true) {
+  //     this.goAlert();
+  //   }
+  // };
 
   renderScore = () => (
     <SafeAreaView style={styles.personalScore}>
@@ -769,7 +769,7 @@ class TrumpsWallGameAdd extends React.Component {
         </View>
         <View style={[styles.buttonLayoutTwo, { flexDirection: 'column' }]}>
           <View style={styles.scoreColumn}>
-            <View style={{ top: this.state.buttonPressedThree ? 2 : 0 }}>
+            {/* <View style={{ top: this.state.buttonPressedThree ? 2 : 0 }}>
               <ButtonSmall
                 onPress={this.goRewardedAd}
                 onPressIn={() => this.setState({ buttonPressedThree: true })}
@@ -806,7 +806,7 @@ class TrumpsWallGameAdd extends React.Component {
               style={[styles.scoreTextGame, { fontFamily: 'ncaa', fontSize: 16, color: 'red' }]}
             >
               {secondsToHms(this.state.timerOne)}
-            </Text>
+            </Text> */}
           </View>
 
           <View style={styles.scoreColumn}>
@@ -913,8 +913,8 @@ class TrumpsWallGameAdd extends React.Component {
   );
 
   render() {
-    const ADBANNER_ID = `${this.state.AdMobRewardAdID}`;
-    AdMobRewarded.setAdUnitID(ADBANNER_ID);
+    // const ADBANNER_ID = `${this.state.AdMobRewardAdID}`;
+    // AdMobRewarded.setAdUnitID(ADBANNER_ID);
     console.disableYellowBox = true;
     return (
       <SafeAreaView style={StyleSheet.absoluteFill}>
