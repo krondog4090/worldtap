@@ -11,7 +11,7 @@ function OfflineSign() {
     <View style={styles.offlineContainer}>
       <CustomBlinkingImage />
       <Text allowFontScaling={false} style={styles.offlineText}>
-        No Internet Connection
+        No Internet Connection, Solo Mode Only
       </Text>
       <CustomBlinkingImage />
     </View>
@@ -41,9 +41,7 @@ class OfflineBox extends PureComponent {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        {React.Children.map(this.props.children, (child) =>
-          React.cloneElement(child, { isConnected: this.state.isConnected })
-        )}
+        {this.props.children({ isConnected: this.state.isConnected })}
         {!this.state.isConnected ? <OfflineSign /> : null}
       </View>
     );

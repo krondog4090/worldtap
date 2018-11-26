@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import { View, Text, NetInfo, Dimensions, StyleSheet } from 'react-native';
 import CustomBlinkingImage from '../components/CustomBlinkingImage';
 
 // const { width } = Dimensions.get('window');

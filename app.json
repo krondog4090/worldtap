@@ -10,12 +10,10 @@
     "privacy": "public",
     "icon": "./assets/images/wtappicon.png",
     "assetBundlePatterns": [
-      "./assets/images/*",
+      "./assets/images/*/**",
       "./assets/fonts/*",
       "./assets/audio/*",
-      "./assets/sprites/*",
-      "./assets/images/flagimages/*",
-      "./assets/images/continents/*"
+      "./assets/sprites/*"
     ],
     "splash": {
       "backgroundColor": "#000000",

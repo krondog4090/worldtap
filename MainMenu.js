@@ -82,50 +82,95 @@ class MainMenu extends React.Component {
   render() {
     const { fontLoaded } = this.state;
     return (
-      <OfflineBox>
-        <ImageBackground source={mainmenu} style={styles.imageContainer}>
-          <View style={styles.titleContainerMainMenu}>
-            <View
-              style={[styles.playButtonContainer, { justifyContent: 'space-evenly', flex: 0.6 }]}
-            >
-              <View style={styles.playButtonContainerTime}>
-                <Text
-                  allowFontScaling={false}
-                  style={[
-                    styles.buttonText,
-                    fontLoaded && {
-                      fontFamily: 'gamefont',
-                      color: 'grey',
-                      textShadowColor: 'black',
-                      textShadowOffset: { width: 1, height: 2 },
-                      textShadowRadius: 1,
-                      textAlign: 'center',
-                      fontSize: 36,
-                      lineHeight: 35
-                    }
-                  ]}
-                >
-                  WORLD TAP
-                </Text>
-              </View>
+      <OfflineBox {...this.props}>
+        {({ isConnected }) => (
+          <ImageBackground source={mainmenu} style={styles.imageContainer}>
+            <View style={styles.titleContainerMainMenu}>
+              <View
+                style={[styles.playButtonContainer, { justifyContent: 'space-evenly', flex: 0.6 }]}
+              >
+                <View style={styles.playButtonContainerTime}>
+                  <Text
+                    allowFontScaling={false}
+                    style={[
+                      styles.buttonText,
+                      fontLoaded && {
+                        fontFamily: 'gamefont',
+                        color: 'grey',
+                        textShadowColor: 'black',
+                        textShadowOffset: { width: 1, height: 2 },
+                        textShadowRadius: 1,
+                        textAlign: 'center',
+                        fontSize: 36,
+                        lineHeight: 35
+                      }
+                    ]}
+                  >
+                    WORLD TAP
+                  </Text>
+                </View>
 
-              <View style={styles.playButtonContainerTime}>
-                <Text
-                  allowFontScaling={false}
-                  style={[
-                    styles.buttonText,
-                    fontLoaded && {
-                      fontFamily: 'gamefont',
-                      color: 'grey',
-                      textShadowColor: 'black',
-                      textShadowOffset: { width: 1, height: 2 },
-                      textShadowRadius: 1,
-                      textAlign: 'center',
-                      fontSize: 12
-                    }
-                  ]}
-                >
-                  MADE BY:
+                <View style={styles.playButtonContainerTime}>
+                  <Text
+                    allowFontScaling={false}
+                    style={[
+                      styles.buttonText,
+                      fontLoaded && {
+                        fontFamily: 'gamefont',
+                        color: 'grey',
+                        textShadowColor: 'black',
+                        textShadowOffset: { width: 1, height: 2 },
+                        textShadowRadius: 1,
+                        textAlign: 'center',
+                        fontSize: 12
+                      }
+                    ]}
+                  >
+                    MADE BY:
+                    <Text
+                      allowFontScaling={false}
+                      style={[
+                        styles.buttonText,
+                        fontLoaded && {
+                          fontFamily: 'ncaa',
+                          color: 'white',
+                          textShadowColor: 'grey',
+                          textShadowOffset: { width: 1, height: 2 },
+                          textShadowRadius: 1,
+                          textAlign: 'center',
+                          fontSize: 14,
+                          shadowColor: 'black',
+                          alignItems: 'center',
+                          fontSize: 18,
+                          textDecorationLine: 'underline'
+                        }
+                      ]}
+                      onPress={this._openKronDogLink}
+                    >
+                      KRONDOG
+                    </Text>
+                    <Image style={styles.flagImageCount} source={krondog} />
+                  </Text>
+                </View>
+
+                <View style={styles.playButtonContainerTime}>
+                  <Text
+                    allowFontScaling={false}
+                    style={[
+                      styles.buttonText,
+                      fontLoaded && {
+                        fontFamily: 'gamefont',
+                        color: 'grey',
+                        textShadowColor: 'black',
+                        textShadowOffset: { width: 1, height: 2 },
+                        textShadowRadius: 1,
+                        textAlign: 'center',
+                        fontSize: 12
+                      }
+                    ]}
+                  >
+                    ART BY:
+                  </Text>
                   <Text
                     allowFontScaling={false}
                     style={[
@@ -144,77 +189,67 @@ class MainMenu extends React.Component {
                         textDecorationLine: 'underline'
                       }
                     ]}
-                    onPress={this._openKronDogLink}
+                    onPress={this._openHarveyLink}
                   >
-                    KRONDOG
+                    HARVEY DENT
                   </Text>
-                  <Image style={styles.flagImageCount} source={krondog} />
-                </Text>
-              </View>
+                  <Image style={styles.flagImageCount} source={harvey} />
+                </View>
 
-              <View style={styles.playButtonContainerTime}>
-                <Text
-                  allowFontScaling={false}
-                  style={[
-                    styles.buttonText,
-                    fontLoaded && {
-                      fontFamily: 'gamefont',
-                      color: 'grey',
-                      textShadowColor: 'black',
-                      textShadowOffset: { width: 1, height: 2 },
-                      textShadowRadius: 1,
-                      textAlign: 'center',
-                      fontSize: 12
-                    }
-                  ]}
-                >
-                  ART BY:
-                </Text>
-                <Text
-                  allowFontScaling={false}
-                  style={[
-                    styles.buttonText,
-                    fontLoaded && {
-                      fontFamily: 'ncaa',
-                      color: 'white',
-                      textShadowColor: 'grey',
-                      textShadowOffset: { width: 1, height: 2 },
-                      textShadowRadius: 1,
-                      textAlign: 'center',
-                      fontSize: 14,
-                      shadowColor: 'black',
-                      alignItems: 'center',
-                      fontSize: 18,
-                      textDecorationLine: 'underline'
-                    }
-                  ]}
-                  onPress={this._openHarveyLink}
-                >
-                  HARVEY DENT
-                </Text>
-                <Image style={styles.flagImageCount} source={harvey} />
+                <View style={[styles.playButtonContainerTwo, { justifyContent: 'space-evenly' }]}>
+                  <View style={{ top: this.state.buttonPressedThree ? 2 : 0 }}>
+                    <TouchableOpacity
+                      activeOpacity={10}
+                      style={styles.playButtonContainergButton}
+                      onPress={this.goSmallMenu}
+                      onPressIn={() => this.setState({ buttonPressedThree: true })}
+                      onPressOut={() => this.setState({ buttonPressedThree: false })}
+                    >
+                      <View
+                        style={[
+                          styles.playButtonContainer,
+                          {
+                            flexDirection: 'column',
+                            alignContent: 'center',
+                            alignItems: 'center',
+                            backgroundColor: '#90C048'
+                          }
+                        ]}
+                      >
+                        <Text
+                          allowFontScaling={false}
+                          style={[
+                            styles.buttonText,
+                            fontLoaded && {
+                              fontFamily: 'ncaa',
+                              textShadowOffset: { width: 1, height: 2 },
+                              textShadowRadius: 1,
+                              fontSize: 14
+                            }
+                          ]}
+                        >
+                          Refresh - Info
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                  <CountDownScreen deadline={this.state.deadline} hide={this.state.isNotHidden} />
+                  <CountDownScreenTwo deadline={this.state.deadline} hide={this.state.isHidden} />
+                </View>
               </View>
+            </View>
 
-              <View style={[styles.playButtonContainerTwo, { justifyContent: 'space-evenly' }]}>
-                <View style={{ top: this.state.buttonPressedThree ? 2 : 0 }}>
+            <View style={styles.buttonLayout}>
+              {isConnected ? (
+                <View style={{ top: this.state.buttonPressed ? 2 : 0 }}>
                   <TouchableOpacity
                     activeOpacity={10}
-                    style={styles.playButtonContainergButton}
-                    onPress={this.goSmallMenu}
-                    onPressIn={() => this.setState({ buttonPressedThree: true })}
-                    onPressOut={() => this.setState({ buttonPressedThree: false })}
+                    style={styles.playButtonContainer}
+                    onPress={this.goWorldMode}
+                    onPressIn={() => this.setState({ buttonPressed: true })}
+                    onPressOut={() => this.setState({ buttonPressed: false })}
                   >
-                    <View
-                      style={[
-                        styles.playButtonContainer,
-                        {
-                          flexDirection: 'column',
-                          alignContent: 'center',
-                          alignItems: 'center',
-                          backgroundColor: '#90C048'
-                        }
-                      ]}
-                    >
+                    <View style={styles.playButtonContainerTime}>
                       <Text
                         allowFontScaling={false}
                         style={[
@@ -222,76 +257,44 @@ class MainMenu extends React.Component {
                           fontLoaded && {
                             fontFamily: 'ncaa',
                             textShadowOffset: { width: 1, height: 2 },
-                            textShadowRadius: 1,
-                            fontSize: 14
+                            textShadowRadius: 1
                           }
                         ]}
                       >
-                        Refresh - Info
+                        PLAY
                       </Text>
                     </View>
                   </TouchableOpacity>
                 </View>
-                <CountDownScreen deadline={this.state.deadline} hide={this.state.isNotHidden} />
-                <CountDownScreenTwo deadline={this.state.deadline} hide={this.state.isHidden} />
+              ) : null}
+              <View style={{ top: this.state.buttonPressedTwo ? 2 : 0 }}>
+                <TouchableOpacity
+                  activeOpacity={10}
+                  style={styles.playButtonContainer}
+                  onPress={this.goSoloMode}
+                  onPressIn={() => this.setState({ buttonPressedTwo: true })}
+                  onPressOut={() => this.setState({ buttonPressedTwo: false })}
+                >
+                  <View style={styles.playButtonContainerTime}>
+                    <Text
+                      allowFontScaling={false}
+                      style={[
+                        styles.buttonText,
+                        fontLoaded && {
+                          fontFamily: 'ncaa',
+                          textShadowOffset: { width: 1, height: 2 },
+                          textShadowRadius: 1
+                        }
+                      ]}
+                    >
+                      SOLO
+                    </Text>
+                  </View>
+                </TouchableOpacity>
               </View>
             </View>
-          </View>
-
-          <View style={styles.buttonLayout}>
-            <View style={{ top: this.state.buttonPressed ? 2 : 0 }}>
-              <TouchableOpacity
-                activeOpacity={10}
-                style={styles.playButtonContainer}
-                onPress={this.goWorldMode}
-                onPressIn={() => this.setState({ buttonPressed: true })}
-                onPressOut={() => this.setState({ buttonPressed: false })}
-              >
-                <View style={styles.playButtonContainerTime}>
-                  <Text
-                    allowFontScaling={false}
-                    style={[
-                      styles.buttonText,
-                      fontLoaded && {
-                        fontFamily: 'ncaa',
-                        textShadowOffset: { width: 1, height: 2 },
-                        textShadowRadius: 1
-                      }
-                    ]}
-                  >
-                    PLAY
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-
-            <View style={{ top: this.state.buttonPressedTwo ? 2 : 0 }}>
-              <TouchableOpacity
-                activeOpacity={10}
-                style={styles.playButtonContainer}
-                onPress={this.goSoloMode}
-                onPressIn={() => this.setState({ buttonPressedTwo: true })}
-                onPressOut={() => this.setState({ buttonPressedTwo: false })}
-              >
-                <View style={styles.playButtonContainerTime}>
-                  <Text
-                    allowFontScaling={false}
-                    style={[
-                      styles.buttonText,
-                      fontLoaded && {
-                        fontFamily: 'ncaa',
-                        textShadowOffset: { width: 1, height: 2 },
-                        textShadowRadius: 1
-                      }
-                    ]}
-                  >
-                    SOLO
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </ImageBackground>
+          </ImageBackground>
+        )}
       </OfflineBox>
     );
   }
