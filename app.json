@@ -4,11 +4,19 @@
     "name": "World Tap",
     "slug": "World-Tap",
     "description": "Players playing for their countries",
-    "version": "0.2.2",
+    "version": "0.2.4",
     "platforms": ["ios", "android"],
     "orientation": "portrait",
     "privacy": "public",
     "icon": "./assets/images/wtappicon.png",
+    "assetBundlePatterns": [
+      "./assets/images/*",
+      "./assets/fonts/*",
+      "./assets/audio/*",
+      "./assets/sprites/*",
+      "./assets/images/flagimages/*",
+      "./assets/images/continents/*"
+    ],
     "splash": {
       "backgroundColor": "#000000",
       "image": "./assets/images/krondogsplashfinal.png",

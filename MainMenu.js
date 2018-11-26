@@ -61,7 +61,8 @@ class MainMenu extends React.Component {
   goSoloMode = () => {
     buttonClickTwo();
     this.props.navigation.push('SoloPreMenu', {
-      keyTP: 'soloTPkey'
+      keyTP: 'soloTPkey',
+      keyHL: 'solokeyHL'
     });
   };
 

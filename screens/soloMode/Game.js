@@ -12,6 +12,7 @@ import 'text-encoding';
 import 'xmldom-qsa';
 import styles from '../../src/styles/Styles';
 import { buttonClick, gameOverSound } from '../components/SoundEffects';
+import DeathPopUpScreen from '../components/DeathPopUpScreen';
 
 const GRAVITY = 1100;
 const FLAP = 320;
@@ -47,7 +48,10 @@ class Game extends React.Component {
       speedClone: 2,
       bestScore: 0,
       shotScore: 0,
-      shotScoreClone: 0
+      shotScoreClone: 0,
+      deathIsHidden: true,
+      bestLevel: 1,
+      shotLevel: 1
     };
 
     this.levelUpSound = new Audio.Sound();
@@ -76,6 +80,17 @@ class Game extends React.Component {
       await AsyncStorage.setItem(this.props.keyTP, '0');
       this.setState({
         bestScore: Number(totalPoints)
+      });
+    }
+    const totalLevel = await AsyncStorage.getItem(this.props.keyHL);
+    if (totalLevel) {
+      this.setState({
+        bestLevel: Number(totalLevel)
+      });
+    } else {
+      await AsyncStorage.setItem(this.props.keyHL, '0');
+      this.setState({
+        bestLevel: Number(totalLevel)
       });
     }
   }
@@ -260,8 +275,18 @@ class Game extends React.Component {
         score: 0,
         shotValue: this.state.shotValue + 1,
         shotGoal: this.state.shotGoal + 2,
-        speed: this.state.speed + 1
+        speed: this.state.speed + 1,
+        shotLevel: this.state.shotLevel + 1
       });
+    }
+  }
+
+  updateHighLevel() {
+    if (this.state.shotValue > this.state.bestLevel) {
+      this.setState({
+        bestLevel: Number(this.state.shotValue)
+      });
+      AsyncStorage.setItem(this.props.keyHL, `${this.state.shotValue}`);
     }
   }
 
@@ -277,8 +302,10 @@ class Game extends React.Component {
   setGameOver = () => {
     this.gameOver = true;
     clearInterval(this.pillarInterval);
-    Vibration.vibrate();
     gameOverSound();
+    Vibration.vibrate();
+    this.updateHighLevel();
+    this.setState({ deathIsHidden: false });
     this.updateHighScore();
   };
 
@@ -290,7 +317,8 @@ class Game extends React.Component {
       shotValue: 1,
       shotGoal: this.state.shotGoalClone,
       speed: this.state.speedClone,
-      shotScore: this.state.shotScoreClone
+      shotScore: this.state.shotScoreClone,
+      deathIsHidden: true
     });
 
     this.player.reset(this.scene.size.width * -0.3, 0);
@@ -390,6 +418,60 @@ class Game extends React.Component {
     </View>
   );
 
+  renderDeathScreen = () => (
+    <DeathPopUpScreen>
+      <View style={styles.deathPopUpMenu} pointerEvents="box-none">
+        <View style={styles.playButtonContainerTime}>
+          <Text
+            allowFontScaling={false}
+            style={[
+              styles.buttonText,
+              {
+                fontFamily: 'gamefont',
+                color: 'grey',
+                textShadowColor: 'black',
+                textShadowOffset: { width: 1, height: 2 },
+                textShadowRadius: 1,
+                textAlign: 'center',
+                lineHeight: 35
+              }
+            ]}
+          >
+            GAME OVER
+          </Text>
+        </View>
+        <View style={styles.playButtonContainerTime}>
+          <Text
+            allowFontScaling={false}
+            style={[
+              styles.buttonText,
+              {
+                fontFamily: 'gamefont',
+                color: 'white',
+                textShadowColor: 'black',
+                textShadowOffset: { width: 1, height: 2 },
+                textShadowRadius: 1,
+                textAlign: 'center',
+                lineHeight: 35,
+                fontSize: 12
+              }
+            ]}
+          >
+            TAP ANYWHERE TO TRY AGAIN
+          </Text>
+        </View>
+        <View style={styles.playButtonContainerTime}>
+          <Text
+            allowFontScaling={false}
+            style={[styles.scoreMainTextTwo, { fontFamily: 'ncaa', color: 'black', fontSize: 18 }]}
+          >
+            Best Level {this.state.bestLevel}
+          </Text>
+        </View>
+      </View>
+    </DeathPopUpScreen>
+  );
+
   renderScoreTwo = () => (
     <View style={styles.scoreBoxTwo} pointerEvents="box-none">
       <View style={styles.scoreColumn} pointerEvents="box-none">
@@ -429,6 +511,7 @@ class Game extends React.Component {
           onSetup={this.onSetup}
         />
         {this.renderScore()}
+        {this.state.deathIsHidden ? null : this.renderDeathScreen()}
         {this.renderScoreTwo()}
       </View>
     );

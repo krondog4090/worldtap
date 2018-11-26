@@ -7,14 +7,15 @@ import Game from './Game';
 
 export default class SoloPreMenu extends React.Component {
   static navigationOptions = {
-    header: null,
+    header: null
   };
 
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
-      keyTP: this.props.navigation.state.params.keyTP
-    }
+      keyTP: this.props.navigation.state.params.keyTP,
+      keyHL: this.props.navigation.state.params.keyHL
+    };
   }
   state = { assetsLoaded: false };
 
@@ -25,7 +26,7 @@ export default class SoloPreMenu extends React.Component {
   loadAssetsAsync = async () => {
     try {
       await cacheAssetsAsync({
-        files: arrayFromObject(Files),
+        files: arrayFromObject(Files)
       });
     } catch (e) {
       console.warn(
@@ -39,10 +40,10 @@ export default class SoloPreMenu extends React.Component {
   };
 
   render() {
-    return this.state.assetsLoaded ? 
-    <Game
-    {...this.props}
-    keyTP={this.state.keyTP}
-    /> : <AppLoading />;
+    return this.state.assetsLoaded ? (
+      <Game {...this.props} keyTP={this.state.keyTP} keyHL={this.state.keyHL} />
+    ) : (
+      <AppLoading />
+    );
   }
 }
